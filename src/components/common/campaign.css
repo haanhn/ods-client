@@ -1,0 +1,91 @@
+/******* Commons *******/
+.btn-style-one {
+    line-height: 85%;
+}
+.btn-style-one-outline {
+    background-color: none;
+    border: 2px #3cc88f solid;
+}
+.btn-style-one-outline:hover {
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/******* Campaign Statistic *******/
+.campaign-stats {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.campaign-stats ul .list-inline-item {
+    text-align: center;
+    font-size: 90%;
+}
+.campaign-stats ul .list-inline-item span {
+    display: block;
+    margin-top: -8px;
+}
+.list-inline-item:not(:last-child) {
+    margin-right: 0.9rem
+}
+/******* Campaign Progress *******/
+.campaign-progress {
+    font-size: 90%;
+    margin-bottom: 20px;
+}
+.campaign-progress .campaign-progress-number > div:first-of-type {
+    float: left;
+}
+.campaign-progress .campaign-progress-number > div:last-of-type {
+    float: right;
+}
+.progress {
+    height: 0.5rem;
+}
+/******* Campaign Subscribe *******/
+.campaign-subscrible {
+    margin: 0 10px 10px;
+}
+.campaign-subscrible button {
+    width: 100%;
+}
+/******* Campaign Donate *******/
+.btn-donate {
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+}
+.btn-donate .btn-title {
+    border-radius: 5px;
+}
+/******* Campaign Host Info Box *******/
+.host-info {
+    font-size: 90%;
+}
+.host-info h5 {
+    font-family: initial;
+}
+.host-info .avatar {
+    width: 70px;
+    border-radius: 50%;
+}
+.host-info .icon-color-one {
+    color: #3cc88f;
+    font-size: 105%;
+    margin-right: 5px;
+}
+/******* Campaign Rating Box *******/
+.star-checked {
+    color: orange;
+}
+.rating-overview-point {
+    text-align: center;
+    font-size: 300%;
+    font-weight: bold;
+    padding: 10px 0;
+}
+.rating-stars {
+    font-size: 120%;
+}
+.rating-users {
+    font-size: 90%;
+}

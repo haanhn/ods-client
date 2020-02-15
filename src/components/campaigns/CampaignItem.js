@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function CampaignItem(props) {
     const { imageUrl, title, shortDescription, raised, goal, fundRaiserlocation, category} = props.campaign;
@@ -27,7 +28,7 @@ function CampaignItem(props) {
                             <strong>Mục tiêu:</strong> {goal} vnd </span></div>
                 </div>
                 <div className="lower-content">
-                    <h3><a href="cause-single.html"> {title} </a></h3>
+                    <h3><Link to="/campaignsid"> {title} </Link></h3>
                     <span>Location: {fundRaiserlocation} </span><br/>
                     <span>Category: {category} </span>
                     <div className="text"> {shortDescription} </div>

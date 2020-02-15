@@ -166,7 +166,8 @@
 	}
 
 	.sidebar-side .sidebar{
-		padding: 45px 20px;
+		/* padding: 45px 20px; */
+		padding: 25px 20px;
 	}
 
 	.shop-upper-box .items-label,

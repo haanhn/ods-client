@@ -19,7 +19,6 @@ function Home() {
             <HomeBigIntro />
             <div className='auto-container' style={{padding: '60px 0 20px'}}>
                 <h2 style={{textAlign: 'center', marginBottom:'40px'}}>Các chiến dịch nổi tiếng nhất</h2>
-
                 <Campaigns />
             </div>
             <HomeFeatures />
