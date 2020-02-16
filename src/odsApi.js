@@ -1,7 +1,9 @@
 export const odsBase = 'http://5e440cd13dfe6c001421f3ee.mockapi.io';
 export const routes = {
-    HOME: '/',
-    CAMPAIGNS: '/campaigns',
-    CAMPAIGN_DETAIL: '/campaignsid'
-    // CAMPAIGN_DETAIL: '/campaigns/id' --> reload trang nay ko lay duoc file css
+  HOME: '/',
+  CAMPAIGNS: '/campaigns',
+  CAMPAIGN_DETAIL: '/campaignsid',
+  PAGE_SIGN_IN: '/login',
+  PAGE_REGISTER: '/register'
+  // CAMPAIGN_DETAIL: '/campaigns/id' --> reload trang nay ko lay duoc file css
 };
