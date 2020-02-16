@@ -1,0 +1,89 @@
+/******* Common *******/
+.grid-row:before, .grid-row::after {
+    content: " ";
+    display: table;
+}
+.grid-row::after {
+    clear: both;
+}
+.grid-col {
+    float: left;
+}
+.grid-col:not(:last-child) {
+    margin-right: 2%;
+}
+.grid-col-1-of-4 {
+    width: 23.5%;
+}
+/******* Common update template (Bootstrap,..) *******/
+
+/******* Campaign Tabs *******/
+.campaign-tabs {
+    background-color: #e7eaed;
+    padding: 20px 30px;
+    width: 100%;
+}
+.campaign-tabs a {
+    color: #5c5d5e;
+    font-weight: bold;
+    margin-right: 50px;
+}
+.campaign-tabs a:hover {
+    text-decoration: underline;
+}
+/******* Campaign Tab More Info *******/
+.campaign-tab-more-info {
+    font-size: 110%;
+    padding: 20px 40px;
+}
+.campaign-tab-more-info h3 {
+    border-bottom: 2px grey solid;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.campaign-tab-more-info div {
+    text-align: justify;
+}
+/******* Campaign Tab Comments *******/
+.campaign-tab-comments {
+    padding: 20px 40px;
+}
+.campaign-comment {
+    padding: 10px 20px;
+    border: 1px lightgray solid;
+    border-radius: 15px;
+}
+.campaign-comment:not(:last-child) {
+    margin-bottom: 15px;
+}
+.campaign-comment img {
+    max-width: 90px;
+    border-radius: 50%;
+}
+.comment-avatar {
+    font-size: 90%;
+    margin-bottom: 10px;
+}
+/******* Campaign Tab Donations *******/
+.donor-items {
+    padding: 20px 30px 30px;
+}
+.donor-item {
+    margin-bottom: 20px;
+}
+
+.donor-item > div {
+    /* font-size: 90%; */
+}
+.donor-item > div > h5 {
+    color: grey;
+    font-family: initial;
+    font-size: 130%;
+    margin-bottom: 5px;
+}
+.donor-item .avatar {
+    width: 90%;
+    max-width: 65px;
+    margin: 0 auto;
+    border-radius: 50%;
+}
