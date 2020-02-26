@@ -6,20 +6,18 @@ import {
   GET_OTP,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  USER_LOADED,
-  AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT,
-  CLEAR_ERRORS,
-  REGISTER_USER
+  LOG_OUT,
+  CLEAR_ERRORS
 } from '../types';
 
 const AuthState = props => {
   const initialState = {
-    user: {
-      email: 'xu92ngan@gmail.com'
-    }
+    isOtp: false,
+    error: null,
+    isAuthenticated: false,
+    isLoggedIn: false
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -41,8 +39,15 @@ const AuthState = props => {
         },
         config
       );
-    } catch (error) {
-      console.error(error.message);
+      dispatch({
+        type: GET_OTP,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: err.response.data.message
+      });
     }
   };
 
@@ -60,23 +65,64 @@ const AuthState = props => {
         formData,
         config
       );
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data
+      });
     } catch (err) {
-      console.error(err.message);
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: err.response.data.message
+      });
     }
   };
 
+  //
+
   // Login User
+  const login = async formData => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      const res = await axios.post(
+        'http://localhost:5000/api/signin',
+        formData,
+        config
+      );
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data.message
+      });
+    }
+  };
 
   // Logout
+  const logout = () => dispatch({ type: LOG_OUT });
 
   // Clear Errors
+  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
     <AuthContext.Provider
       value={{
-        user: state.user,
+        isOtp: state.isOtp,
+        error: state.error,
+        isAuthenticated: state.isAuthenticated,
+        isLoggedIn: state.isLoggedIn,
+        login,
+        logout,
         getOtp,
-        register
+        register,
+        clearErrors
       }}
     >
       {props.children}

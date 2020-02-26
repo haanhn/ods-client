@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from '../../odsApi';
+import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alert/alertContext';
 
-const Login = () => {
+const Login = props => {
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+
+  const { setAlert } = alertContext;
+  const { login, isLoggedIn, error, clearErrors } = authContext;
+
+  useEffect(() => {
+    if (error === 'Invalid username or password') {
+      setAlert(error, 'danger');
+      clearErrors();
+    } else if (isLoggedIn) {
+      props.history.push('/');
+    }
+  }, [error, isLoggedIn, props.history]);
+
   const [user, setUser] = useState({
     email: '',
     password: ''
@@ -14,11 +31,16 @@ const Login = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log('Login');
+    login({
+      user: {
+        email,
+        password
+      }
+    });
   };
 
   return (
-    <div className='d-flex justify-content-center align-items-center login-container'>
+    <div className='d-flex justify-content-center align-items-center login-container login-content'>
       <form className='login-form text-center' onSubmit={onSubmit}>
         <h1 className='mb-5 font-weight-light'>Login</h1>
         <div className='form-group'>
@@ -29,6 +51,7 @@ const Login = () => {
             onChange={onChange}
             className='form-control rounded-pill form-control-lg'
             placeholder='Email'
+            required
           />
         </div>
         <div className='form-group'>
@@ -39,6 +62,7 @@ const Login = () => {
             onChange={onChange}
             className='form-control rounded-pill form-control-lg'
             placeholder='Password'
+            required
           />
         </div>
         <div className='forgot-link form-group d-flex justify-content-between align-items-center'>
