@@ -17,7 +17,7 @@ const CampaignsState = (props) => {
 
     //GET ALL AVAILABLE CATEGORIES
     const getCategories = async () => {
-        const res = await axios.get(`${odsBase}/categories`);
+        const res = await axios.get(`${odsBase}/api/categories`);
         dispatch({
             type: GET_CATEGORIES,
             payload: res.data
@@ -67,6 +67,7 @@ const CampaignsState = (props) => {
             viewingCampaign: state.viewingCampaign,
             getCategories: getCategories,
             loading: state.loading,
+            setLoading,
             getAllAvailableCampaigns,
             getCampaignBySlug,
             setCampaignToEmpty,

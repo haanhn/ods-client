@@ -11,3 +11,12 @@ export const routes = {
   PAGE_REGISTER: '/register'
   // CAMPAIGN_DETAIL: '/campaigns/id' --> reload trang nay ko lay duoc file css
 };
+
+//ODS APIs
+export const odsAPICreateCampaign = {
+  createStep1: '/api/campaign/create'
+}
+
+export const localStoreKeys = {
+  token: 'token'
+}

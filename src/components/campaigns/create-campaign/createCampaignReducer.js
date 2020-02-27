@@ -1,4 +1,4 @@
-import { types } from '../../pages/CreateCampaign2';
+import { types } from './createCampaignTypes';
 
 export default (state, action) => {
     const data = action.payload;
@@ -32,11 +32,9 @@ export default (state, action) => {
                 ...state,
                 campaign: {
                     ...state.campaign,
-                    title: data.title,
-                    goal: data.goal,
-                    endDate: data.endDate,
-                    category: data.category,
-                    shortDescription: data.shortDescription
+                    campaignTitle: data.campaignTitle,
+                    category: data.categoryId,
+                    campaignShortDescription: data.campaignShortDescription
                 }
             };
         case types.SET_IMAGE:

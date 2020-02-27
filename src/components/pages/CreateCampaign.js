@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useContext } from 'react';
 import axios from 'axios';
 import CreateCampaignProgressBar from '../campaigns/create-campaign/CreateCampaignProgressBar';
 import CreateCampaignBasicInfo from '../campaigns/create-campaign/CreateCampaignBasicInfo';
@@ -7,7 +7,7 @@ import CreateCampaignStory from '../campaigns/create-campaign/CreateCampaignStor
 import CreateCampaignMoneyMethods from '../campaigns/create-campaign/CreateCampaignMoneyMethods';
 import CreateCampaignConfirm from '../campaigns/create-campaign/CreateCampaignConfirm';
 import CreateCampaignCompleted from '../campaigns/create-campaign/CreateCampaignCompleted';
-import { odsBase } from '../../odsApi';
+import { odsBase, odsAPICreateCampaign, localStoreKeys } from '../../odsApi';
 import '../campaigns/campaign2.css';
 import reducer from '../campaigns/create-campaign/createCampaignReducer';
 import CreateCampaignName from '../campaigns/create-campaign/CreateCampaignName';
@@ -15,49 +15,83 @@ import '../css/create-campaign.css';
 import CreateCampaignContentBox from '../campaigns/create-campaign/CreateCampaignContentBox';
 import CreateCampaignMoreInfo from '../campaigns/create-campaign/CreateCampaignMoreInfo';
 import CreateCampaignDetails from '../campaigns/create-campaign/CreateCampaignDetails';
+import CampaignsContext from '../../context/campaigns/campaignsContext';
+import { types } from '../../components/campaigns/create-campaign/createCampaignTypes';
+
 
 const CreateCampaign = () => {
+    const campaignsContext = useContext(CampaignsContext);
+    const { loading } = campaignsContext;
+    const { getCategories, setLoading } = campaignsContext;
 
-    // useEffect(() => {
-    //     const fetchCategories = async () => {
-    //         setLoading();
-    //         const categories = await axios.get(`${odsBase}/categories`);
-    //         setCategories(categories.data);
-    //         setCampaignCategory(categories.data[0].id);
+    useEffect(() => {
+        // const fetchCategories = async () => {
+        // }
+        getCategories();
+        // fetchCategories();
 
-    //         console.log(categories.data);
-    //     }
-    //     fetchCategories();
+        //eslint-disable-next-line
+    }, []);
 
-    //     //eslint-disable-next-line
-    // }, []);
+    const initialState = {
+        currentStep: 1,
+        loading: false,
+        categories: [],
+        //campaign
+        campaign: {
+            campaignTitle: '',
+            campaignSlug: '',
+            goal: '',
+            endDate: null,
+            category: null,
+            campaignShortDescription: '',
+            image: null,
+            story: '',
+        },
+        user: {
+            address: 'TP.HCM',
+            bankAccount: {
+                bankName: 'Techcombank',
+                bankAgency: '',
+                accountName: 'Ha Anh',
+                accountNumber: '932849083208'
+            }
+        }
+    };
 
-    // const initialState = {
-    //     currentStep: 1,
-    //     loading: false,
-    //     categories: null,
-    //     //campaign
-    //     campaign: {
-    //         title: '',
-    //         goal: '',
-    //         endDate: null,
-    //         category: null,
-    //         shortDescription: '',
-    //         image: null,
-    //         story: '',
-    //     },
-    //     user: {
-    //         address: 'TP.HCM',
-    //         bankAccount: {
-    //             bankName: 'Techcombank',
-    //             bankAgency: '',
-    //             accountName: 'Ha Anh',
-    //             accountNumber: '932849083208'
-    //         }
-    //     }
-    // };
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-    // const [state, dispatch] = useReducer(reducer, initialState);
+    const setBasicInfo = (info) => {
+        console.log(info);
+        dispatch({
+            type: types.SET_BASIC_INFO,
+            payload: info
+        });
+    }
+
+    const createCampaignStep1 = async (title, category, shortDesription) => {
+        try {
+            setLoading(true);
+            const res = await axios.post(`${odsBase}/api/campaign/create`, {
+                token: localStorage.getItem(localStoreKeys.token),
+                campaign: {
+                    campaignTitle: title,
+                    category: category,
+                    campaignShortDescription: shortDesription
+                }
+            });
+            console.log(res.data);
+            dispatch({
+                type: types.SET_BASIC_INFO,
+                payload: res.data.campaign
+            })
+            setLoading(false);
+        } catch (error) {
+            console.log(`Create campaign step 1: ${error}`);
+            alert('Đã có lỗi xảy ra, xin hãy thử lại');
+            setLoading(false);
+        }
+    }
 
     // let stepJsx = null;
     // switch (state.currentStep) {
@@ -104,15 +138,18 @@ const CreateCampaign = () => {
     //     return <div>LOADING..</div>;
     // }
 
+    if (loading) {
+        return <div>loading................</div>
+    }
+
     return (
         <div className='container'>
             <h2>Tạo Chiến dịch mới</h2>
 
             <CreateCampaignProgressBar step={1} totalSteps={6} />
             <CreateCampaignContentBox>
-
-                {/* <CreateCampaignName /> */}
-                <CreateCampaignMoreInfo />
+                <CreateCampaignName campaign={state.campaign} createCampaignStep1={createCampaignStep1} />
+                {/* <CreateCampaignMoreInfo /> */}
                 {/* <CreateCampaignDetails /> */}
             </CreateCampaignContentBox>
         </div>
@@ -120,6 +157,3 @@ const CreateCampaign = () => {
 }
 
 export default CreateCampaign;
-
-const userId = '13d96397-7545-4061-b4b7-216c5a3b09be';
-const categoryId = '7cc90ed0-25f2-4336-9247-77c71000dcf7';
