@@ -11,6 +11,7 @@ import {
   LOG_OUT,
   CLEAR_ERRORS
 } from '../types';
+import { odsBase } from '../../odsApi';
 
 const AuthState = props => {
   const initialState = {
@@ -33,7 +34,7 @@ const AuthState = props => {
     };
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/getOTP',
+        `${odsBase}/api/getOTP`,
         {
           user
         },
@@ -61,7 +62,7 @@ const AuthState = props => {
 
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/register',
+        `${odsBase}/api/register`,
         formData,
         config
       );
@@ -89,7 +90,7 @@ const AuthState = props => {
 
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/signin',
+        `${odsBase}/api/signin`,
         formData,
         config
       );
