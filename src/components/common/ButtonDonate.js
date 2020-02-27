@@ -1,5 +1,7 @@
 import React from 'react';
 import './campaign.css';
+import { routes } from '../../odsApi';
+import { Link } from 'react-router-dom';
 
 const ButtonDonate = () => {
     const styleButtonDonate = {
@@ -7,11 +9,11 @@ const ButtonDonate = () => {
     };
     return (
         <div>
-            <a href="donate.html"
+            <Link to={routes.CAMPAIGN_DONATE}
                 className="theme-btn btn-style-one btn-donate btn-donate"
                 style={styleButtonDonate}>
                 <span className="btn-title">Quyên góp</span>
-            </a>
+            </Link>
         </div>
     );
 }

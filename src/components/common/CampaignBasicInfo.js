@@ -1,6 +1,15 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 
-const CampaignBasicInfo = () => {
+const CampaignBasicInfo = (props) => {
+    // const campaignsContext = useContext(CampaignsContext);
+    console.log('baisc' + props.campaign)
+    const { campaignShortDescription, Category } = props.campaign;
+    
+    if (Object.keys(props.campaign).length === 0) {
+        console.log('baisc111' + props.campaign.id);
+        return null;
+    }
+    console.log('baisc222' + props.campaign.id);
     return (
         <Fragment>
             <div className="image-box" style={{ marginBottom: '10px' }}>
@@ -11,9 +20,12 @@ const CampaignBasicInfo = () => {
                 </figure>
             </div>
             <p style={{ marginBottom: '5px' }}>
-                <i class="fas fa-tag"></i> Động vật
+                <i class="fas fa-tag" style={{marginRight: '10px'}}></i>
+                {Category.categoryTitle}
             </p>
-            <p style={{fontSize: '110%', textAlign: 'justify'}}>Short Description goes here: Lorem ipsum dolor sit amet. Quis nostrud exercitation ullamco laboris tnisi ut aliquip commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+            <p style={{ fontSize: '110%', textAlign: 'justify' }}>
+                {campaignShortDescription}
+            </p>
         </Fragment>
     );
 }

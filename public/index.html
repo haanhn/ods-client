@@ -1,38 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
 
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!-- Stylesheets -->
-    <link href="css/bootstrap.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />
-    <!-- Responsive File -->
-    <link href="css/responsive.css" rel="stylesheet" />
-    <link href="css/login.css" rel="stylesheet" />
-    <!-- Color File -->
-    <link href="css/color.css" rel="stylesheet" />
-    <!-- Fontawesome File -->
-    <link href="css/fontawesome-all.css" rel="stylesheet" />
-    <!-- ODS Styles -->
-    <link href="css/ods-style.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
-    <link rel="icon" href="images/favicon.png" type="image/x-icon" />
-    <title>React App</title>
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
 
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!-- Stylesheets -->
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <!-- Responsive File -->
+  <link href="/css/responsive.css" rel="stylesheet">
+  <!-- Color File -->
+  <link href="/css/color.css" rel="stylesheet">
+  <!-- Fontawesome File -->
+  <link href="/css/fontawesome-all.css" rel="stylesheet">
+  <!-- ODS Styles -->
+  <link href="/css/ods-style.css" rel="stylesheet">
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+  <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    // tinymce.init({
+    //   selector: 'textarea#campaignStory'
+    // });
+    tinymce.init({
+      selector: 'textarea#campaignStory',  // change this value according to your HTML
+      height: '350px'
+    });
+  </script>
+  <title>React App</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -43,16 +50,17 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 
-    <script src="js/jquery.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery-ui.js"></script>
-    <script src="js/jquery.fancybox.js"></script>
-    <script src="js/owl.js"></script>
-    <script src="js/appear.js"></script>
-    <script src="js/wow.js"></script>
-    <script src="js/lazyload.js"></script>
-    <script src="js/scrollbar.js"></script>
-    <script src="js/script.js"></script>
-  </body>
+  <script src="js/jquery.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/jquery.fancybox.js"></script>
+  <script src="js/owl.js"></script>
+  <script src="js/appear.js"></script>
+  <script src="js/wow.js"></script>
+  <script src="js/lazyload.js"></script>
+  <script src="js/scrollbar.js"></script>
+  <script src="js/script.js"></script>
+</body>
+
 </html>

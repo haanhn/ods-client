@@ -39,10 +39,15 @@ const Register = () => {
             className='form-control rounded-pill form-control-lg'
             required
           />
-          <p>
-            By creating an account you agree to our{' '}
-            <a href='# '>Terms &amp; Privacy</a>.
-          </p>
+          <label htmlFor='otp'>
+            <b>OTP</b>
+          </label>
+          <input
+            type='text'
+            placeholder='OTP'
+            name='otp'
+            className='form-control rounded-pill form-control-lg'
+          />
           <button type='submit' className='registerbtn'>
             Register
           </button>
