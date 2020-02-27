@@ -89,3 +89,7 @@
 .rating-users {
     font-size: 90%;
 }
+/******* Cause Block *******/
+.cause-block .lower-content {
+    padding: 20px 10px;
+}

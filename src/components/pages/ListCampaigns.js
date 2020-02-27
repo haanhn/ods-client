@@ -8,10 +8,12 @@ function ListCampaigns(props) {
     const campaignsContext = useContext(CampaignsContext);
 
     useEffect(() => {
-        console.log('get campaigns from ListCampaign page')
+        console.log('get campaigns from ListCampaign page');
         campaignsContext.getAllAvailableCampaigns();
-
+        campaignsContext.getCategories();
         //eslint-disable-next-line
+
+        return () => console.log('List campaigns umounting...')
     }, []);
 
     return (

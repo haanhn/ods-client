@@ -6,14 +6,15 @@ function Categories() {
 
     const { categories } = campaignsContext;
 
-    useEffect(() => {
-        campaignsContext.getCategories();
+    // useEffect(() => {
+        // campaignsContext.getCategories();
         // eslint-disable-next-line
-    }, []);
+    // }, []);
 
     const categoriesJsx = categories.map(category => (
-        <button className="list-group-item list-group-item-action" style={{ padding: '10px' }}>
-            {category.category_title}
+        <button key={category.id} className="list-group-item list-group-item-action" 
+            style={{ padding: '10px' }}>
+            {category.categoryTitle}
         </button>
     ));
 

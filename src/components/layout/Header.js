@@ -26,7 +26,8 @@ function Header() {
                             <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                                 <ul className="navigation clearfix">
                                     <li className="current"><Link to={routes.HOME}>Home</Link></li>
-                                    <li className=""><Link to={routes.CAMPAIGNS}>View list campaigns</Link></li>
+                                    <li className=""><Link to={routes.CAMPAIGNS}>Các chiến dịch</Link></li>
+                                    <li className=""><Link to={routes.CAMPAIGNS_CREATE}>Tạo chiến dịch</Link></li>
                                     <li className=""><a href="causes.html">About</a></li>
                                     <li className=""><a href="causes.html">Sign in</a></li>
 

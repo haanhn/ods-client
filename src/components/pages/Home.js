@@ -1,8 +1,10 @@
-import React, { Fragment, useEffect, useContext } from 'react';
+import React, { Fragment, useEffect, useContext, useState } from 'react';
 import HomeBigIntro from '../layout/HomeBigIntro';
 import HomeFeatures from '../layout/HomeFeatures';
 import Campaigns from '../campaigns/Campaigns';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
+import CreateCampaign from './CreateCampaign';
+import CreateCampaignName from '../campaigns/create-campaign/CreateCampaignName';
 
 function Home() {
     const campaignsContext = useContext(CampaignsContext);
@@ -22,6 +24,7 @@ function Home() {
                 <Campaigns />
             </div>
             <HomeFeatures />
+            <CreateCampaign />
         </Fragment>
     );
 }

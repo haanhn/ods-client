@@ -1,3 +1,7 @@
 export const GET_CATEGORIES ='GET_CATEGORIES'; 
 export const GET_CAMPAIGNS ='GET_CAMPAIGNS'; 
 export const SEARCH_CAMPAIGNS ='SEARCH_CAMPAIGNS'; 
+export const actionTypes = {
+    SET_VIEWING_CAMPAIGN: 'SET_VIEWING_CAMPAIGN',
+    SET_LOADING: "SET_LOADING"
+};

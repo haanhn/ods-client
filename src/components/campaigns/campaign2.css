@@ -1,4 +1,10 @@
 /******* Common *******/
+h2 {
+    text-align: center; 
+    padding: 40px 0 20px;
+}
+
+/******* ODS Grid *******/
 .grid-row:before, .grid-row::after {
     content: " ";
     display: table;
@@ -86,4 +92,11 @@
     max-width: 65px;
     margin: 0 auto;
     border-radius: 50%;
+}
+/******* Campaign Tab Ratings *******/
+.campaign-ratings {
+    padding: 20px 30px;
+}
+.campaign-rating > div:first-of-type {
+    margin-bottom: 10px;
 }

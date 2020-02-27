@@ -1,4 +1,4 @@
-import { GET_CATEGORIES, GET_CAMPAIGNS } from '../types';
+import { actionTypes, GET_CATEGORIES, GET_CAMPAIGNS } from '../types';
 
 const campaignReducer = (state, action) => {
     switch (action.type) {
@@ -11,6 +11,16 @@ const campaignReducer = (state, action) => {
             return ({
                 ...state,
                 campaigns: action.payload
+            });
+        case actionTypes.SET_VIEWING_CAMPAIGN:
+            return ({
+                ...state,
+                viewingCampaign: action.payload,
+            });
+        case actionTypes.SET_LOADING:
+            return ({
+                ...state,
+                loading: action.payload
             });
         default:
             return state;

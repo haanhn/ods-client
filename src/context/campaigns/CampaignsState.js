@@ -3,12 +3,14 @@ import axios from 'axios';
 import CampaignsContext from './campaignsContext';
 import CampaignsReducer from './campaignsReducer';
 import { odsBase } from '../../odsApi';
-import { GET_CATEGORIES, GET_CAMPAIGNS } from '../types';
+import { actionTypes, GET_CATEGORIES, GET_CAMPAIGNS } from '../types';
 
 const CampaignsState = (props) => {
     const initialState = {
         categories: [],
-        campaigns: []
+        campaigns: [],
+        viewingCampaign: {},
+        loading: false
     }
 
     const [state, dispatch] = useReducer(CampaignsReducer, initialState);
@@ -38,12 +40,36 @@ const CampaignsState = (props) => {
         console.log(res);
     }
 
+    //GET CAMPAIGN BY SLUG
+    const getCampaignBySlug = async (slug) => {
+        try {
+            setLoading(true);
+            const res = await axios.get(`${odsBase}/campaigns/${slug}`);
+            dispatch({
+                type: actionTypes.SET_VIEWING_CAMPAIGN,
+                payload: res.data
+            });
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    };
+
+    const setCampaignToEmpty = () => dispatch({ type: actionTypes.SET_VIEWING_CAMPAIGN, payload: {} });
+
+    const setLoading = (isLoading) => dispatch({ type: actionTypes.SET_LOADING, payload: isLoading });
+
     return (
         <CampaignsContext.Provider value={{
             categories: state.categories,
             campaigns: state.campaigns,
+            viewingCampaign: state.viewingCampaign,
             getCategories: getCategories,
+            loading: state.loading,
             getAllAvailableCampaigns,
+            getCampaignBySlug,
+            setCampaignToEmpty,
             searchCampaigns
         }}>
             {props.children}

@@ -1,10 +1,11 @@
 import React from 'react';
 import CampaignRating from './CampaignRating';
+import CampaignRatings from './CampaignRatings';
 
 const CampaignTabRatings = () => {
     return (
         <div>
-            <CampaignRating/>
+            <CampaignRatings/>
         </div>
     );
 }
