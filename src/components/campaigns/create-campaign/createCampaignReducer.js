@@ -32,7 +32,9 @@ export default (state, action) => {
                 ...state,
                 campaign: {
                     ...state.campaign,
+                    id: data.id,
                     campaignTitle: data.campaignTitle,
+                    campaignSlug: data.campaignSlug,
                     category: data.categoryId,
                     campaignShortDescription: data.campaignShortDescription
                 }
@@ -50,7 +52,8 @@ export default (state, action) => {
                 ...state,
                 campaign: {
                     ...state.campaign,
-                    story: data
+                    image: data.campaignThumbnail,
+                    description: data.campaignDescription
                 }
             };
         case types.SET_ADDRESS:
@@ -61,12 +64,30 @@ export default (state, action) => {
                     address: data
                 }
             };
+        case types.GET_AUTHORIZED_USER:
+            return {
+                ...state,
+                user: data
+            };
+        case types.SET_AUTHORIZED_USER:
+            return {
+                ...state,
+                user: data
+            };
         case types.SET_BANK_ACCOUNT:
             return {
                 ...state,
-                user: {
-                    ...state.user,
-                    bankAccount: data
+                bankAccount: data
+            };
+        case types.SET_DETAILS:
+            return {
+                ...state,
+                campaign: {
+                    ...state.campaign,
+                    campaignRegion: data.campaignRegion,
+                    address: data.campaignAddress,
+                    goal: data.campaignGoal,
+                    endDate: new Date(data.campaignEndDate)
                 }
             };
         default:

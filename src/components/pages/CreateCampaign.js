@@ -7,7 +7,7 @@ import CreateCampaignStory from '../campaigns/create-campaign/CreateCampaignStor
 import CreateCampaignMoneyMethods from '../campaigns/create-campaign/CreateCampaignMoneyMethods';
 import CreateCampaignConfirm from '../campaigns/create-campaign/CreateCampaignConfirm';
 import CreateCampaignCompleted from '../campaigns/create-campaign/CreateCampaignCompleted';
-import { odsBase, odsAPICreateCampaign, localStoreKeys } from '../../odsApi';
+import { odsBase, odsAPIAuthorizedUser, localStoreKeys } from '../../odsApi';
 import '../campaigns/campaign2.css';
 import reducer from '../campaigns/create-campaign/createCampaignReducer';
 import CreateCampaignName from '../campaigns/create-campaign/CreateCampaignName';
@@ -17,46 +17,43 @@ import CreateCampaignMoreInfo from '../campaigns/create-campaign/CreateCampaignM
 import CreateCampaignDetails from '../campaigns/create-campaign/CreateCampaignDetails';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
 import { types } from '../../components/campaigns/create-campaign/createCampaignTypes';
+import CreateCampaignMethods from '../campaigns/create-campaign/CreateCampaignMethods';
 
 
 const CreateCampaign = () => {
     const campaignsContext = useContext(CampaignsContext);
     const { loading } = campaignsContext;
-    const { getCategories, setLoading } = campaignsContext;
+    const { getCategories, getRegions, setLoading } = campaignsContext;
 
     useEffect(() => {
-        // const fetchCategories = async () => {
-        // }
         getCategories();
-        // fetchCategories();
+        getRegions();
+        getAuthorizedUser();
+        getUserBankAccount();
 
         //eslint-disable-next-line
     }, []);
 
     const initialState = {
-        currentStep: 1,
+        currentStep: 0,
         loading: false,
-        categories: [],
+        // categories: [],
         //campaign
         campaign: {
+            id: null,
             campaignTitle: '',
             campaignSlug: '',
-            goal: '',
+            goal: 1000000,
             endDate: null,
             category: null,
             campaignShortDescription: '',
             image: null,
-            story: '',
+            description: 'sdj',
+            campaignRegion: null,
+            address: ''
         },
-        user: {
-            address: 'TP.HCM',
-            bankAccount: {
-                bankName: 'Techcombank',
-                bankAgency: '',
-                accountName: 'Ha Anh',
-                accountNumber: '932849083208'
-            }
-        }
+        user: {},
+        bankAccount: {}
     };
 
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -69,13 +66,42 @@ const CreateCampaign = () => {
         });
     }
 
+    const getAuthorizedUser = async () => {
+        try {
+            const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.getAuthorizedUser}`, {
+                token: localStorage.getItem(localStoreKeys.token)
+            });
+            dispatch({
+                type: types.GET_AUTHORIZED_USER,
+                payload: res.data.user
+            });
+        } catch (error) {
+            console.error(`Get Authorized User Error: ${error}`);
+        }
+    }
+
+    const getUserBankAccount = async () => {
+        try {
+            const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.getUserBankAccount}`, {
+                token: localStorage.getItem(localStoreKeys.token)
+            });
+            dispatch({
+                type: types.SET_BANK_ACCOUNT,
+                payload: res.data.bankAccount
+            });
+        } catch (error) {
+            console.error(`Get User BankAccount Error: ${error}`);
+        }
+    }
+
     const createCampaignStep1 = async (title, category, shortDesription) => {
         try {
             setLoading(true);
-            const res = await axios.post(`${odsBase}/api/campaign/create`, {
+            const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.createCampaignStep1}`, {
                 token: localStorage.getItem(localStoreKeys.token),
                 campaign: {
                     campaignTitle: title,
+                    campaignSlug: state.campaign.campaignSlug, //get trong state lun
                     category: category,
                     campaignShortDescription: shortDesription
                 }
@@ -87,7 +113,91 @@ const CreateCampaign = () => {
             })
             setLoading(false);
         } catch (error) {
-            console.log(`Create campaign step 1: ${error}`);
+            console.error(`Create campaign step 1: ${error}`);
+            alert('Đã có lỗi xảy ra, xin hãy thử lại');
+            setLoading(false);
+        }
+    }
+
+    const createCampaignStep2 = async (image, desription) => {
+        try {
+            setLoading(true);
+            const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.createCampaignStep2}`, {
+                token: localStorage.getItem(localStoreKeys.token),
+                campaign: {
+                    campaignSlug: state.campaign.campaignSlug, //get trong state lun
+                    campaignThumbnail: 'image',
+                    campaignDescription: desription
+                }
+            });
+            console.log(res.data);
+            dispatch({
+                type: types.SET_STORY,
+                payload: res.data.campaign
+            })
+            setLoading(false);
+        } catch (error) {
+            console.error(`Create campaign step 2: ${error}`);
+            alert('Đã có lỗi xảy ra, xin hãy thử lại');
+            setLoading(false);
+        }
+    }
+
+    const createCampaignStep3 = async (address, region, goal, endDate) => {
+        try {
+            setLoading(true);
+            const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.createCampaignStep3}`, {
+                token: localStorage.getItem(localStoreKeys.token),
+                campaign: {
+                    campaignSlug: state.campaign.campaignSlug, //get trong state lun
+                    campaignAddress: address,
+                    campaignRegion: region,
+                    campaignGoal: goal,
+                    campaignEndDate: endDate
+                }
+            });
+            console.log(res.data);
+            dispatch({
+                type: types.SET_DETAILS,
+                payload: res.data.campaign
+            })
+            setLoading(false);
+        } catch (error) {
+            console.error(`Create campaign step 3: ${error}`);
+            alert('Đã có lỗi xảy ra, xin hãy thử lại');
+            setLoading(false);
+        }
+    }
+
+    const createCampaignStep4 = async (address, region, accountNumber, bankName, bankAgency) => {
+        try {
+            setLoading(true);
+            const userRes = await axios.post(`${odsBase}${odsAPIAuthorizedUser.updateUserAddress}`, {
+                token: localStorage.getItem(localStoreKeys.token),
+                address: address,
+                region: region
+            });
+            console.log(userRes.data);
+            dispatch({
+                type: types.SET_AUTHORIZED_USER,
+                payload: userRes.data.user
+            });
+            const bankAccountRes = await axios.post(`${odsBase}${odsAPIAuthorizedUser.setBankAccount}`, {
+                token: localStorage.getItem(localStoreKeys.token),
+                bankAccount: {
+                    bankName: bankName,
+                    bankAgency: bankAgency,
+                    accountNumber: accountNumber
+                }
+            });
+            console.log(bankAccountRes.data);
+            dispatch({
+                type: types.SET_BANK_ACCOUNT,
+                payload: bankAccountRes.data.bankAccount
+            });
+            setLoading(false);
+        } catch (error) {
+            console.error(`Create campaign step 4: ${error}`);
             alert('Đã có lỗi xảy ra, xin hãy thử lại');
             setLoading(false);
         }
@@ -134,23 +244,21 @@ const CreateCampaign = () => {
     //             setCurrentStep={setCurrentStep} />;
     // }
 
-    // if (state.loading) {
-    //     return <div>LOADING..</div>;
-    // }
-
     if (loading) {
         return <div>loading................</div>
     }
 
     return (
-        <div className='container'>
-            <h2>Tạo Chiến dịch mới</h2>
+        <div className='container create-campaign'>
+            {/* <h2>Tạo Chiến dịch mới</h2> */}
 
             <CreateCampaignProgressBar step={1} totalSteps={6} />
-            <CreateCampaignContentBox>
+            <CreateCampaignContentBox campaignTitle={state.campaign.campaignTitle}>
                 <CreateCampaignName campaign={state.campaign} createCampaignStep1={createCampaignStep1} />
-                {/* <CreateCampaignMoreInfo /> */}
-                {/* <CreateCampaignDetails /> */}
+                <CreateCampaignMoreInfo campaign={state.campaign} createCampaignStep2={createCampaignStep2} />
+                <CreateCampaignDetails campaign={state.campaign} createCampaignStep3={createCampaignStep3} />
+                <CreateCampaignMethods user={state.user} bankAccount={state.bankAccount}
+                    createCampaignStep4={createCampaignStep4} />
             </CreateCampaignContentBox>
         </div>
     );

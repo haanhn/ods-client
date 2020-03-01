@@ -1,9 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React from 'react';
 
-const CreateCampaignImageBox = () => {
-    const [image, setImage] = useState(null);
+const CreateCampaignImageBox = (props) => {
+    const { image, setImage } = props;
 
-    const labelButtonImage = image ? 'Lưu và tiếp tục' : 'Bỏ qua';
+    // const labelButtonImage = image ? 'Lưu và tiếp tục' : 'Bỏ qua';
 
     const chooseImage = (event) => {
         try {
@@ -27,7 +27,9 @@ const CreateCampaignImageBox = () => {
     const btnsUpdateImg = (
         <div className='child btns-update-img' >
             <button className='btn btn-secondary' onClick={removeImage}>Xóa ảnh</button>
-            <button className='btn btn-primary' >Chọn ảnh</button>
+            <label for='createCampaignImage' className='btn btn-primary'>
+                <div>Chọn ảnh</div>
+            </label>
         </div>
     );
 
@@ -42,20 +44,12 @@ const CreateCampaignImageBox = () => {
                     <img src={image} alt='' />
                     : <div className='btn-choose-image' > Chọn ảnh </div>
                 }
-            </label>
+            </label> 
             {image ? btnsUpdateImg : null}
             {imageGuide}
         </div>
     );
 }
-
-// const inputImage = (
-//     <Fragment>
-//         <input id='createCampaignImage' type='file' accept='image/png, image/jpeg'
-//             style={{ display: 'none' }} />
-//         <label for='createCampaignImage' > Chọn ảnh </label>
-//     </Fragment>
-// );
 
 const imageGuide = <p className='child image-guide'>
     Chọn ảnh bìa đại diện cho chiến dịch của bạn, nội dung ảnh nên khái quát lý do bạn gây quỹ.

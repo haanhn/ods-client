@@ -13,9 +13,17 @@ export const routes = {
 };
 
 //ODS APIs
-export const odsAPICreateCampaign = {
-  createStep1: '/api/campaign/create'
+export const odsAPIAuthorizedUser = {
+  createCampaignStep1: '/api/campaign/create',
+  createCampaignStep2: '/api/campaign/create-step2',
+  createCampaignStep3: '/api/campaign/create-step3',
+  getAuthorizedUser: '/api/user',
+  updateUserAddress: '/api/user/update-address',
+  getUserBankAccount: '/api/bank-account',
+  setBankAccount: '/api/bank-account/create'
 }
+
+export const odsAPIRegions = '/api/regions';
 
 export const localStoreKeys = {
   token: 'token'

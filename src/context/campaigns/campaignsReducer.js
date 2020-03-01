@@ -7,6 +7,11 @@ const campaignReducer = (state, action) => {
                 ...state,
                 categories: action.payload
             });
+        case actionTypes.GET_REGIONS:
+            return ({
+                ...state,
+                regions: action.payload
+            });
         case GET_CAMPAIGNS:
             return ({
                 ...state,

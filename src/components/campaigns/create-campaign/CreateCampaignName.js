@@ -35,14 +35,13 @@ const CreateCampaignName = (props) => {
         const category = inputCategory.current.value;
         const shortDescription = inputShortDescription.current.value;
 
-
+        setAlertTitle(null);
         const messages = validateData(title);
         if (messages !== null) {
-            if (messages.title !== null) {
+            if (messages.title) {
                 setAlertTitle({ type: 'danger', msg: messages.title });
             }
         } else {
-            setAlertTitle(null);
             console.log(`category ${category}`);
             createCampaignStep1(title, category, shortDescription);
         }
@@ -166,10 +165,6 @@ A personal connection, detail or tone e.g. Please help us pay for Nancy's chemo 
         </div>
     </div >
 );
-
-const alertJsx = (msg) => {
-    return msg ? <div style={{ color: 'red' }}>{msg}</div> : null;
-}
 
 const validateData = (title) => {
     let msg = {};
