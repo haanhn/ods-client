@@ -13,10 +13,17 @@ export const routes = {
 };
 
 //ODS APIs
+export const odsAPIOpenRoutes = {
+  getAllCampaigns: '/api/campaign/get-all',
+  // get campaign detail url template: /api/campaign/get-detail/:slug
+  getCampaignDetailBySlug: `/api/campaign/get-detail/`
+}
+
 export const odsAPIAuthorizedUser = {
   createCampaignStep1: '/api/campaign/create',
   createCampaignStep2: '/api/campaign/create-step2',
   createCampaignStep3: '/api/campaign/create-step3',
+  createCampaignStep5: '/api/campaign/create-step5',
   getAuthorizedUser: '/api/user',
   updateUserAddress: '/api/user/update-address',
   getUserBankAccount: '/api/bank-account',

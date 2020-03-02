@@ -1,7 +1,10 @@
 export const GET_CATEGORIES ='GET_CATEGORIES'; 
 export const GET_CAMPAIGNS ='GET_CAMPAIGNS'; 
 export const SEARCH_CAMPAIGNS ='SEARCH_CAMPAIGNS'; 
+
+//this actionTypes contains all action that guest can access 
 export const actionTypes = {
+    GET_CAMPAIGNS: 'GET_CAMPAIGNS',
     SET_VIEWING_CAMPAIGN: 'SET_VIEWING_CAMPAIGN',
     GET_REGIONS: 'GET_REGIONS',
     SET_LOADING: 'SET_LOADING'

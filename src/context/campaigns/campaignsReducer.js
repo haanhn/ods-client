@@ -17,6 +17,11 @@ const campaignReducer = (state, action) => {
                 ...state,
                 campaigns: action.payload
             });
+        case actionTypes.GET_CAMPAIGNS:
+            return ({
+                ...state,
+                campaigns: action.payload
+            });
         case actionTypes.SET_VIEWING_CAMPAIGN:
             return ({
                 ...state,

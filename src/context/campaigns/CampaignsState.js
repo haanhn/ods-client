@@ -2,8 +2,8 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import CampaignsContext from './campaignsContext';
 import CampaignsReducer from './campaignsReducer';
-import { odsBase, odsAPIRegions } from '../../odsApi';
-import { actionTypes, GET_CATEGORIES, GET_CAMPAIGNS } from '../types';
+import { odsBase, odsAPIRegions, odsAPIOpenRoutes } from '../../odsApi';
+import { actionTypes, GET_CATEGORIES } from '../types';
 
 const CampaignsState = (props) => {
     const initialState = {
@@ -36,10 +36,10 @@ const CampaignsState = (props) => {
 
     //GET ALL AVAILABLE CAMPAIGNS
     const getAllAvailableCampaigns = async () => {
-        const res = await axios.get(`${odsBase}/campaigns`);
+        const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getAllCampaigns}`);
         dispatch({
-            type: GET_CAMPAIGNS,
-            payload: res.data
+            type: actionTypes.GET_CAMPAIGNS,
+            payload: res.data.campaigns
         });
     };
 
@@ -54,10 +54,10 @@ const CampaignsState = (props) => {
     const getCampaignBySlug = async (slug) => {
         try {
             setLoading(true);
-            const res = await axios.get(`${odsBase}/campaigns/${slug}`);
+            const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getCampaignDetailBySlug}${slug}`);
             dispatch({
                 type: actionTypes.SET_VIEWING_CAMPAIGN,
-                payload: res.data
+                payload: res.data.campaign
             });
             setLoading(false);
         } catch (error) {

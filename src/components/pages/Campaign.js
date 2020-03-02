@@ -16,6 +16,7 @@ import { routes } from '../../odsApi';
 import CampaignTabRatings from '../campaigns/CampaignTabRatings';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
 import NotFound from './NotFound';
+import '../css/campaign-detail.css';
 
 const Campaign = (props) => {
     const campaignsContext = useContext(CampaignsContext);
@@ -28,6 +29,16 @@ const Campaign = (props) => {
         Category
     } = campaignsContext.viewingCampaign;
     const campaign = campaignsContext.viewingCampaign;
+
+    const getHost = () => {
+        if (campaign) {
+            if (campaign.Users && campaign.Users.length > 0) {
+                return campaign.Users[0];
+            }
+        }
+        return {};
+    }
+
     const { loading } = campaignsContext;
 
     const [resStatus, setResStatus] = useState(200);
@@ -63,38 +74,42 @@ const Campaign = (props) => {
     } else {
         return (
             // <div className="sidebar-page-container">
-            <div>
-                <div className="auto-container">
-                    <h2 style={{ textAlign: 'center', padding: '50px 0 20px', borderBottom: '2px gray solid' }}>{campaignTitle}</h2>
-                    <div className="row clearfix" style={{ padding: '30px 0 50px' }}>
-
-                        {/* <!--Content Side / Blog Sidebar--> */}
-                        <div className="content-side col-lg-8 col-md-12 col-sm-12">
-                            {/* <!--Cause Details--> */}
-                            <div className="cause-details">
-                                <div className="inner-box">
-                                    <CampaignBasicInfo campaign={campaign} />
-                                </div>
+            // <div>
+            <div className="auto-container campaign-detail">
+                <h2 style={{ textAlign: 'center', padding: '50px 0 20px', borderBottom: '2px gray solid' }}>
+                    {campaignTitle}
+                </h2>
+                <div className="row clearfix" style={{ padding: '30px 0 10px' }}>
+                    {/* style={{ padding: '30px 0 50px' }} */}
+                    {/* <!--Content Side / Blog Sidebar--> */}
+                    <div className="content-side col-lg-8 col-md-12 col-sm-12">
+                        {/* <!--Cause Details--> */}
+                        <div className="cause-details">
+                            <div className="inner-box">
+                                <CampaignBasicInfo campaign={campaign} />
                             </div>
-
                         </div>
 
-                        {/* <!--Sidebar Side--> */}
-                        <div className="sidebar-side col-lg-4 col-md-12 col-sm-12">
-                            <aside className="sidebar">
+                    </div>
+
+                    {/* <!--Sidebar Side--> */}
+                    <div className="sidebar-side col-lg-4 col-md-12 col-sm-12" >
+                        <div className='rating-host-container row'>
+                            <aside className="sidebar col-lg-12 col-md-6 col-sm-6">
                                 <RatingOverviewBox />
                             </aside>
-                            <aside className="sidebar">
-                                <CampaignProgressBar />
-                                <CampaignStatistic />
-                                <ButtonDonate />
-                                <ButtonSubscribeCampaign />
-                            </aside>
-                            <aside className="sidebar">
-                                <CampaignHostInfo />
+                            <aside className="sidebar col-lg-12 col-md-6 col-sm-6">
+                                <CampaignHostInfo host={getHost()} />
                             </aside>
                         </div>
-                        <div style={{ width: '100%' }}>
+                        <aside className="sidebar col-lg-12 col-md-12 col-sm-12">
+                            <CampaignProgressBar />
+                            <CampaignStatistic />
+                            <ButtonDonate />
+                            <ButtonSubscribeCampaign />
+                        </aside>
+                    </div>
+                    {/* <div style={{ width: '100%' }}>
                             <CampaignTabs />
                             <Switch>
                                 <Route exact path={`${routes.CAMPAIGN_DETAIL}`}> <CampaignTabMoreInfo /> </Route>
@@ -103,12 +118,23 @@ const Campaign = (props) => {
                                 <Route exact path={`${routes.CAMPAIGN_DETAIL}/donations`}> <CampaignTabDonations /> </Route>
                                 <Route exact path={`${routes.CAMPAIGN_DETAIL}/ratings`} component={CampaignTabRatings} />
                             </Switch>
-                        </div>
+                        </div> */}
 
-                    </div>
                 </div>
-
+                {/* End of section: basic info */}
+                <div style={{ width: '100%' }}>
+                    <CampaignTabs />
+                    <Switch>
+                        <Route exact path={`${routes.CAMPAIGN_DETAIL}`}> <CampaignTabMoreInfo /> </Route>
+                        <Route exact path={`${routes.CAMPAIGN_DETAIL}/updates`}> <CampaignTabUpdates /> </Route>
+                        <Route exact path={`${routes.CAMPAIGN_DETAIL}/comments`}> <CampaignTabComments /> </Route>
+                        <Route exact path={`${routes.CAMPAIGN_DETAIL}/donations`}> <CampaignTabDonations /> </Route>
+                        <Route exact path={`${routes.CAMPAIGN_DETAIL}/ratings`} component={CampaignTabRatings} />
+                    </Switch>
+                </div>
             </div>
+
+            // </div>
             // </div>
             // {/* <!-- End Sidebar Page Container --> */}
 

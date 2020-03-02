@@ -8,6 +8,11 @@ export default (state, action) => {
                 ...state,
                 currentStep: data
             };
+        case types.SET_STEPS_DONE:
+            return {
+                ...state,
+                stepsDone: data
+            };
         case types.SET_LOADING:
             return {
                 ...state,

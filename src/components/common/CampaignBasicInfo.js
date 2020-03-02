@@ -1,10 +1,9 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 
 const CampaignBasicInfo = (props) => {
-    // const campaignsContext = useContext(CampaignsContext);
     console.log('baisc' + props.campaign)
     const { campaignShortDescription, Category } = props.campaign;
-    
+
     if (Object.keys(props.campaign).length === 0) {
         console.log('baisc111' + props.campaign.id);
         return null;
@@ -20,12 +19,14 @@ const CampaignBasicInfo = (props) => {
                 </figure>
             </div>
             <p style={{ marginBottom: '5px' }}>
-                <i class="fas fa-tag" style={{marginRight: '10px'}}></i>
-                {Category.categoryTitle}
+                <i class="fas fa-tag" style={{ marginRight: '10px' }}></i>
+                {Category ? Category.categoryTitle : ''}
+                {/* {Category.categoryTitle} */}
             </p>
             <p style={{ fontSize: '110%', textAlign: 'justify' }}>
                 {campaignShortDescription}
             </p>
+
         </Fragment>
     );
 }
