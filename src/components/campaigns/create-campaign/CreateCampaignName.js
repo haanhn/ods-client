@@ -1,38 +1,51 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import CampaignsContext from '../../../context/campaigns/campaignsContext';
+import Alert from '../../common/Alert';
 import '../../css/icon.css';
 
-const CreateCampaignName = () => {
-    const campaign = {
-        id: 1,
-        categoryTitle: 'Gia đình'
-    };
+const CreateCampaignName = (props) => {
+    const campaignsContext = useContext(CampaignsContext);
+    const { categories } = campaignsContext;
+    const { campaign, createCampaignStep1 } = props;
 
-    const categories = [
-        {
-            id: 1,
-            categoryTitle: 'Gia đình'
-        },
-        {
-            id: 2,
-            categoryTitle: 'Môi trường'
-        },
-        {
-            id: 3,
-            categoryTitle: 'Cộng đồng'
-        }
-    ];
+    let inputTitle = React.createRef();
+    let inputCategory = React.createRef();
+    let inputShortDescription = React.createRef();
+
+    //State Alerts
+    const [alertTitle, setAlertTitle] = useState(null);
 
     let categoriesJsx = null;
     if (categories) {
         categoriesJsx =
             categories.map((category) => {
-                return (campaign.categoryId == category.id ?
+                return (campaign.category == category.id ?
                     <option value={category.id} key={category.id} selected>
                         {category.categoryTitle}
                     </option> :
                     <option value={category.id} key={category.id}>{category.categoryTitle}</option>
                 );
             });
+    }
+
+    const createStep1 = (event) => {
+        event.preventDefault();
+        console.log('click create');
+        const title = inputTitle.current.value;
+        const category = inputCategory.current.value;
+        const shortDescription = inputShortDescription.current.value;
+
+        setAlertTitle(null);
+        const messages = validateData(title);
+        if (messages !== null) {
+            if (messages.title) {
+                setAlertTitle({ type: 'danger', msg: messages.title });
+            }
+        } else {
+            console.log(`category ${category}`);
+            createCampaignStep1(title, category, shortDescription);
+        }
+
     }
 
     return (
@@ -47,9 +60,10 @@ const CreateCampaignName = () => {
                     </label>
                     <div className="col-sm-12">
                         <input type="text" className="form-control" placeholder="Tên chiến dịch"
-                        // value={title} onChange={updateTitle} 
+                            defaultValue={campaign.campaignTitle}
+                            ref={inputTitle}
                         />
-                        {/* {alertTitle} */}
+                        <Alert alert={alertTitle} />
                     </div>
                 </div>
 
@@ -57,7 +71,7 @@ const CreateCampaignName = () => {
                     (<div className="row">
                         <label className="col-sm-12 col-form-label">Thể loại</label>
                         <div className="col-sm-12">
-                            <select className="custom-select">
+                            <select className="custom-select" ref={inputCategory} >
                                 {categoriesJsx}
                             </select>
                         </div>
@@ -75,16 +89,16 @@ const CreateCampaignName = () => {
                     <div className="col-sm-12">
                         <textarea type="text" className="form-control" placeholder="Mô tả ngắn"
                             rows='3'
-                        // value={title} onChange={updateTitle} 
+                            ref={inputShortDescription}
+                            defaultValue={campaign.campaignShortDescription}
                         />
-                        {/* {alertTitle} */}
                     </div>
                 </div>
 
                 <div className="row justify-content-end">
                     <div className='box-button'>
                         <button className="btn btn-primary"
-                        // onClick={onClick}
+                            onClick={createStep1}
                         >Lưu và tiếp tục</button>
                     </div>
                 </div>
@@ -151,5 +165,16 @@ A personal connection, detail or tone e.g. Please help us pay for Nancy's chemo 
         </div>
     </div >
 );
+
+const validateData = (title) => {
+    let msg = {};
+    if (title.length === 0) {
+        msg.title = 'Xin nhập tên chiến dịch';
+    }
+    if (Object.keys(msg).length === 0) {
+        msg = null;
+    }
+    return msg;
+}
 
 export default CreateCampaignName;

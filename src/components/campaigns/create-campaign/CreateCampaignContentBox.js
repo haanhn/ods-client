@@ -2,7 +2,7 @@ import React from 'react';
 import '../../css/create-campaign.css';
 
 const CreateCampaignContentBox = (props) => {
-    const campaignTitle = 'Giúp đỡ đồng bào miền Trung';
+    const { campaignTitle } = props;
 
     return (
         <div className='create-campaign-content-box'>

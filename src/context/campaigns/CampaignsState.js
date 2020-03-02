@@ -2,12 +2,13 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import CampaignsContext from './campaignsContext';
 import CampaignsReducer from './campaignsReducer';
-import { odsBase } from '../../odsApi';
+import { odsBase, odsAPIRegions } from '../../odsApi';
 import { actionTypes, GET_CATEGORIES, GET_CAMPAIGNS } from '../types';
 
 const CampaignsState = (props) => {
     const initialState = {
         categories: [],
+        regions: [],
         campaigns: [],
         viewingCampaign: {},
         loading: false
@@ -17,10 +18,19 @@ const CampaignsState = (props) => {
 
     //GET ALL AVAILABLE CATEGORIES
     const getCategories = async () => {
-        const res = await axios.get(`${odsBase}/categories`);
+        const res = await axios.get(`${odsBase}/api/categories`);
         dispatch({
             type: GET_CATEGORIES,
             payload: res.data
+        });
+    };
+
+    //GET ALL REGIONS
+    const getRegions = async () => {
+        const res = await axios.get(`${odsBase}${odsAPIRegions}`);
+        dispatch({
+            type: actionTypes.GET_REGIONS,
+            payload: res.data.regions
         });
     };
 
@@ -65,12 +75,15 @@ const CampaignsState = (props) => {
             categories: state.categories,
             campaigns: state.campaigns,
             viewingCampaign: state.viewingCampaign,
+            regions: state.regions,
             getCategories: getCategories,
             loading: state.loading,
+            setLoading,
             getAllAvailableCampaigns,
             getCampaignBySlug,
             setCampaignToEmpty,
-            searchCampaigns
+            searchCampaigns,
+            getRegions
         }}>
             {props.children}
         </CampaignsContext.Provider>

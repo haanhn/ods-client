@@ -11,7 +11,7 @@ import {
   LOG_OUT,
   CLEAR_ERRORS
 } from '../types';
-import { odsBase } from '../../odsApi';
+import { odsBase, localStoreKeys } from '../../odsApi';
 
 const AuthState = props => {
   const initialState = {
@@ -94,6 +94,8 @@ const AuthState = props => {
         formData,
         config
       );
+      console.log(res.data.accessToken);
+      localStorage.setItem(localStoreKeys.token, res.data.accessToken);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
@@ -107,8 +109,10 @@ const AuthState = props => {
   };
 
   // Logout
-  const logout = () => dispatch({ type: LOG_OUT });
-
+  const logout = () => {
+    localStorage.removeItem(localStoreKeys.token);
+    dispatch({ type: LOG_OUT });
+  }
   // Clear Errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
