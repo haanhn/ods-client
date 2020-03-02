@@ -52,10 +52,10 @@ function Header() {
         <Link to={routes.CAMPAIGNS}>View list campaigns</Link>
       </li> */}
       <li className=''>
-        <Link to={routes.PAGE_SIGN_IN}>Sign in</Link>
+        <Link to={routes.PAGE_SIGN_IN}>Đăng nhập</Link>
       </li>
       <li className=''>
-        <Link to={routes.PAGE_REGISTER}>Sign up</Link>
+        <Link to={routes.PAGE_REGISTER}>Đăng ký</Link>
       </li>
     </Fragment>
   );
@@ -72,17 +72,31 @@ function Header() {
 
           {/* <<<<<<<  */}
           {/* <!--Nav Box--> */}
-          <div className="nav-outer clearfix">
+          <div className='nav-outer clearfix'>
             {/* <!--Mobile Navigation Toggler--> */}
-            <div className="mobile-nav-toggler"><span className="icon flaticon-menu-1"></span></div>
+            <div className='mobile-nav-toggler'>
+              <span className='icon flaticon-menu-1'></span>
+            </div>
 
             {/* <!-- Main Menu --> */}
-            <nav className="main-menu navbar-expand-md navbar-light">
-              <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
-                <ul className="navigation clearfix">
-                  <li className="current"><Link to={routes.HOME}>Home</Link></li>
-                  <li className=""><Link to={routes.CAMPAIGNS}>Các chiến dịch</Link></li>
-                  <li className=""><Link to={routes.CAMPAIGNS_CREATE}>Tạo chiến dịch</Link></li>
+            <nav className='main-menu navbar-expand-md navbar-light'>
+              <div
+                className='collapse navbar-collapse show clearfix'
+                id='navbarSupportedContent'
+              >
+                <ul className='navigation clearfix'>
+                  <li className='current'>
+                    <Link to={routes.HOME}>Home</Link>
+                  </li>
+                  <li className=''>
+                    <Link to={routes.CAMPAIGNS}>Các chiến dịch</Link>
+                  </li>
+                  <li className=''>
+                    <Link to={routes.CAMPAIGNS_CREATE}>Tạo chiến dịch</Link>
+                  </li>
+                  <li className=''>
+                    <Link to={routes.MY_CAMPAIGNS}>Chiến dịch của tôi</Link>
+                  </li>
                   {isLoggedIn ? authLinks : guestLinks}
                 </ul>
               </div>
