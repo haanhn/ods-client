@@ -1,7 +1,9 @@
 import { actionTypes, GET_CATEGORIES, GET_CAMPAIGNS } from '../types';
 
 const campaignReducer = (state, action) => {
+    const data = action.payload;
     switch (action.type) {
+        //Common Utils: categories, regions,...
         case GET_CATEGORIES:
             return ({
                 ...state,
@@ -12,6 +14,7 @@ const campaignReducer = (state, action) => {
                 ...state,
                 regions: action.payload
             });
+        //Campaigns
         case GET_CAMPAIGNS:
             return ({
                 ...state,
@@ -26,6 +29,12 @@ const campaignReducer = (state, action) => {
             return ({
                 ...state,
                 viewingCampaign: action.payload,
+            });
+        //Comments
+        case actionTypes.CREATE_COMMENT:
+            return ({
+                ...state,
+                campaignComments: data
             });
         case actionTypes.SET_LOADING:
             return ({

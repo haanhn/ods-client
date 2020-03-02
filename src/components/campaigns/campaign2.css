@@ -52,23 +52,45 @@ h2 {
 }
 /******* Campaign Tab Comments *******/
 .campaign-tab-comments {
-    padding: 20px 40px;
+    padding: 20px 25px;
+}
+.campaign-tab-comments > div {
+    margin-bottom: 15px;
 }
 .campaign-comment {
     padding: 10px 20px;
     border: 1px lightgray solid;
-    border-radius: 15px;
+    border-radius: 10px;
+}
+.campaign-comment .row {
+    margin: 0;
 }
 .campaign-comment:not(:last-child) {
     margin-bottom: 15px;
 }
 .campaign-comment img {
-    max-width: 90px;
+    max-width: 65px;
     border-radius: 50%;
 }
 .comment-avatar {
-    font-size: 90%;
+    font-size: 80%;
     margin-bottom: 10px;
+}
+.comment-avatar .col {
+    padding: 0 5px;
+}
+@media (max-width: 950px)  {
+    .campaign-tab-comments {
+        padding: 20px 0px;
+    }
+}
+@media (max-width: 414px)  {
+    .campaign-comment {
+        padding: 10px 12px;
+    }
+}
+.form-create-comment .form-group {
+    margin-bottom: 7px;
 }
 /******* Campaign Tab Donations *******/
 .donor-items {

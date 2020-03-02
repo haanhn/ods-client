@@ -16,7 +16,8 @@ export const routes = {
 export const odsAPIOpenRoutes = {
   getAllCampaigns: '/api/campaign/get-all',
   // get campaign detail url template: /api/campaign/get-detail/:slug
-  getCampaignDetailBySlug: `/api/campaign/get-detail/`
+  getCampaignDetailBySlug: `/api/campaign/get-detail/`,
+  createCampaignComment: `/api/comment`
 }
 
 export const odsAPIAuthorizedUser = {

@@ -4,9 +4,13 @@ export const SEARCH_CAMPAIGNS ='SEARCH_CAMPAIGNS';
 
 //this actionTypes contains all action that guest can access 
 export const actionTypes = {
+    //common: categories, regions,...
+    GET_REGIONS: 'GET_REGIONS',
+    //campaigns
     GET_CAMPAIGNS: 'GET_CAMPAIGNS',
     SET_VIEWING_CAMPAIGN: 'SET_VIEWING_CAMPAIGN',
-    GET_REGIONS: 'GET_REGIONS',
+    //comments
+    CREATE_COMMENT: 'CREATE_COMMENT',
     SET_LOADING: 'SET_LOADING'
 };
 //Users

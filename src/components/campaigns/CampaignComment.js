@@ -6,7 +6,7 @@ const CampaignComment = (props) => {
         <div className='campaign-comment'>
             <div className='row clearfix comment-avatar'>
                 <img src='/images/icons/default-user-avatar.png' className='col' />
-                <div className='col-9'>
+                <div className='col' >
                     <h5>Host name</h5>
                     31/01/2020
                 </div>

@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import CampaignsContext from './campaignsContext';
 import CampaignsReducer from './campaignsReducer';
-import { odsBase, odsAPIRegions, odsAPIOpenRoutes } from '../../odsApi';
+import { odsBase, odsAPIRegions, odsAPIOpenRoutes, localStoreKeys } from '../../odsApi';
 import { actionTypes, GET_CATEGORIES } from '../types';
 
 const CampaignsState = (props) => {
@@ -11,6 +11,7 @@ const CampaignsState = (props) => {
         regions: [],
         campaigns: [],
         viewingCampaign: {},
+        campaignComments: [],
         loading: false
     }
 
@@ -66,6 +67,29 @@ const CampaignsState = (props) => {
         }
     };
 
+    //GET CAMPAIGN BY SLUG
+    const createCampaignComment = async (commentContent) => {
+        const token = localStorage.getItem(localStoreKeys.token);
+        try {
+            const res = await axios.post(`${odsBase}${odsAPIOpenRoutes.createCampaignComment}`, {
+                token: token,
+                campaign: {
+                    id: state.viewingCampaign.id
+                },
+                comment: commentContent
+            });
+            const comments = state.campaignComments.concat();
+            comments.unshift(res.data.comment);
+            dispatch({
+                type: actionTypes.CREATE_COMMENT,
+                payload: comments
+            });
+        } catch (error) {
+            console.error(`Error when create comment: ${error}`);
+            throw error;
+        }
+    };
+
     const setCampaignToEmpty = () => dispatch({ type: actionTypes.SET_VIEWING_CAMPAIGN, payload: {} });
 
     const setLoading = (isLoading) => dispatch({ type: actionTypes.SET_LOADING, payload: isLoading });
@@ -83,7 +107,9 @@ const CampaignsState = (props) => {
             getCampaignBySlug,
             setCampaignToEmpty,
             searchCampaigns,
-            getRegions
+            getRegions,
+            //Comments methods
+            createCampaignComment
         }}>
             {props.children}
         </CampaignsContext.Provider>
