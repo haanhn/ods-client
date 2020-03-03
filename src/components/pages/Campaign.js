@@ -53,7 +53,11 @@ const Campaign = (props) => {
 
     const fetchCampaign = async () => {
         try {
-            campaignsContext.getCampaignBySlug(slug);
+            await campaignsContext.getCampaignBySlug(slug);
+            console.log(`get campaign`);
+            console.log(`start get comments`);
+            await campaignsContext.getCampaignComments(slug);
+            console.log(`get comments`);
         } catch (error) {
             console.log(error.response.status);
             const status = error.response.status;
@@ -125,7 +129,9 @@ const Campaign = (props) => {
                 <div style={{ width: '100%' }}>
                     <CampaignTabs />
                     <Switch>
-                        <Route exact path={`${routes.CAMPAIGN_DETAIL}`}> <CampaignTabMoreInfo /> </Route>
+                        <Route exact path={`${routes.CAMPAIGN_DETAIL}`}>
+                            <CampaignTabMoreInfo description={campaign.campaignDescription} />
+                        </Route>
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}/updates`}> <CampaignTabUpdates /> </Route>
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}/comments`}> <CampaignTabComments /> </Route>
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}/donations`}> <CampaignTabDonations /> </Route>

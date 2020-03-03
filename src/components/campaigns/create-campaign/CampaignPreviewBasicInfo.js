@@ -7,14 +7,14 @@ import CampaignHostInfo from '../../common/CampaignHostInfo';
 import CampaignBasicInfo from '../../common/CampaignBasicInfo';
 import RatingOverviewBox from '../../common/RatingOverviewBox';
 import CampaignTabs from '../../campaigns/CampaignTabs';
-import CampaignTabMoreInfo from '../../campaigns/CampaignTabMoreInfo';
+import CampaignPreviewTabMoreInfo from './CampaignPreviewTabMoreInfo';
 // import CampaignTabUpdates from '../campaigns/CampaignTabUpdates';
 // import CampaignTabComments from '../campaigns/CampaignTabComments';
 // import CampaignTabDonations from '../campaigns/CampaignTabDonations';
 // import { Switch, Route } from 'react-router-dom';
 // import { routes } from '../../odsApi';
 // import CampaignTabRatings from '../campaigns/CampaignTabRatings';
-import '../../css/campaign-detail.css';
+import '../campaign2.css';
 
 const Campaign = (props) => {
 
@@ -83,7 +83,7 @@ const Campaign = (props) => {
             {/* End of section: basic info */}
             <div style={{ width: '100%' }}>
                 <CampaignTabs />
-                <CampaignTabMoreInfo />
+                <CampaignPreviewTabMoreInfo description={campaignDescription} />
             </div>
             <div style={{ textAlign: 'right', padding: '20px 0 20px', marginTop: '20px', borderTop: '1px dashed black' }}>
                 <p style={{ fontSize: '90%' }}><i>

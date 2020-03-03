@@ -60,6 +60,7 @@ const CampaignsState = (props) => {
                 type: actionTypes.SET_VIEWING_CAMPAIGN,
                 payload: res.data.campaign
             });
+            console.log('get Campaign success');
             setLoading(false);
         } catch (error) {
             console.log(error);
@@ -67,7 +68,9 @@ const CampaignsState = (props) => {
         }
     };
 
-    //GET CAMPAIGN BY SLUG
+    //**********
+    //***** CAMPAIGN COMMENT *****
+    //**********
     const createCampaignComment = async (commentContent) => {
         const token = localStorage.getItem(localStoreKeys.token);
         try {
@@ -76,16 +79,35 @@ const CampaignsState = (props) => {
                 campaign: {
                     id: state.viewingCampaign.id
                 },
-                comment: commentContent
+                comment: {
+                    content: commentContent
+                }
             });
-            const comments = state.campaignComments.concat();
-            comments.unshift(res.data.comment);
-            dispatch({
-                type: actionTypes.CREATE_COMMENT,
-                payload: comments
-            });
+            // const comments = state.campaignComments.concat();
+            // comments.unshift(res.data.comment);
+            // dispatch({
+            //     type: actionTypes.SET_COMMENTS,
+            //     payload: comments
+            // });
+            await getCampaignComments(state.viewingCampaign.campaignSlug);
         } catch (error) {
             console.error(`Error when create comment: ${error}`);
+            throw error;
+        }
+    };
+
+    //***** GET CAMPAIGN COMMENTS *****
+    const getCampaignComments = async (slug) => {
+        try {
+            const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getCampaignComments}${slug}`);
+            dispatch({
+                type: actionTypes.SET_COMMENTS,
+                payload: res.data.comments
+            });
+            console.log(`get comments success`);
+            
+        } catch (error) {
+            console.error(`Error when get campaign comments: ${error}`);
             throw error;
         }
     };
@@ -100,8 +122,10 @@ const CampaignsState = (props) => {
             campaigns: state.campaigns,
             viewingCampaign: state.viewingCampaign,
             regions: state.regions,
+            campaignComments: state.campaignComments,
             getCategories: getCategories,
             loading: state.loading,
+            //-------------------------------
             setLoading,
             getAllAvailableCampaigns,
             getCampaignBySlug,
@@ -109,7 +133,8 @@ const CampaignsState = (props) => {
             searchCampaigns,
             getRegions,
             //Comments methods
-            createCampaignComment
+            createCampaignComment,
+            getCampaignComments
         }}>
             {props.children}
         </CampaignsContext.Provider>

@@ -31,7 +31,7 @@ const campaignReducer = (state, action) => {
                 viewingCampaign: action.payload,
             });
         //Comments
-        case actionTypes.CREATE_COMMENT:
+        case actionTypes.SET_COMMENTS:
             return ({
                 ...state,
                 campaignComments: data

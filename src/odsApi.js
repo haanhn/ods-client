@@ -1,5 +1,5 @@
 // export const odsBase = 'http://5e440cd13dfe6c001421f3ee.mockapi.io';
-export const odsBase = 'http://localhost:3001';
+export const odsBase = 'http://localhost:5000';
 export const routes = {
   HOME: '/',
   CAMPAIGNS: '/campaigns',
@@ -17,7 +17,10 @@ export const odsAPIOpenRoutes = {
   getAllCampaigns: '/api/campaign/get-all',
   // get campaign detail url template: /api/campaign/get-detail/:slug
   getCampaignDetailBySlug: `/api/campaign/get-detail/`,
-  createCampaignComment: `/api/comment`
+  //Comments
+  createCampaignComment: `/api/comments`,
+  // url: /api/comments/:campaignSlug
+  getCampaignComments: `/api/comments/`,
 }
 
 export const odsAPIAuthorizedUser = {

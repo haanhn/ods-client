@@ -63,18 +63,19 @@ h2 {
     border-radius: 10px;
 }
 .campaign-comment .row {
-    margin: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
 .campaign-comment:not(:last-child) {
     margin-bottom: 15px;
 }
 .campaign-comment img {
-    max-width: 65px;
+    max-width: 60px;
     border-radius: 50%;
 }
 .comment-avatar {
     font-size: 80%;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 .comment-avatar .col {
     padding: 0 5px;
@@ -91,6 +92,19 @@ h2 {
 }
 .form-create-comment .form-group {
     margin-bottom: 7px;
+}
+.btn-delete-x {
+    color: green;
+    /* padding: 5px; */
+    border-radius: 50%;
+    border: green 1px solid;
+    /* height: 18px; */
+    /* width: 18px; */
+    text-align: center;
+    content: 'x';
+}
+.btn-delete-x span {
+    vertical-align: middle;
 }
 /******* Campaign Tab Donations *******/
 .donor-items {
