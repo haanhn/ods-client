@@ -27,7 +27,7 @@ const MycampaignsState = props => {
       );
       dispatch({
         type: GET_MYCAMPAIGNS,
-        payload: res.data
+        payload: res.data.campaigns.Campaigns
       });
     } catch (error) {
       console.log(error.message);
