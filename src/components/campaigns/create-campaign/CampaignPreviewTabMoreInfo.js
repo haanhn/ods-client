@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './campaign2.css';
+import '../campaign2.css';
 
 const CampaignTabMoreInfo = (props) => {
     const { description } = props;

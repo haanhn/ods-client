@@ -57,15 +57,42 @@
 .btn-donate .btn-title {
     border-radius: 5px;
 }
+/******* Rating Host Container *******/
+.rating-host-container {
+    /* fix row margin */
+    margin: 0;
+}
+@media (min-width: 576px) and (max-width: 991px)  {
+/* setting style for children of .rating-host-container (when displaying .col-md-6 .col-sm-6 */
+.rating-host-container > aside:first-of-type {
+    max-width: 48.5%;
+    margin-right: 1.5%;
+}
+}
+
 /******* Campaign Host Info Box *******/
 .host-info {
     font-size: 90%;
+    /* fix container padding margin */
+    padding: 0;
+    margin: 0;
 }
-.host-info h5 {
-    font-family: initial;
+.host-info .row {
+    /* fix row margin */
+    margin: 0;
+}
+.host-info .child {
+    /* fix col margin */
+    padding: 0;
+}
+.host-info .host-name {
+    padding: 7px 0 7px 15px;
 }
 .host-info .avatar {
-    width: 70px;
+    width: 100%;
+    max-width: 60px;
+}
+.host-info img {
     border-radius: 50%;
 }
 .host-info .icon-color-one {
@@ -73,6 +100,7 @@
     font-size: 105%;
     margin-right: 5px;
 }
+
 /******* Campaign Rating Box *******/
 .star-checked {
     color: orange;
@@ -92,4 +120,34 @@
 /******* Cause Block *******/
 .cause-block .lower-content {
     padding: 20px 10px;
+}
+
+/******* Campaign Detail Nav Bar *******/
+.campaign-detail .navbar {
+    background-color: #e7eaed;
+    font-size: 105%;
+    padding: 0;
+}
+.campaign-detail .navbar .active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+.campaign-detail .navbar ul {
+    width: 100%;
+}
+.campaign-detail .navbar ul li{
+    width: 100%;
+    padding: 5px 10px;
+}
+.campaign-detail .navbar a {
+    color: #5c5d5e;
+
+}
+
+@media (min-width: 576px) and (max-width: 575px)  {
+/* setting style for children of .rating-host-container (when displaying .col-md-6 .col-sm-6 */
+.rating-host-container > aside:first-of-type {
+    max-width: 48.5%;
+    margin-right: 1.5%;
+}
 }

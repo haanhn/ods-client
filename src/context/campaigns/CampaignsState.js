@@ -2,8 +2,8 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import CampaignsContext from './campaignsContext';
 import CampaignsReducer from './campaignsReducer';
-import { odsBase, odsAPIRegions } from '../../odsApi';
-import { actionTypes, GET_CATEGORIES, GET_CAMPAIGNS } from '../types';
+import { odsBase, odsAPIRegions, odsAPIOpenRoutes, localStoreKeys } from '../../odsApi';
+import { actionTypes, GET_CATEGORIES } from '../types';
 
 const CampaignsState = (props) => {
     const initialState = {
@@ -11,6 +11,7 @@ const CampaignsState = (props) => {
         regions: [],
         campaigns: [],
         viewingCampaign: {},
+        campaignComments: [],
         loading: false
     }
 
@@ -36,10 +37,10 @@ const CampaignsState = (props) => {
 
     //GET ALL AVAILABLE CAMPAIGNS
     const getAllAvailableCampaigns = async () => {
-        const res = await axios.get(`${odsBase}/campaigns`);
+        const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getAllCampaigns}`);
         dispatch({
-            type: GET_CAMPAIGNS,
-            payload: res.data
+            type: actionTypes.GET_CAMPAIGNS,
+            payload: res.data.campaigns
         });
     };
 
@@ -54,14 +55,59 @@ const CampaignsState = (props) => {
     const getCampaignBySlug = async (slug) => {
         try {
             setLoading(true);
-            const res = await axios.get(`${odsBase}/campaigns/${slug}`);
+            const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getCampaignDetailBySlug}${slug}`);
             dispatch({
                 type: actionTypes.SET_VIEWING_CAMPAIGN,
-                payload: res.data
+                payload: res.data.campaign
             });
+            console.log('get Campaign success');
             setLoading(false);
         } catch (error) {
             console.log(error);
+            throw error;
+        }
+    };
+
+    //**********
+    //***** CAMPAIGN COMMENT *****
+    //**********
+    const createCampaignComment = async (commentContent) => {
+        const token = localStorage.getItem(localStoreKeys.token);
+        try {
+            const res = await axios.post(`${odsBase}${odsAPIOpenRoutes.createCampaignComment}`, {
+                token: token,
+                campaign: {
+                    id: state.viewingCampaign.id
+                },
+                comment: {
+                    content: commentContent
+                }
+            });
+            // const comments = state.campaignComments.concat();
+            // comments.unshift(res.data.comment);
+            // dispatch({
+            //     type: actionTypes.SET_COMMENTS,
+            //     payload: comments
+            // });
+            await getCampaignComments(state.viewingCampaign.campaignSlug);
+        } catch (error) {
+            console.error(`Error when create comment: ${error}`);
+            throw error;
+        }
+    };
+
+    //***** GET CAMPAIGN COMMENTS *****
+    const getCampaignComments = async (slug) => {
+        try {
+            const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getCampaignComments}${slug}`);
+            dispatch({
+                type: actionTypes.SET_COMMENTS,
+                payload: res.data.comments
+            });
+            console.log(`get comments success`);
+            
+        } catch (error) {
+            console.error(`Error when get campaign comments: ${error}`);
             throw error;
         }
     };
@@ -76,14 +122,19 @@ const CampaignsState = (props) => {
             campaigns: state.campaigns,
             viewingCampaign: state.viewingCampaign,
             regions: state.regions,
+            campaignComments: state.campaignComments,
             getCategories: getCategories,
             loading: state.loading,
+            //-------------------------------
             setLoading,
             getAllAvailableCampaigns,
             getCampaignBySlug,
             setCampaignToEmpty,
             searchCampaigns,
-            getRegions
+            getRegions,
+            //Comments methods
+            createCampaignComment,
+            getCampaignComments
         }}>
             {props.children}
         </CampaignsContext.Provider>

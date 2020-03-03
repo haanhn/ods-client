@@ -19,12 +19,21 @@ function Home() {
     return (
         <Fragment>
             <HomeBigIntro />
-            <div className='auto-container' style={{padding: '60px 0 20px'}}>
-                <h2 style={{textAlign: 'center', marginBottom:'40px'}}>Các chiến dịch nổi tiếng nhất</h2>
+            <div className='auto-container' style={{ padding: '60px 0 20px' }}>
+                <h2 style={{ textAlign: 'center', marginBottom: '40px' }}>Các chiến dịch nổi tiếng nhất</h2>
                 <Campaigns />
             </div>
             <HomeFeatures />
-            <CreateCampaign />
+            {/* <div className="dropdown" > */}
+                {/* <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown button
+                            </button>
+                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{ display: 'block' }}>
+                    <a className="dropdown-item" href="#">Action</a>
+                    <a className="dropdown-item" href="#">Another action</a>
+                    <a className="dropdown-item" href="#">Something else here</a>
+                </div>
+            // </div> */}
         </Fragment>
     );
 }

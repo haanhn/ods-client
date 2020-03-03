@@ -34,7 +34,7 @@ function CampaignItem(props) {
                 <div className="lower-content">
                     <h3><Link to={`${routes.CAMPAIGNS}/${campaignSlug}`}> {campaignTitle} </Link></h3>
                     {/* <span>Location: {fundRaiserlocation} </span><br /> */}
-                    <span>Category: {category.categoryTitle} </span>
+                    <span>Category: hello </span>
                     <div className="text"> {campaignShortDescription} </div>
 
                     <div style={{ padding: '10px' }}>

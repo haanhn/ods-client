@@ -1,9 +1,16 @@
 export const GET_CATEGORIES ='GET_CATEGORIES'; 
 export const GET_CAMPAIGNS ='GET_CAMPAIGNS'; 
 export const SEARCH_CAMPAIGNS ='SEARCH_CAMPAIGNS'; 
+
+//this actionTypes contains all action that guest can access 
 export const actionTypes = {
-    SET_VIEWING_CAMPAIGN: 'SET_VIEWING_CAMPAIGN',
+    //common: categories, regions,...
     GET_REGIONS: 'GET_REGIONS',
+    //campaigns
+    GET_CAMPAIGNS: 'GET_CAMPAIGNS',
+    SET_VIEWING_CAMPAIGN: 'SET_VIEWING_CAMPAIGN',
+    //comments
+    SET_COMMENTS: 'SET_COMMENTS',
     SET_LOADING: 'SET_LOADING'
 };
 //Users

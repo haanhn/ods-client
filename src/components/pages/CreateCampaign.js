@@ -15,6 +15,8 @@ import '../css/create-campaign.css';
 import CreateCampaignContentBox from '../campaigns/create-campaign/CreateCampaignContentBox';
 import CreateCampaignMoreInfo from '../campaigns/create-campaign/CreateCampaignMoreInfo';
 import CreateCampaignDetails from '../campaigns/create-campaign/CreateCampaignDetails';
+import CampaignPreviewBasicInfo from '../campaigns/create-campaign/CampaignPreviewBasicInfo';
+import CreateCampaignSuccess from '../campaigns/create-campaign/CreateCampaignSuccess';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
 import { types } from '../../components/campaigns/create-campaign/createCampaignTypes';
 import CreateCampaignMethods from '../campaigns/create-campaign/CreateCampaignMethods';
@@ -36,6 +38,9 @@ const CreateCampaign = () => {
 
     const initialState = {
         currentStep: 0,
+        stepsDone: 1,
+        //this is the maximum amount of steps user can click on step navigation 
+        //(not actual number of steps done)
         loading: false,
         // categories: [],
         //campaign
@@ -48,7 +53,7 @@ const CreateCampaign = () => {
             category: null,
             campaignShortDescription: '',
             image: null,
-            description: 'sdj',
+            description: '',
             campaignRegion: null,
             address: ''
         },
@@ -58,11 +63,17 @@ const CreateCampaign = () => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const setBasicInfo = (info) => {
-        console.log(info);
+    const setCurrentStep = (current) => {
         dispatch({
-            type: types.SET_BASIC_INFO,
-            payload: info
+            type: types.SET_CURRENT_STEP,
+            payload: current
+        });
+    }
+
+    const setStepsDone = (stepsDoneAmount) => {
+        dispatch({
+            type: types.SET_STEPS_DONE,
+            payload: stepsDoneAmount
         });
     }
 
@@ -112,6 +123,8 @@ const CreateCampaign = () => {
                 payload: res.data.campaign
             })
             setLoading(false);
+            setStepsDone(2);
+            setCurrentStep(1);
         } catch (error) {
             console.error(`Create campaign step 1: ${error}`);
             alert('Đã có lỗi xảy ra, xin hãy thử lại');
@@ -136,6 +149,8 @@ const CreateCampaign = () => {
                 payload: res.data.campaign
             })
             setLoading(false);
+            setStepsDone(3);
+            setCurrentStep(2);
         } catch (error) {
             console.error(`Create campaign step 2: ${error}`);
             alert('Đã có lỗi xảy ra, xin hãy thử lại');
@@ -162,6 +177,8 @@ const CreateCampaign = () => {
                 payload: res.data.campaign
             })
             setLoading(false);
+            setStepsDone(4);
+            setCurrentStep(3);
         } catch (error) {
             console.error(`Create campaign step 3: ${error}`);
             alert('Đã có lỗi xảy ra, xin hãy thử lại');
@@ -196,6 +213,8 @@ const CreateCampaign = () => {
                 payload: bankAccountRes.data.bankAccount
             });
             setLoading(false);
+            setStepsDone(5);
+            setCurrentStep(4);
         } catch (error) {
             console.error(`Create campaign step 4: ${error}`);
             alert('Đã có lỗi xảy ra, xin hãy thử lại');
@@ -203,46 +222,55 @@ const CreateCampaign = () => {
         }
     }
 
-    // let stepJsx = null;
-    // switch (state.currentStep) {
-    //     case 1:
-    //         stepJsx = <CreateCampaignBasicInfo
-    //             categories={state.categories}
-    //             campaign={state.campaign}
-    //             setBasicInfo={setBasicInfo}
-    //             setCurrentStep={setCurrentStep}
-    //         />;
-    //         break;
-    // case 2:
-    //     stepJsx = <CreateCampaignImageCover
-    //         image={state.campaign.image} setImage={chooseImage} setCurrentStep={setCurrentStep} />;
-    //     break;
-    // case 3:
-    //     stepJsx = <CreateCampaignStory story={state.campaign.story}
-    //         setCampaignStory={setStory}
-    //         setCurrentStep={setCurrentStep} />;
-    //     break;
-    // case 4:
-    //     stepJsx = <CreateCampaignMoneyMethods user={state.user}
-    //         setUserAddress={setAddress}
-    //         setUserBankAccount={setBankAccount}
-    //         setCurrentStep={setCurrentStep} />;
-    //     break;
-    // case 5:
-    //     stepJsx = <CreateCampaignConfirm createCampaign={createCampaign} />;
-    //     break;
-    // case 6:
-    //     stepJsx = <CreateCampaignCompleted message='Tạo chiến dịch thành công' />;
-    //     break;
-    // default:
-    //     stepJsx = <CreateCampaignBasicInfo title={state.title}
-    //         goal={state.goal}
-    //         endDate={state.endDate}
-    //             category={state.category}
-    //             shortDescription={state.shortDescription}
-    //             setBasicInfo={setBasicInfo}
-    //             setCurrentStep={setCurrentStep} />;
-    // }
+    const createCampaignStep5 = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.createCampaignStep5}`, {
+                token: localStorage.getItem(localStoreKeys.token),
+                campaign: {
+                    campaignSlug: state.campaign.campaignSlug //get trong state luon
+                }
+            });
+            console.log(res.data);
+            setLoading(false);
+            setStepsDone(6);
+            setCurrentStep(5);
+        } catch (error) {
+            console.error(`Create campaign step 5: ${error}`);
+            alert('Đã có lỗi xảy ra, xin hãy thử lại');
+            setLoading(false);
+        }
+    }
+
+    let stepJsx = null;
+
+
+    switch (state.currentStep) {
+        case 0:
+            stepJsx = <CreateCampaignName campaign={state.campaign}
+                createCampaignStep1={createCampaignStep1} />;
+            break;
+        case 1:
+            stepJsx = <CreateCampaignMoreInfo campaign={state.campaign} createCampaignStep2={createCampaignStep2} />;
+            break;
+        case 2:
+            stepJsx = <CreateCampaignDetails campaign={state.campaign} createCampaignStep3={createCampaignStep3} />;
+            break;
+        case 3:
+            stepJsx = <CreateCampaignMethods user={state.user} bankAccount={state.bankAccount}
+                createCampaignStep4={createCampaignStep4} />;
+            break;
+        case 4:
+            stepJsx = <CampaignPreviewBasicInfo campaign={state.campaign} host={state.user}
+                createCampaignStep5={createCampaignStep5} />;
+            break;
+        case 5:
+            stepJsx = <CreateCampaignSuccess />;
+            break;
+        default:
+            stepJsx = <CreateCampaignName campaign={state.campaign}
+                createCampaignStep1={createCampaignStep1} />;
+    }
 
     if (loading) {
         return <div>loading................</div>
@@ -250,18 +278,34 @@ const CreateCampaign = () => {
 
     return (
         <div className='container create-campaign'>
-            {/* <h2>Tạo Chiến dịch mới</h2> */}
+            <CreateCampaignProgressBar currentStep={state.currentStep} stepsDone={state.stepsDone}
+                setCurrentStep={setCurrentStep}
+            />
+            {/* <CampaignPreviewBasicInfo campaign={state.campaign} host={state.user} createCampaignStep5={createCampaignStep5} /> */}
 
-            <CreateCampaignProgressBar step={1} totalSteps={6} />
-            <CreateCampaignContentBox campaignTitle={state.campaign.campaignTitle}>
-                <CreateCampaignName campaign={state.campaign} createCampaignStep1={createCampaignStep1} />
+            { (state.currentStep === 4 || state.currentStep === 5) ?
+                (stepJsx)
+                :
+                (
+                    <CreateCampaignContentBox campaignTitle={state.campaign.campaignTitle}>
+                        {stepJsx}
+                    </CreateCampaignContentBox>
+                )
+            }
+
+            {/* <CreateCampaignContentBox campaignTitle={state.campaign.campaignTitle}>
+                {/* <CreateCampaignName campaign={state.campaign} createCampaignStep1={createCampaignStep1} />
                 <CreateCampaignMoreInfo campaign={state.campaign} createCampaignStep2={createCampaignStep2} />
                 <CreateCampaignDetails campaign={state.campaign} createCampaignStep3={createCampaignStep3} />
                 <CreateCampaignMethods user={state.user} bankAccount={state.bankAccount}
-                    createCampaignStep4={createCampaignStep4} />
-            </CreateCampaignContentBox>
+                    createCampaignStep4={createCampaignStep4} /> */}
+            {/* {stepJsx} */}
+            {/* <CampaignPreviewBasicInfo campaign={state.campaign} host={state.user} /> */}
+            {/* </CreateCampaignContentBox> */}
         </div>
     );
 }
 
 export default CreateCampaign;
+
+const htmlString = '<h1>Hello</h1><p>Hello đây là body p</p>';

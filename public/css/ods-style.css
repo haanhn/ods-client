@@ -1,3 +1,4 @@
-.sidebar:not(:last-child) {
+/* .sidebar:not(:last-child) { */
+.sidebar {
     margin-bottom: 10px;
 }
