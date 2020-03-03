@@ -61,11 +61,7 @@ const AuthState = props => {
     };
 
     try {
-      const res = await axios.post(
-        `${odsBase}/api/register`,
-        formData,
-        config
-      );
+      const res = await axios.post(`${odsBase}/api/register`, formData, config);
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
@@ -89,12 +85,7 @@ const AuthState = props => {
     };
 
     try {
-      const res = await axios.post(
-        `${odsBase}/api/signin`,
-        formData,
-        config
-      );
-      console.log(res.data.accessToken);
+      const res = await axios.post(`${odsBase}/api/signin`, formData, config);
       localStorage.setItem(localStoreKeys.token, res.data.accessToken);
       dispatch({
         type: LOGIN_SUCCESS,
@@ -112,7 +103,7 @@ const AuthState = props => {
   const logout = () => {
     localStorage.removeItem(localStoreKeys.token);
     dispatch({ type: LOG_OUT });
-  }
+  };
   // Clear Errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 

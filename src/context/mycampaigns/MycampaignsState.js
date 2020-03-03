@@ -2,57 +2,22 @@ import React, { useReducer } from 'react';
 import MycampaignsContext from './mycampaignsContext';
 import mycampaingsReducer from './mycampaignsReducer';
 import axios from 'axios';
-import { MYCAMPAIGN_LOADED } from '../types';
+import { GET_MYCAMPAIGNS, CLEAR_MYCAMPAIGNS } from '../types';
 import { odsBase } from '../../odsApi';
 
 const MycampaignsState = props => {
   const initialState = {
-    mycampaigns: [
-      {
-        id: 1,
-        name: 'Sara Watson',
-        img:
-          'https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        type: 'setting'
-      },
-      {
-        id: 2,
-        name: 'Adam Watson',
-        img:
-          'https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        type: 'blocked'
-      },
-      {
-        id: 3,
-        name: 'Arthur',
-        img:
-          'https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        type: 'setting'
-      },
-      {
-        id: 4,
-        name: 'Jack',
-        img:
-          'https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        type: 'waiting'
-      },
-      {
-        id: 5,
-        name: 'Mina Watson',
-        img:
-          'https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        type: 'closed'
-      }
-    ]
+    mycampaigns: []
   };
 
   const [state, dispatch] = useReducer(mycampaingsReducer, initialState);
 
   // Load My Campaign
-  const loadMyCampaign = async () => {
+  const getMyCampaign = async () => {
     const config = {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-access-token': `${localStorage.token}`
       }
     };
     try {
@@ -61,7 +26,7 @@ const MycampaignsState = props => {
         config
       );
       dispatch({
-        type: MYCAMPAIGN_LOADED,
+        type: GET_MYCAMPAIGNS,
         payload: res.data
       });
     } catch (error) {
@@ -69,11 +34,19 @@ const MycampaignsState = props => {
     }
   };
 
+  // Clear MyCampaign
+  const clearMycampaigns = () => {
+    dispatch({
+      type: CLEAR_MYCAMPAIGNS
+    });
+  };
+
   return (
     <MycampaignsContext.Provider
       value={{
         mycampaigns: state.mycampaigns,
-        loadMyCampaign
+        getMyCampaign,
+        clearMycampaigns
       }}
     >
       {props.children}

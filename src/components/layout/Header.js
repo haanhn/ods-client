@@ -2,6 +2,7 @@ import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from '../../odsApi';
 import AuthContext from '../../context/auth/authContext';
+import MycampaignsContext from '../../context/mycampaigns/mycampaignsContext';
 
 function Header() {
   const styles = {
@@ -14,11 +15,14 @@ function Header() {
   };
 
   const authContext = useContext(AuthContext);
+  const mycampaignsContext = useContext(MycampaignsContext);
 
   const { isLoggedIn, logout } = authContext;
+  const { clearMycampaigns } = mycampaignsContext;
 
   const onLogout = () => {
     logout();
+    clearMycampaigns();
   };
 
   const authLinks = (
@@ -34,10 +38,10 @@ function Header() {
       </li>*/}
       <div style={userStyles}>
         <li>
-          <a onClick={onLogout} href='#!'>
+          <Link to={routes.HOME} onClick={onLogout}>
             <i className='fas fa-sign-out-alt'></i>{' '}
             <span className='hide-sm'>Logout</span>
-          </a>
+          </Link>
         </li>
       </div>
     </Fragment>

@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import MycampaignsContext from '../../context/mycampaigns/mycampaignsContext';
 
-const MycampaignsItem = ({ mycampaign }) => {
-  const { name, img, type } = mycampaign;
+const MycampaignsItem = props => {
+  const { fullname, email, type } = props.mycampaign;
 
   return (
     <div className='col-md-4'>
       <div className='card shadow'>
-        <img className='card-img-top' src={img} alt='Card image cap' />
+        <img className='card-img-top' src='' alt='Card image cap' />
         <div className='card-body text-center'>
-          <h5 className='card-title'>{name}</h5>
+          <h5 className='card-title'>{fullname}</h5>
           <p className='text-primary text-center' style={{ fontSize: 20 }}>
             {' '}
             <span

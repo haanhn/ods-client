@@ -25,4 +25,5 @@ export const LOG_OUT = 'LOG_OUT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 //My Campaign
-export const MYCAMPAIGN_LOADED = 'MYCAMPAIGN_LOADED';
+export const GET_MYCAMPAIGNS = 'GET_MYCAMPAIGNS';
+export const CLEAR_MYCAMPAIGNS = 'CLEAR_MYCAMPAIGNS';
