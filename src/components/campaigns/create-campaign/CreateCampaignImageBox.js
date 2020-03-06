@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CreateCampaignImageBox = (props) => {
-    const { image, setImage } = props;
+    const { image, setImage, setImageBinary } = props;
 
     // const labelButtonImage = image ? 'Lưu và tiếp tục' : 'Bỏ qua';
 
@@ -11,6 +11,9 @@ const CreateCampaignImageBox = (props) => {
             const reader = new FileReader();
 
             reader.onload = (e) => {
+                console.log('Image file ');
+                console.log(file);
+                setImageBinary(file);
                 console.log(reader.result);
                 setImage(reader.result);
             }
@@ -22,6 +25,7 @@ const CreateCampaignImageBox = (props) => {
 
     const removeImage = () => {
         setImage(null);
+        setImageBinary(null);
     }
 
     const btnsUpdateImg = (
@@ -44,7 +48,7 @@ const CreateCampaignImageBox = (props) => {
                     <img src={image} alt='' />
                     : <div className='btn-choose-image' > Chọn ảnh </div>
                 }
-            </label> 
+            </label>
             {image ? btnsUpdateImg : null}
             {imageGuide}
         </div>

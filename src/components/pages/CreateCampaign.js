@@ -7,7 +7,7 @@ import CreateCampaignStory from '../campaigns/create-campaign/CreateCampaignStor
 import CreateCampaignMoneyMethods from '../campaigns/create-campaign/CreateCampaignMoneyMethods';
 import CreateCampaignConfirm from '../campaigns/create-campaign/CreateCampaignConfirm';
 import CreateCampaignCompleted from '../campaigns/create-campaign/CreateCampaignCompleted';
-import { odsBase, odsAPIAuthorizedUser, localStoreKeys } from '../../odsApi';
+import { odsBase, odsAPIOpenRoutes, odsAPIAuthorizedUser, localStoreKeys } from '../../odsApi';
 import '../campaigns/campaign2.css';
 import reducer from '../campaigns/create-campaign/createCampaignReducer';
 import CreateCampaignName from '../campaigns/create-campaign/CreateCampaignName';
@@ -132,17 +132,37 @@ const CreateCampaign = () => {
         }
     }
 
-    const createCampaignStep2 = async (image, desription) => {
+    const createCampaignStep2 = async (image, imageBinary, desription) => {
         try {
             setLoading(true);
+            const token = localStorage.getItem(localStoreKeys.token);
+            const slug = state.campaign.campaignSlug;
+            const routeUploadCampaignImg = odsAPIAuthorizedUser.uploadCampaignImageCover(slug);
+
+            let imgUrl = null;
+            if (imageBinary) {
+                let formData = new FormData();
+                formData.append('image', imageBinary);
+                const resImg = await axios.post(`${odsBase}${routeUploadCampaignImg}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'x-access-token': token,
+                    }
+                });
+                console.log(`upload campaign img cover:`);
+                console.log(resImg);
+                imgUrl = resImg.data.data.campaignThumbnail;
+            }
+
             const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.createCampaignStep2}`, {
-                token: localStorage.getItem(localStoreKeys.token),
+                token: token,
                 campaign: {
                     campaignSlug: state.campaign.campaignSlug, //get trong state lun
-                    campaignThumbnail: 'image',
+                    campaignThumbnail: imgUrl,
                     campaignDescription: desription
                 }
             });
+            console.log('save campaign description');
             console.log(res.data);
             dispatch({
                 type: types.SET_STORY,
@@ -283,7 +303,7 @@ const CreateCampaign = () => {
             />
             {/* <CampaignPreviewBasicInfo campaign={state.campaign} host={state.user} createCampaignStep5={createCampaignStep5} /> */}
 
-            { (state.currentStep === 4 || state.currentStep === 5) ?
+            {(state.currentStep === 4 || state.currentStep === 5) ?
                 (stepJsx)
                 :
                 (

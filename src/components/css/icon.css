@@ -1,3 +1,11 @@
 .icon-small {
     font-size: 95%;
 }
+
+/* Icon Colors */
+.icon-theme {
+    color:#3cc88f;
+}
+.icon-light {
+    color:#6c757d;
+}

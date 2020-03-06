@@ -107,27 +107,33 @@ h2 {
     vertical-align: middle;
 }
 /******* Campaign Tab Donations *******/
+.campaign-tab-donations {
+    padding: 20px 45px;
+}
 .donor-items {
-    padding: 20px 30px 30px;
+    margin: 0 auto;
 }
 .donor-item {
-    margin-bottom: 20px;
+    margin: 0 0 15px;
+}
+.donor-item .col {
+    padding: 0 5px;
 }
 
-.donor-item > div {
-    /* font-size: 90%; */
-}
 .donor-item > div > h5 {
     color: grey;
-    font-family: initial;
-    font-size: 130%;
+    font-size: 110%;
     margin-bottom: 5px;
 }
-.donor-item .avatar {
-    width: 90%;
-    max-width: 65px;
-    margin: 0 auto;
+.donor-item img {
+    max-width: 60px;
+    max-height: 50px;
     border-radius: 50%;
+}
+@media (max-width: 950px)  {
+    .campaign-tab-donations {
+        padding: 20px 0px;
+    }
 }
 /******* Campaign Tab Ratings *******/
 .campaign-ratings {

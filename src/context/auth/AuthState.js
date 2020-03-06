@@ -86,7 +86,13 @@ const AuthState = props => {
 
     try {
       const res = await axios.post(`${odsBase}/api/signin`, formData, config);
+      //set authorized user basic info to local storage
       localStorage.setItem(localStoreKeys.token, res.data.accessToken);
+      localStorage.setItem(localStoreKeys.userId, res.data.user.id);
+      localStorage.setItem(localStoreKeys.userEmail, res.data.user.email);
+      localStorage.setItem(localStoreKeys.userFullname, res.data.user.fullname);
+      localStorage.setItem(localStoreKeys.userAvatar, res.data.user.avatar);
+      //dispatch to state
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
@@ -101,7 +107,7 @@ const AuthState = props => {
 
   // Logout
   const logout = () => {
-    localStorage.removeItem(localStoreKeys.token);
+    clearLocalStorage();
     dispatch({ type: LOG_OUT });
   };
   // Clear Errors
@@ -125,5 +131,14 @@ const AuthState = props => {
     </AuthContext.Provider>
   );
 };
+
+export const clearLocalStorage = () => {
+  //remove authorized user info from local storage
+  localStorage.removeItem(localStoreKeys.token);
+  localStorage.removeItem(localStoreKeys.userId);
+  localStorage.removeItem(localStoreKeys.userEmail);
+  localStorage.removeItem(localStoreKeys.userFullname);
+  localStorage.removeItem(localStoreKeys.userAvatar);
+}
 
 export default AuthState;

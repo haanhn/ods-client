@@ -1,10 +1,14 @@
-// export const odsBase = 'http://5e440cd13dfe6c001421f3ee.mockapi.io';
 export const odsBase = 'http://localhost:5000';
+
+//Routes in front end
 export const routes = {
   HOME: '/',
   CAMPAIGNS: '/campaigns',
   CAMPAIGNS_CREATE: '/create-campaign',
+  // CAMPAIGN_DETAIL: '/campaigns/:slug',
   CAMPAIGN_DETAIL: '/campaigns/:slug',
+  getRouteCampaignDetail: (slug) => `/campaigns/${slug}`,
+  getRouteCampaignDetailDonations (slug) { return `/campaigns/${slug}/donations`; },
   CAMPAIGN_DONATE: '/campaign/id/donate',
   NOT_FOUND: '/not-found',
   PAGE_SIGN_IN: '/login',
@@ -22,6 +26,9 @@ export const odsAPIOpenRoutes = {
   createCampaignComment: `/api/comments`,
   // url: /api/comments/:campaignSlug
   getCampaignComments: `/api/comments/`,
+  //Donations
+  getCampaignDonations: (slug) => `/api/donations/get-by-campaign/${slug}`,
+  uploadSingleImage: '/api/uploads'
 }
 
 export const odsAPIAuthorizedUser = {
@@ -29,6 +36,8 @@ export const odsAPIAuthorizedUser = {
   createCampaignStep2: '/api/campaign/create-step2',
   createCampaignStep3: '/api/campaign/create-step3',
   createCampaignStep5: '/api/campaign/create-step5',
+  uploadCampaignImageCover: (slug) => `/api/uploads/campaign/${slug}`,
+  //Authorized Users API
   getAuthorizedUser: '/api/user',
   updateUserAddress: '/api/user/update-address',
   getUserBankAccount: '/api/bank-account',
@@ -38,5 +47,10 @@ export const odsAPIAuthorizedUser = {
 export const odsAPIRegions = '/api/regions';
 
 export const localStoreKeys = {
-  token: 'token'
+  token: 'token',
+  //Authorized User
+  userId: 'userId',
+  userEmail: 'userEmail',
+  userFullname: 'userFullname',
+  userAvatar: 'userAvatar',
 };

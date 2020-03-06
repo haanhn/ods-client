@@ -27,15 +27,6 @@ function Header() {
 
   const authLinks = (
     <Fragment>
-      {/* <li className='current'>
-        <Link to={routes.HOME}>Home</Link>
-      </li>
-      <li className=''>
-        <Link to={routes.CAMPAIGNS}>View list campaigns</Link>
-      </li> 
-      <li className=''>
-        <a href='causes.html'>About</a>
-      </li>*/}
       <div style={userStyles}>
         <li>
           <Link to={routes.HOME} onClick={onLogout}>
@@ -49,12 +40,6 @@ function Header() {
 
   const guestLinks = (
     <Fragment>
-      {/* <li className='current'>
-        <Link to={routes.HOME}>Home</Link>
-      </li>
-      <li className=''>
-        <Link to={routes.CAMPAIGNS}>View list campaigns</Link>
-      </li> */}
       <li className=''>
         <Link to={routes.PAGE_SIGN_IN}>Đăng nhập</Link>
       </li>
@@ -74,7 +59,6 @@ function Header() {
                         <div className="logo"><a href="index.html" title="LoveUs - Charity and Fundraising HTML Template"><img src="images/logo.png" alt="LoveUs - Charity and Fundraising HTML Template" title="LoveUs - Charity and Fundraising HTML Template"/></a></div>
                     </div> */}
 
-          {/* <<<<<<<  */}
           {/* <!--Nav Box--> */}
           <div className='nav-outer clearfix'>
             {/* <!--Mobile Navigation Toggler--> */}

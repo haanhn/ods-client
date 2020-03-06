@@ -1,14 +1,11 @@
 import React, { Fragment } from 'react';
 
 const CampaignBasicInfo = (props) => {
-    console.log('baisc' + props.campaign)
     const { campaignShortDescription, Category } = props.campaign;
 
     if (Object.keys(props.campaign).length === 0) {
-        console.log('baisc111' + props.campaign.id);
         return null;
     }
-    console.log('baisc222' + props.campaign.id);
     return (
         <Fragment>
             <div className="image-box" style={{ marginBottom: '10px' }}>

@@ -4,7 +4,7 @@ import CampaignDonorItems from './CampaignDonorItems';
 
 const CampaignTabDonations = () => {
     return (
-        <div>
+        <div className='campaign-tab-donations'>
             <CampaignDonorItems/>
         </div>
     );

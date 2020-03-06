@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CreateCampaignImageBox from './CreateCampaignImageBox';
 import '../../css/icon.css';
+import { odsBase, odsAPIOpenRoutes } from '../../../odsApi';
 import { Editor } from '@tinymce/tinymce-react';
-import { getTinymce } from '@tinymce/tinymce-react/lib/cjs/main/ts/TinyMCE';
-
 import { mceApiKey } from '../../../privateApiKeys';
 
 const CreateCampaignMoreInfo = (props) => {
 
     const { campaign, createCampaignStep2 } = props;
     const [image, setImage] = useState(campaign.image);
+    const [imageBinary, setImageBinary] = useState(null);
     const [description, setDescription] = useState(campaign.description);
     const [showTipsForStory, setShowTipsForStory] = useState(false);
 
@@ -17,10 +17,8 @@ const CreateCampaignMoreInfo = (props) => {
 
     const onClick = () => {
         console.log('step 2 onclick');
-        if (image || description) {
-            console.log('Step 2: image not empty or description not empty');
-            createCampaignStep2(image, description);
-        }
+        console.log('Step 2: image not empty or description not empty');
+        createCampaignStep2(image, imageBinary, description);
     }
 
     const handleEditorChange = (content, editor) => {
@@ -28,13 +26,14 @@ const CreateCampaignMoreInfo = (props) => {
         console.log(editor.getContent());
         setDescription(editor.getContent());
     }
+
     const editor = <Editor
-        initialValue={description}
+        initialValue={description ? description : ''}
         init={{
             height: 300,
             menubar: false,
             plugins: [
-                'advlist autolink lists link image',
+                'advlist autolink lists link image media mediaembed',
                 'charmap print preview anchor help',
                 'searchreplace visualblocks code',
                 'insertdatetime media table paste wordcount'
@@ -42,14 +41,79 @@ const CreateCampaignMoreInfo = (props) => {
             toolbar:
                 'undo redo | formatselect | bold italic | \
                 alignleft aligncenter alignright | \
-                bullist numlist outdent indent '
-                // | help'
+                bullist numlist outdent indent | image media',
+            // | help',
+            // plugins: "image media mediaembed",
+            // menubar: "insert",
+            // toolbar: "image media",
+            mediaembed_max_width: 450,  
+            file_picker_types: 'image',
+            images_upload_handler: async function (blobInfo, success, failure) {
+                console.log('blobInfo');
+                console.log(blobInfo.blob());
+                console.log(blobInfo.filename());
+                var xhr, formData;
+
+                xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', `${odsBase}${odsAPIOpenRoutes.uploadSingleImage}`);
+
+                xhr.onload = function () {
+                    var json;
+
+                    if (xhr.status != 200) {
+                        console.log(`xhr status ${xhr.status}`)
+                        failure('HTTP Error: ' + xhr.status);
+                        return;
+                    }
+
+                    json = JSON.parse(xhr.responseText);
+
+                    //   if (!json || typeof json.location != 'string') {
+                    if (!json || typeof json.data.url != 'string') {
+                        console.log('HTTP Error: ' + xhr.responseText);
+                        failure('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+                    
+                    console.log('json success: ' + json);
+                    success(json.data.url);
+                };
+
+                formData = new FormData();
+                // formData.append('image', blobInfo.blob(), blobInfo.filename());
+                formData.append('image', blobInfo.blob());
+
+                xhr.send(formData);
+            }
         }}
         onChange={handleEditorChange}
     />;
+    // const editor = <Editor
+    //     initialValue={description}
+    //     init={{
+    //         height: 300,
+    //         menubar: false,
+    //         plugins: [
+    //             'advlist autolink lists link image media mediaembed',
+    //             'charmap print preview anchor help',
+    //             'searchreplace visualblocks code',
+    //             'insertdatetime media table paste wordcount'
+    //         ],
+    //         toolbar:
+    //             'undo redo | formatselect | bold italic | \
+    //             alignleft aligncenter alignright | \
+    //             bullist numlist outdent indent | image media',
+    //         // | help',
+    //         mediaembed_max_width: 450,
+    //         image_list: listImages,
+    //         file_picker_types: 'image'
+    //     }}
+    //     onChange={handleEditorChange}
+    // />;
     return (
         <div className='create-campaign-more-info'>
-            <CreateCampaignImageBox image={image} setImage={setImage} />
+            <CreateCampaignImageBox image={image} setImage={setImage} setImageBinary={setImageBinary} />
             <div>
                 <div>
                     <h5>Câu chuyện của bạn <i class="fas fa-info-circle icon-small theme_color"

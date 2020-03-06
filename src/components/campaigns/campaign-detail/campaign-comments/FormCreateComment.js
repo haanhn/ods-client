@@ -4,8 +4,6 @@ import CampaignsContext from '../../../../context/campaigns/campaignsContext';
 const FormCreateComment = () => {
     const campaignsContext = useContext(CampaignsContext);
 
-    // const inputComment = React.createRef();
-
     const createComment = async () => {
         const inputComment = document.getElementById('inputCampaignComment');
         try {
@@ -24,7 +22,6 @@ const FormCreateComment = () => {
         <div className='form-create-comment' >
             <div className="form-group">
                 <textarea className="form-control" rows="3" placeholder='Bình luận về chiến dịch'
-                    // ref={inputComment} 
                     id='inputCampaignComment'
                     />
             </div>

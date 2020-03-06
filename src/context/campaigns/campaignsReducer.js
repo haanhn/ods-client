@@ -36,6 +36,12 @@ const campaignReducer = (state, action) => {
                 ...state,
                 campaignComments: data
             });
+        //Donations
+        case actionTypes.SET_DONATIONS:
+            return ({
+                ...state,
+                campaignDonations: data
+            });
         case actionTypes.SET_LOADING:
             return ({
                 ...state,

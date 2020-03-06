@@ -54,18 +54,25 @@ const Campaign = (props) => {
     const fetchCampaign = async () => {
         try {
             await campaignsContext.getCampaignBySlug(slug);
-            console.log(`get campaign`);
-            console.log(`start get comments`);
-            await campaignsContext.getCampaignComments(slug);
-            console.log(`get comments`);
+            console.log(`get campaign done`);
+            //After get campaign success, do not need to await to get comments, donations 
+            // console.log(`start get comments`);
+            campaignsContext.getCampaignComments(slug);
+            // console.log(`get comments`);
+            campaignsContext.getCampaignDonations(slug);
+            // console.log(`get donations`);
         } catch (error) {
-            console.log(error.response.status);
-            const status = error.response.status;
-            if (status === 404) {
-                setResStatus(status);
+            if (error.response) {
+                console.log(error.response);
+                const status = error.response.status;
+                if (status === 404) {
+                    setResStatus(status);
+                }
             }
         }
     }
+
+    const routeDonations = routes.getRouteCampaignDetailDonations(slug);
 
     if (resStatus === 404) {
         return <NotFound />;
@@ -127,14 +134,14 @@ const Campaign = (props) => {
                 </div>
                 {/* End of section: basic info */}
                 <div style={{ width: '100%' }}>
-                    <CampaignTabs />
+                    <CampaignTabs slug={slug} />
                     <Switch>
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}`}>
                             <CampaignTabMoreInfo description={campaign.campaignDescription} />
                         </Route>
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}/updates`}> <CampaignTabUpdates /> </Route>
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}/comments`}> <CampaignTabComments /> </Route>
-                        <Route exact path={`${routes.CAMPAIGN_DETAIL}/donations`}> <CampaignTabDonations /> </Route>
+                        <Route exact path={routeDonations}> <CampaignTabDonations /> </Route>
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}/ratings`} component={CampaignTabRatings} />
                     </Switch>
                 </div>

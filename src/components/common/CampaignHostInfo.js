@@ -7,7 +7,7 @@ const CampaignHostInfo = (props) => {
         <div className='container host-info'>
             <div className='row clearfix'>
                 <div className='col col-3 avatar child'>
-                    <img src='/images/icons/default-user-avatar.png' className='' />
+                    <img src='/images/default-data-images/default-user-avatar.png' className='' />
                 </div>
                 <div className='col col-9 child host-name'>
                     <h6>{host ? host.fullname : ''}</h6>

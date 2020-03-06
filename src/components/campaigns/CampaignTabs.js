@@ -2,7 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from '../../odsApi';
 
-const CampaignTabs = () => {
+const CampaignTabs = (props) => {
+    const slug = props.slug;
+    const routeDonations = routes.getRouteCampaignDetailDonations(slug);
+
     return (
         // <div className='campaign-tabs'>
         //     <ul className="nav">
@@ -37,7 +40,7 @@ const CampaignTabs = () => {
                     <Link className="nav-link" to={`${routes.CAMPAIGN_DETAIL}/comments`}>Bình luận</Link>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="#">Thông tin thêm</a>
+                    <Link className="nav-link" to={routeDonations}>Quyên góp</Link>
                 </li>
                 <li className="nav-item">
                     <a className="nav-link" href="#">Thông tin thêm</a>

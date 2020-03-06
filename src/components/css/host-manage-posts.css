@@ -1,0 +1,20 @@
+/* Host list posts */
+.host-list-posts,
+.form-create-campaign-post,
+.preview-campaign-post {
+    padding-top: 25px;
+    padding-bottom: 30px;
+}
+
+/* Host create post */
+.form-create-campaign-post form > div {
+    margin-bottom: 10px;
+}
+
+@media (min-width: 576px) {
+    .form-create-campaign-post,
+    .host-list-posts,
+    .preview-campaign-post {
+        max-width: 700px;
+    }
+}

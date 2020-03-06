@@ -6,7 +6,7 @@ const CampaignRating = () => {
     return (
         <div className='campaign-comment campaign-rating'>
             <div className='grid-row'>
-                <img src='/images/icons/default-user-avatar.png' className='grid-col' />
+                <img src='/images/default-data-images/default-user-avatar.png' className='grid-col' />
                 <div className='grid-col'>
                     <h5>Host name</h5>
                     31/01/2020

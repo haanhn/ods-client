@@ -12,6 +12,7 @@ const CampaignsState = (props) => {
         campaigns: [],
         viewingCampaign: {},
         campaignComments: [],
+        campaignDonations: [],
         loading: false
     }
 
@@ -83,12 +84,6 @@ const CampaignsState = (props) => {
                     content: commentContent
                 }
             });
-            // const comments = state.campaignComments.concat();
-            // comments.unshift(res.data.comment);
-            // dispatch({
-            //     type: actionTypes.SET_COMMENTS,
-            //     payload: comments
-            // });
             await getCampaignComments(state.viewingCampaign.campaignSlug);
         } catch (error) {
             console.error(`Error when create comment: ${error}`);
@@ -112,6 +107,25 @@ const CampaignsState = (props) => {
         }
     };
 
+    //**********
+    //***** CAMPAIGN DONATIONS *****
+    //**********
+    const getCampaignDonations = async (slug) => {
+        const routeDonations = odsAPIOpenRoutes.getCampaignDonations(slug);
+        try {
+            const res = await axios.get(`${odsBase}${routeDonations}`);
+            dispatch({
+                type: actionTypes.SET_DONATIONS,
+                payload: res.data.donations
+            });
+            console.log(`get donations success`);
+            
+        } catch (error) {
+            console.error(`Error when get campaign comments: ${error}`);
+            throw error;
+        }
+    };
+
     const setCampaignToEmpty = () => dispatch({ type: actionTypes.SET_VIEWING_CAMPAIGN, payload: {} });
 
     const setLoading = (isLoading) => dispatch({ type: actionTypes.SET_LOADING, payload: isLoading });
@@ -123,6 +137,7 @@ const CampaignsState = (props) => {
             viewingCampaign: state.viewingCampaign,
             regions: state.regions,
             campaignComments: state.campaignComments,
+            campaignDonations: state.campaignDonations,
             getCategories: getCategories,
             loading: state.loading,
             //-------------------------------
@@ -134,7 +149,9 @@ const CampaignsState = (props) => {
             getRegions,
             //Comments methods
             createCampaignComment,
-            getCampaignComments
+            getCampaignComments,
+            //Donations
+            getCampaignDonations
         }}>
             {props.children}
         </CampaignsContext.Provider>

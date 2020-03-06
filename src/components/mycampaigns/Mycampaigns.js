@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import MycampaignsContext from '../../context/mycampaigns/mycampaignsContext';
 import MyCampaignsItem from './MycampaignsItems';
-import './mycampaigns.css';
+// import './mycampaigns.css';
 
 const MyCampaigns = () => {
   const mycampaignsContext = useContext(MycampaignsContext);

@@ -17,8 +17,15 @@ import NotFound from './components/pages/NotFound';
 import Login from './components/auth/Login';
 import Alerts from './components/layout/Alerts';
 import Register from './components/auth/Register';
+import { clearLocalStorage } from './context/auth/AuthState';
 
 const App = () => {
+  window.addEventListener('beforeunload', (event) => {
+    clearLocalStorage();
+    // Chrome requires returnValue.
+    // event.returnValue = ' ';
+  });
+
   return (
     <AuthState>
       <CampaignsState>
