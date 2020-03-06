@@ -8,7 +8,8 @@ export const routes = {
   CAMPAIGN_DONATE: '/campaign/id/donate',
   NOT_FOUND: '/not-found',
   PAGE_SIGN_IN: '/login',
-  PAGE_REGISTER: '/register'
+  PAGE_REGISTER: '/register',
+  MY_CAMPAIGNS: '/mycampaigns'
   // CAMPAIGN_DETAIL: '/campaigns/id' --> reload trang nay ko lay duoc file css
 };
 
@@ -32,10 +33,10 @@ export const odsAPIAuthorizedUser = {
   updateUserAddress: '/api/user/update-address',
   getUserBankAccount: '/api/bank-account',
   setBankAccount: '/api/bank-account/create'
-}
+};
 
 export const odsAPIRegions = '/api/regions';
 
 export const localStoreKeys = {
   token: 'token'
-}
+};

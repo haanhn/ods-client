@@ -2,6 +2,7 @@ import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from '../../odsApi';
 import AuthContext from '../../context/auth/authContext';
+import MycampaignsContext from '../../context/mycampaigns/mycampaignsContext';
 
 function Header() {
   const styles = {
@@ -14,11 +15,14 @@ function Header() {
   };
 
   const authContext = useContext(AuthContext);
+  const mycampaignsContext = useContext(MycampaignsContext);
 
   const { isLoggedIn, logout } = authContext;
+  const { clearMycampaigns } = mycampaignsContext;
 
   const onLogout = () => {
     logout();
+    clearMycampaigns();
   };
 
   const authLinks = (
@@ -34,10 +38,10 @@ function Header() {
       </li>*/}
       <div style={userStyles}>
         <li>
-          <a onClick={onLogout} href='#!'>
+          <Link to={routes.HOME} onClick={onLogout}>
             <i className='fas fa-sign-out-alt'></i>{' '}
             <span className='hide-sm'>Logout</span>
-          </a>
+          </Link>
         </li>
       </div>
     </Fragment>
@@ -52,10 +56,10 @@ function Header() {
         <Link to={routes.CAMPAIGNS}>View list campaigns</Link>
       </li> */}
       <li className=''>
-        <Link to={routes.PAGE_SIGN_IN}>Sign in</Link>
+        <Link to={routes.PAGE_SIGN_IN}>Đăng nhập</Link>
       </li>
       <li className=''>
-        <Link to={routes.PAGE_REGISTER}>Sign up</Link>
+        <Link to={routes.PAGE_REGISTER}>Đăng ký</Link>
       </li>
     </Fragment>
   );
@@ -72,17 +76,31 @@ function Header() {
 
           {/* <<<<<<<  */}
           {/* <!--Nav Box--> */}
-          <div className="nav-outer clearfix">
+          <div className='nav-outer clearfix'>
             {/* <!--Mobile Navigation Toggler--> */}
-            <div className="mobile-nav-toggler"><span className="icon flaticon-menu-1"></span></div>
+            <div className='mobile-nav-toggler'>
+              <span className='icon flaticon-menu-1'></span>
+            </div>
 
             {/* <!-- Main Menu --> */}
-            <nav className="main-menu navbar-expand-md navbar-light">
-              <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
-                <ul className="navigation clearfix">
-                  <li className="current"><Link to={routes.HOME}>Home</Link></li>
-                  <li className=""><Link to={routes.CAMPAIGNS}>Các chiến dịch</Link></li>
-                  <li className=""><Link to={routes.CAMPAIGNS_CREATE}>Tạo chiến dịch</Link></li>
+            <nav className='main-menu navbar-expand-md navbar-light'>
+              <div
+                className='collapse navbar-collapse show clearfix'
+                id='navbarSupportedContent'
+              >
+                <ul className='navigation clearfix'>
+                  <li className='current'>
+                    <Link to={routes.HOME}>Home</Link>
+                  </li>
+                  <li className=''>
+                    <Link to={routes.CAMPAIGNS}>Các chiến dịch</Link>
+                  </li>
+                  <li className=''>
+                    <Link to={routes.CAMPAIGNS_CREATE}>Tạo chiến dịch</Link>
+                  </li>
+                  <li className=''>
+                    <Link to={routes.MY_CAMPAIGNS}>Chiến dịch của tôi</Link>
+                  </li>
                   {isLoggedIn ? authLinks : guestLinks}
                 </ul>
               </div>

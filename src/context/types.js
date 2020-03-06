@@ -11,6 +11,8 @@ export const actionTypes = {
     SET_VIEWING_CAMPAIGN: 'SET_VIEWING_CAMPAIGN',
     //comments
     SET_COMMENTS: 'SET_COMMENTS',
+    //donations
+    SET_DONATIONS: 'SET_DONATIONS',
     SET_LOADING: 'SET_LOADING'
 };
 //Users
@@ -30,3 +32,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOG_OUT = 'LOG_OUT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+
+//My Campaign
+export const GET_MYCAMPAIGNS = 'GET_MYCAMPAIGNS';
+export const CLEAR_MYCAMPAIGNS = 'CLEAR_MYCAMPAIGNS';
