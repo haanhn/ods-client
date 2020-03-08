@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import '../campaigns/campaign2.css';
+import { getDateFormatDD_MM_YYYY } from '../../utils/commonUtils';
 
 const CampaignComment = (props) => {
     const { content, createdAt, userId, User } = props.comment;
-    // const 
+    const date = getDateFormatDD_MM_YYYY(createdAt);
 
     // "id": "91881846-b7de-431a-8264-0484f8348c9a",
     //     "email": "haanhx701@gmail.com",
@@ -18,7 +19,7 @@ const CampaignComment = (props) => {
                     className='col' />
                 <div className='col' >
                     <h6> {User ? User.fullname : ''} </h6>
-                    {createdAt}
+                    {date}
                 </div>
 
             </div>

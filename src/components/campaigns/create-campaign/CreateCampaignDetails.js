@@ -120,8 +120,9 @@ const CreateCampaignDetails = (props) => {
                                 />
                             </div>
                             <div className="input-group-append">
-                                <input type="submit" value="vnđ" className="btn btn-append-vnd" />
-
+                                <div className='btn btn-append-vnd'>
+                                    vnđ
+                                </div>
                             </div>
                         </div>
                         <Alert alert={alertGoal} />
@@ -145,9 +146,9 @@ const CreateCampaignDetails = (props) => {
                                 />
                             </div>
                             <div className="input-group-append">
-                                <button className='btn btn-append-vnd'>
+                                <div className='btn btn-append-vnd'>
                                     <i className="far fa-calendar-alt "></i>
-                                </button>
+                                </div>
                             </div>
                         </div>
                         <Alert alert={alertEndDate} />

@@ -8,8 +8,16 @@ export const routes = {
   // CAMPAIGN_DETAIL: '/campaigns/:slug',
   CAMPAIGN_DETAIL: '/campaigns/:slug',
   getRouteCampaignDetail: (slug) => `/campaigns/${slug}`,
+  getRouteCampaignComments (slug) { return `/campaigns/${slug}/comments`; },
   getRouteCampaignDetailDonations (slug) { return `/campaigns/${slug}/donations`; },
-  CAMPAIGN_DONATE: '/campaign/id/donate',
+  //-----Routes: Donate to campaign-----
+  CAMPAIGN_DONATE: '/campaign/:slug/donate',
+  getRouteDonateCampaign (slug) { return `/campaign/${slug}/donate`; },
+  CAMPAIGN_DONATE_DETAILS: '/campaign/:slug/donate/details',
+  getRouteDonateCampaignDetails (slug) { return `/campaign/${slug}/donate/details`; },
+  CAMPAIGN_DONATE_COMPLETE: '/campaign/:slug/donate/complete',
+  getRouteDonateCampaignComplete (slug) { return `/campaign/${slug}/donate/complete`; },
+  //---------------------------
   NOT_FOUND: '/not-found',
   PAGE_SIGN_IN: '/login',
   PAGE_REGISTER: '/register',
@@ -28,6 +36,7 @@ export const odsAPIOpenRoutes = {
   getCampaignComments: `/api/comments/`,
   //Donations
   getCampaignDonations: (slug) => `/api/donations/get-by-campaign/${slug}`,
+  donateCampaignCashOrBanking: '/api/donations/create',
   uploadSingleImage: '/api/uploads'
 }
 

@@ -4,6 +4,7 @@ import { routes } from '../../odsApi';
 
 const CampaignTabs = (props) => {
     const slug = props.slug;
+    const routeComments = routes.getRouteCampaignComments(slug);
     const routeDonations = routes.getRouteCampaignDetailDonations(slug);
 
     return (
@@ -37,7 +38,7 @@ const CampaignTabs = (props) => {
                     <a className="nav-link" href="#">Cập nhật</a>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to={`${routes.CAMPAIGN_DETAIL}/comments`}>Bình luận</Link>
+                    <Link className="nav-link" to={routeComments}>Bình luận</Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to={routeDonations}>Quyên góp</Link>

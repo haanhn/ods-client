@@ -117,7 +117,6 @@ const CreateCampaign = () => {
                     campaignShortDescription: shortDesription
                 }
             });
-            console.log(res.data);
             dispatch({
                 type: types.SET_BASIC_INFO,
                 payload: res.data.campaign
@@ -191,7 +190,6 @@ const CreateCampaign = () => {
                     campaignEndDate: endDate
                 }
             });
-            console.log(res.data);
             dispatch({
                 type: types.SET_DETAILS,
                 payload: res.data.campaign

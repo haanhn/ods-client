@@ -44,9 +44,6 @@
 .create-campaign-progress li:last-of-type {
     margin-right: 0;
  }
-.create-campaign-progress li span {
-    /* display: none; */
-}
 .create-campaign-progress li.finished { 
     border: 1px solid #3cc88f;
     background-color: #3cc88f;

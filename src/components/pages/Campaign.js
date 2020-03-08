@@ -45,10 +45,10 @@ const Campaign = (props) => {
     useEffect(() => {
         fetchCampaign();
 
-        return () => {
-            console.log('Page Campaign unmounting...');
-            campaignsContext.setCampaignToEmpty();
-        };
+        // return () => {
+        //     console.log('Page Campaign unmounting...');
+        //     campaignsContext.setCampaignToEmpty();
+        // };
     }, []);
 
     const fetchCampaign = async () => {
@@ -72,6 +72,7 @@ const Campaign = (props) => {
         }
     }
 
+    const routeComments = routes.getRouteCampaignComments(slug);
     const routeDonations = routes.getRouteCampaignDetailDonations(slug);
 
     if (resStatus === 404) {
@@ -116,7 +117,7 @@ const Campaign = (props) => {
                         <aside className="sidebar col-lg-12 col-md-12 col-sm-12">
                             <CampaignProgressBar />
                             <CampaignStatistic />
-                            <ButtonDonate />
+                            <ButtonDonate slug={slug} />
                             <ButtonSubscribeCampaign />
                         </aside>
                     </div>
@@ -140,7 +141,7 @@ const Campaign = (props) => {
                             <CampaignTabMoreInfo description={campaign.campaignDescription} />
                         </Route>
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}/updates`}> <CampaignTabUpdates /> </Route>
-                        <Route exact path={`${routes.CAMPAIGN_DETAIL}/comments`}> <CampaignTabComments /> </Route>
+                        <Route exact path={routeComments}> <CampaignTabComments /> </Route>
                         <Route exact path={routeDonations}> <CampaignTabDonations /> </Route>
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}/ratings`} component={CampaignTabRatings} />
                     </Switch>

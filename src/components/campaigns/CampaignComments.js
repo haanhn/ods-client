@@ -7,17 +7,13 @@ const CampaignComments = () => {
     const comments = campaignsContext.campaignComments;
 
     let commentsJsx = [];
-    // commentsJsx.push(<CampaignComment/>);
-    // commentsJsx.push(<CampaignComment/>);
-    // commentsJsx.push(<CampaignComment/>);
-    // commentsJsx.push(<CampaignComment/>);
 
     if (comments && comments.length > 0) {
         commentsJsx = comments.map((comment) => {
             return <CampaignComment comment={comment} />
         });
     } else {
-        commentsJsx = <p>Hiện tại chưa</p>
+        commentsJsx = <p>Hiện tại chưa có bình luận nào</p>
     }
 
     return (

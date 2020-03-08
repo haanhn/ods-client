@@ -1,0 +1,10 @@
+.form-donate {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.form-donate .donate-title {
+    text-align: center;
+}
+.donate-title h3 {
+    margin-bottom: 7px;
+}

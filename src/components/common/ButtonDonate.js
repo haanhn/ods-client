@@ -3,15 +3,18 @@ import './campaign.css';
 import { routes } from '../../odsApi';
 import { Link } from 'react-router-dom';
 
-const ButtonDonate = () => {
-    const styleButtonDonate = {
+const ButtonDonate = (props) => {
+    const { slug } = props;
+    const routeDonate = routes.getRouteDonateCampaign(slug);
+    // const styleButtonDonate = {
         
-    };
+    // };
     return (
         <div>
-            <Link to={routes.CAMPAIGN_DONATE}
+            <Link to={routeDonate}
                 className="theme-btn btn-style-one btn-donate btn-donate"
-                style={styleButtonDonate}>
+                // style={styleButtonDonate}
+                >
                 <span className="btn-title">Quyên góp</span>
             </Link>
         </div>

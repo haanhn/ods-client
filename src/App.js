@@ -20,11 +20,11 @@ import Register from './components/auth/Register';
 import { clearLocalStorage } from './context/auth/AuthState';
 
 const App = () => {
-  window.addEventListener('beforeunload', (event) => {
-    clearLocalStorage();
+  // window.addEventListener('beforeunload', (event) => {
+    // clearLocalStorage();
     // Chrome requires returnValue.
     // event.returnValue = ' ';
-  });
+  // });
 
   return (
     <AuthState>
@@ -44,7 +44,7 @@ const App = () => {
                   />
                   <Route path={routes.CAMPAIGN_DETAIL} component={Campaign} />
                   <Route
-                    exact
+                    // exact
                     path={routes.CAMPAIGN_DONATE}
                     component={DonateCampaign}
                   />
