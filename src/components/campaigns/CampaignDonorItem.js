@@ -7,12 +7,12 @@ function CampaignDonorItem(props) {
     const { donationAmount, anonymous, createdAt, User } = props.donation;
     const date = getDateFormatDD_MM_YYYY(createdAt);
 
-    let avatarJsx = <img src='/images/default-data-images/default-user-avatar.png' className='col' />;
+    let avatarJsx = <img src='/images/default-data-images/default-user-avatar.png' className='col' alt='' />;
     let fullname = 'Tên của người donor';
     
     if (!anonymous) {
         if (User && User.avatar) {
-            avatarJsx = <img src={User.avatar} className='col' />;
+            avatarJsx = <img src={User.avatar} className='col' alt='' />;
         }
     }
 

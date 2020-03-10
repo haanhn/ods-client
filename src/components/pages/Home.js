@@ -1,10 +1,8 @@
-import React, { Fragment, useEffect, useContext, useState } from 'react';
+import React, { Fragment, useEffect, useContext } from 'react';
 import HomeBigIntro from '../layout/HomeBigIntro';
 import HomeFeatures from '../layout/HomeFeatures';
 import Campaigns from '../campaigns/Campaigns';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
-import CampaignPosts from '../host-managements/manage-campaign-post/CampaignPosts';
-import FormCreateCampaignPost from '../host-managements/manage-campaign-post/FormCreateCampaignPost';
 
 function Home() {
     const campaignsContext = useContext(CampaignsContext);
@@ -34,8 +32,6 @@ function Home() {
                     <a className="dropdown-item" href="#">Something else here</a>
                 </div>
             // </div> */}
-            {/* <CampaignPosts /> */}
-            <FormCreateCampaignPost />
         </Fragment>
     );
 }

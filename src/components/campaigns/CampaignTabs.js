@@ -4,6 +4,7 @@ import { routes } from '../../odsApi';
 
 const CampaignTabs = (props) => {
     const slug = props.slug;
+    const routeCampaign = routes.getRouteCampaignDetail(slug);
     const routeComments = routes.getRouteCampaignComments(slug);
     const routeDonations = routes.getRouteCampaignDetailDonations(slug);
 
@@ -32,7 +33,7 @@ const CampaignTabs = (props) => {
         <nav className="navbar navbar-expand-sm">
             <ul className="navbar-nav">
                 <li className="nav-item active">
-                    <Link className="nav-link" to={routes.CAMPAIGN_DETAIL}>Thông tin</Link>
+                    <Link className="nav-link" to={routeCampaign}>Thông tin</Link>
                 </li>
                 <li className="nav-item">
                     <a className="nav-link" href="#">Cập nhật</a>
@@ -42,9 +43,6 @@ const CampaignTabs = (props) => {
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to={routeDonations}>Quyên góp</Link>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">Thông tin thêm</a>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to={`${routes.CAMPAIGN_DETAIL}/ratings`}>Đánh giá</Link>

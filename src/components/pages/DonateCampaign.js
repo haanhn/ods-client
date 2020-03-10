@@ -69,7 +69,7 @@ const DonateCampaign = (props) => {
             <div className='donate-title'>
                 <h5>Đóng góp đến chiến dịch</h5>
                 <h4>{campaignTitle ? campaignTitle : ''}</h4>
-                <h6>Sự chia sẻ của bạn rất quý giá đối với {(host && host.fullname) ? host.fullname : ''}</h6>
+                {/* <h6>Sự chia sẻ của bạn rất quý giá đối với {(host && host.fullname) ? host.fullname : ''}</h6> */}
             </div>
 
             <Switch>
@@ -84,6 +84,7 @@ const DonateCampaign = (props) => {
                     render={(props) => (<DonateComplete {...props}
                         completedDonation={completedDonation} />)} />
             </Switch>
+            {/* <DonateComplete completedDonation={{}} match={{params: ''}}/> */}
         </div>
     );
 }

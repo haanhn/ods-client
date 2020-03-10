@@ -1,0 +1,117 @@
+import React, { useState, useContext } from 'react';
+import CurrencyFormat from 'react-currency-format';
+import NotFound from '../../pages/NotFound';
+import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
+import { getDonationStatus, getMethod } from './donationUtils';
+import { getDateTimeFormatDD_MM_YYYY_HH_MM_SS } from '../../../utils/commonUtils';
+
+const HostViewDonationDetail = (props) => {
+    const myCampaignsContext = useContext(MyCampaignsContext);
+    let donation = null;
+    let initStatus = 'done';
+    let initDonationStatus = 'done';
+    if (props && props.location) {
+        if (props.location.state) {
+            if (props.location.state.donation) {
+                donation = props.location.state.donation;
+                initStatus = getDonationStatus(donation.donationStatus);
+                initDonationStatus = donation.donationStatus;
+            }
+        }
+    }
+
+    
+    const [donationStatus, setDonationStatus] = useState(initDonationStatus);
+    const [status, setStatus] = useState(initStatus);
+
+    const updateStatus = async (event) => {
+        console.log(event.target.textContent);
+        let action = 'approve';
+        if (event.target.textContent === 'Từ chối') {
+            action = 'reject';
+        }
+        const res = await myCampaignsContext.updateDonationStatus(donation.id, action);
+        const returnStatus = res.data.result.donationStatus;
+        const textStatus = getDonationStatus(returnStatus);
+        setDonationStatus(res.data.result.donationStatus);
+        setStatus(textStatus);
+    }
+
+    if (!donation) {
+        return <NotFound />
+    }
+
+    const date = getDateTimeFormatDD_MM_YYYY_HH_MM_SS(donation.createdAt);
+    const method = getMethod(donation.donationMethod);
+
+    return (
+        <div className='host-donation-detail' >
+            <table className="table">
+                <tbody>
+                    <tr>
+                        <td>Mã quyên góp</td>
+                        <td> {donation.trackingCode} </td>
+                    </tr>
+                    <tr>
+                        <td>Người quyên góp</td>
+                        <td> {donation.User.fullname} </td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td> {donation.User.email} </td>
+                    </tr>
+                    <tr>
+                        <td>Số tiền</td>
+                        <td>
+                            <CurrencyFormat value={donation.donationAmount} displayType={'text'} thousandSeparator={true} />
+                            đ
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Thời gian</td>
+                        <td> {date} </td>
+                    </tr>
+                    <tr>
+                        <td>Phương thức</td>
+                        <td>
+                            {method}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Trạng thái</td>
+                        <td>
+                            <span
+                                className={
+                                    'badge ' +
+                                    (donationStatus === 'done'
+                                        ? 'badge-success'
+                                        : donationStatus === 'pending'
+                                            ? 'badge-warning'
+                                            : 'badge-danger')
+                                }
+                            >
+                                {status}
+                            </span>
+                        </td>
+                    </tr>
+                    {(donation && donation.donationMessage) ? (
+                        <tr>
+                            <td>Lời nhắn gởi</td>
+                            <td> {donation.donationMessage} </td>
+                        </tr>
+                    ) : null}
+                    <tr>
+                        <td colSpan='2' style={{ textAlign: 'center' }}>
+                            <button className='btn btn-success' style={{ marginRight: '15px' }}
+                                onClick={updateStatus}
+                            >Xác nhận</button>
+                            <button className='btn btn-danger' onClick={updateStatus}>Từ chối</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    )
+}
+
+export default HostViewDonationDetail;

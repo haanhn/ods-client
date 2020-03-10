@@ -47,7 +47,7 @@ const FormChooseMethodDonation = (props) => {
         <div>
             <form>
                 <div className="form-group row">
-                    <label className="col-sm-12 col-form-label">Phương thức chuyển tiền</label>
+                    <label className="col-sm-12 col-form-label">Chọn phương thức chuyển tiền</label>
                     <div className="col-sm-12">
                         <select className="custom-select" ref={inputMethod} >
                             { methodsJsx }
@@ -56,7 +56,7 @@ const FormChooseMethodDonation = (props) => {
                 </div>
                 <div className="form-group">
                     <div style={{ textAlign: 'center' }} >
-                        <button className="btn btn-primary" onClick={chooseMethod} >Tiếp tục</button>
+                        <button className="btn btn-success" style={{minWidth: '120px'}} onClick={chooseMethod} >Tiếp tục</button>
                     </div>
                 </div>
             </form>

@@ -13,7 +13,7 @@ function ListCampaigns(props) {
         campaignsContext.getCategories();
         //eslint-disable-next-line
 
-        return () => console.log('List campaigns umounting...')
+        // return () => console.log('List campaigns umounting...')
     }, []);
 
     return (

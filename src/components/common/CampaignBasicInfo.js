@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 const CampaignBasicInfo = (props) => {
-    const { campaignShortDescription, Category } = props.campaign;
+    const { campaignThumbnail, campaignShortDescription, Category } = props.campaign;
 
     if (Object.keys(props.campaign).length === 0) {
         return null;
@@ -11,8 +11,7 @@ const CampaignBasicInfo = (props) => {
             <div className="image-box" style={{ marginBottom: '10px' }}>
                 <figure className="image">
                     <img className="lazy-image"
-                        src="https://d8dkyqrw18ein.cloudfront.net/d/9ad9de2f96489b1aa92e83b1dd4f4166.jpg"
-                    />
+                        src={campaignThumbnail ? campaignThumbnail : `/images/default-data-images/default-campaign-cover.jpg`} />
                 </figure>
             </div>
             <p style={{ marginBottom: '5px' }}>

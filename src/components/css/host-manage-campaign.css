@@ -1,3 +1,12 @@
+/***************/
+/***** Host Manage Campaign *****/
+/***************/
+.my-campaign-management {
+    min-height: 82vh;
+}
+/***************/
+/***** Host manage campaign posts *****/
+/***************/
 /* Host list posts */
 .host-list-posts,
 .form-create-campaign-post,
@@ -5,7 +14,15 @@
     padding-top: 25px;
     padding-bottom: 30px;
 }
-
+.host-list-posts .table td {
+    padding: .3rem;
+}
+.host-list-posts .table td.post-title:hover { 
+    cursor: pointer;
+}
+.host-list-posts a {
+    color: initial;
+}
 /* Host create post */
 .form-create-campaign-post form > div {
     margin-bottom: 10px;

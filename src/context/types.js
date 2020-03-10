@@ -36,3 +36,10 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 //My Campaign
 export const GET_MYCAMPAIGNS = 'GET_MYCAMPAIGNS';
 export const CLEAR_MYCAMPAIGNS = 'CLEAR_MYCAMPAIGNS';
+export const hostActionTypes = {
+    GET_CAMPAIGN_DETAIL: 'GET_CAMPAIGN_DETAIL',
+    //Post
+    GET_POSTS: 'GET_POSTS',
+    //Donations
+    GET_DONATIONS: 'GET_DONATIONS'
+};

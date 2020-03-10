@@ -1,10 +1,21 @@
 .form-donate {
     padding-top: 30px;
     padding-bottom: 30px;
+    max-width: 700px;
+    min-height: 90vh;
 }
 .form-donate .donate-title {
     text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #E5E5DF;
+    margin-bottom: 20px;
 }
 .donate-title h3 {
     margin-bottom: 7px;
+}
+
+/***** Donate Success *****/
+.donate-success {
+    text-align: center;
+    font-size: 105%;
 }

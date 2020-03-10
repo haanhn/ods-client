@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import CampaignItem from './CampaignItem';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
+import '../css/list-campaigns.css';
 
 function Campaigns(props) {
     const campaignsContext = useContext(CampaignsContext);
@@ -13,7 +14,7 @@ function Campaigns(props) {
     const { cssClasses } = props;
 
     return (
-        <section className={`causes-section ${cssClasses}`}>
+        <section className={`causes-section ${cssClasses} list-campaigns`}>
             {/* <div class="auto-container"> */}
                 
                 <div className="row clearfix">

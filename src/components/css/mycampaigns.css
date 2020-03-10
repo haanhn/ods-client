@@ -1,0 +1,42 @@
+.card {
+  width: 100%;
+}
+
+/* .col-md-4 {
+  margin-bottom: 5%;
+} */
+.my-campaign-items {
+  padding-bottom: 30px;
+  min-height: 86vh;
+}
+.my-campaign-item {
+  margin-bottom: 15px;
+}
+.my-campaign-item:hover {
+  cursor: pointer;
+}
+.my-campaign-item .my-card-img {
+  height: 220px;
+  overflow: hidden;
+}
+@media (max-width: 2000px) {
+  .my-campaign-items {
+    max-width: 1140px;
+  }
+}
+@media (max-width: 992px) {
+  .my-campaign-items {
+    max-width: 930px;
+  }
+}
+@media (max-width: 768px){
+  .my-campaign-items {
+    max-width: 700px;
+  }
+}
+@media (max-width: 576px) {
+  .my-campaign-items {
+    max-width: 490px;
+  }
+}
+

@@ -17,11 +17,22 @@ export const routes = {
   getRouteDonateCampaignDetails (slug) { return `/campaign/${slug}/donate/details`; },
   CAMPAIGN_DONATE_COMPLETE: '/campaign/:slug/donate/complete',
   getRouteDonateCampaignComplete (slug) { return `/campaign/${slug}/donate/complete`; },
+  //----- Routes: for Campagin Host -----
+  MY_CAMPAIGNS: '/my-campaigns',
+  MY_CAMPAIGN_DETAIL: '/my-campaigns/:slug',
+  getRouteMyCampaignDetail(slug) { return `/my-campaigns/${slug}`; },
+  MY_CAMPAIGN_POSTS: '/my-campaigns/:slug/posts',
+  getRouteMyCampaignPosts(slug) { return `/my-campaigns/${slug}/posts`; },
+  MY_CAMPAIGN_POST_DETAIL: '/my-campaigns/:slug/posts/detail',
+  getRouteMyCampaignPostDetail(slug) { return `/my-campaigns/${slug}/posts/detail`; },
+  MY_CAMPAIGN_DONATIONS: '/my-campaigns/:slug/donations',
+  getRouteMyCampaignDonations(slug) { return `/my-campaigns/${slug}/donations`; },
+  MY_CAMPAIGN_DONATION_DETAIL: '/my-campaigns/:slug/donations/:code',
+  getRouteMyCampaignDonationDetail(slug, code) { return `/my-campaigns/${slug}/donations/${code}`; },
   //---------------------------
   NOT_FOUND: '/not-found',
   PAGE_SIGN_IN: '/login',
   PAGE_REGISTER: '/register',
-  MY_CAMPAIGNS: '/mycampaigns'
   // CAMPAIGN_DETAIL: '/campaigns/id' --> reload trang nay ko lay duoc file css
 };
 
@@ -51,6 +62,14 @@ export const odsAPIAuthorizedUser = {
   updateUserAddress: '/api/user/update-address',
   getUserBankAccount: '/api/bank-account',
   setBankAccount: '/api/bank-account/create'
+};
+
+export const odsAPIHost = {
+  getCampaignPosts(slug) { return `/api/posts/host/get-all-post/${slug}`; },
+  createCampaignPost: '/api/posts/host/create',
+  updateCampaignPost: '/api/posts/host/update',
+  getCampaignDonations(slug) { return `/api/donations/host/get-by-campaign/${slug}`; },
+  updateCampaignDonationStatus(action) { return `/api/donations/host/update-donation-status/${action}`; }
 };
 
 export const odsAPIRegions = '/api/regions';

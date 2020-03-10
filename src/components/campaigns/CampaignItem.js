@@ -4,7 +4,7 @@ import { routes } from '../../odsApi';
 
 function CampaignItem(props) {
 
-    const { imageUrl, campaignTitle, campaignSlug, campaignShortDescription, raised, goal, fundRaiserlocation } = props.campaign;
+    const { campaignThumbnail, campaignTitle, campaignSlug, campaignShortDescription, raised, goal, fundRaiserlocation } = props.campaign;
     const category = props.campaign.Category;
 
     return (
@@ -14,9 +14,9 @@ function CampaignItem(props) {
             <div className="inner-box wow fadeInUp" data-wow-delay="600ms">
                 <div className="image-box">
                     <figure className="image">
-                        <a href="cause-single.html">
-                            <img className="lazy-image" src={`/images/default-data-images/default-campaign-cover.jpg`} alt="" />
-                        </a>
+                        <img className="lazy-image"
+                            src={campaignThumbnail ? campaignThumbnail : `/images/default-data-images/default-campaign-cover.jpg`}
+                            alt="" />
                     </figure>
                 </div>
                 {/* <div className="donate-info">

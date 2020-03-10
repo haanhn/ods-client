@@ -7,7 +7,7 @@ import CreateCampaignStory from '../campaigns/create-campaign/CreateCampaignStor
 import CreateCampaignMoneyMethods from '../campaigns/create-campaign/CreateCampaignMoneyMethods';
 import CreateCampaignConfirm from '../campaigns/create-campaign/CreateCampaignConfirm';
 import CreateCampaignCompleted from '../campaigns/create-campaign/CreateCampaignCompleted';
-import { odsBase, odsAPIOpenRoutes, odsAPIAuthorizedUser, localStoreKeys } from '../../odsApi';
+import { odsBase, odsAPIOpenRoutes, odsAPIAuthorizedUser, routes, localStoreKeys } from '../../odsApi';
 import '../campaigns/campaign2.css';
 import reducer from '../campaigns/create-campaign/createCampaignReducer';
 import CreateCampaignName from '../campaigns/create-campaign/CreateCampaignName';
@@ -22,10 +22,16 @@ import { types } from '../../components/campaigns/create-campaign/createCampaign
 import CreateCampaignMethods from '../campaigns/create-campaign/CreateCampaignMethods';
 
 
-const CreateCampaign = () => {
+const CreateCampaign = (props) => {
     const campaignsContext = useContext(CampaignsContext);
     const { loading } = campaignsContext;
     const { getCategories, getRegions, setLoading } = campaignsContext;
+
+    const token = localStorage.getItem(localStoreKeys.token);
+    if (!token) {
+        const route = routes.PAGE_SIGN_IN;
+        props.history.push(route);
+    }
 
     useEffect(() => {
         getCategories();

@@ -138,9 +138,9 @@ const FormDonateCashOrBanking = (props) => {
                     </div>
                 </div>
 
-                <div className="form-group row">
-                    <div>
-                        <button className="btn btn-primary" onClick={donate} >Chuyển khoản ngân hàng</button>
+                <div className="form-group">
+                    <div style={{ textAlign: 'center' }}>
+                        <button className="btn btn-success" style={{minWidth: '120px'}} onClick={donate} >Xác nhận</button>
                     </div>
                 </div>
             </form>
