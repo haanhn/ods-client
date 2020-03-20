@@ -39,10 +39,10 @@ export const getDateTimeFormatDD_MM_YYYY_HH_MM_SS = (dateStr) => {
     if (!dateStr) {
         return null;
     }
-    const date = getDateFormatDD_MM_YYYY(dateStr);
-    const time = getTimeFormatHH_MM_SS(dateStr);
+    // const date = getDateFormatDD_MM_YYYY(dateStr);
+    // const time = getTimeFormatHH_MM_SS(dateStr);
 
-    const dateTime = date + ' ' + time;
+    // const dateTime = date + ' ' + time;
 
-    return dateTime;
+    // return dateTime;
 }

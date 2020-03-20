@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import CurrencyFormat from 'react-currency-format'; 
+import CurrencyFormat from 'react-currency-format';
 import { routes, localStoreKeys } from '../../../odsApi';
 import Alert from '../../common/Alert';
 import CampaignsContext from '../../../context/campaigns/campaignsContext';
@@ -10,10 +10,10 @@ const FormDonateCashOrBanking = (props) => {
     const { slug } = props.match.params;
     const history = props.history;
 
-    const { method, sendDonate } = props;
-    const defaultData = getDefaultData();
+    const { method, sendDonate, donatePaypal } = props;
+    const defaultData = getDefaultData(method);
 
-    const [money, setMoney] = useState(10000);
+    const [money, setMoney] = useState(defaultData.money);
     const inputName = React.createRef();
     const inputAnonymous = React.createRef();
     const inputEmail = React.createRef();
@@ -40,6 +40,8 @@ const FormDonateCashOrBanking = (props) => {
     }
 
 
+
+
     const donate = async (event) => {
         event.preventDefault();
 
@@ -52,7 +54,7 @@ const FormDonateCashOrBanking = (props) => {
         setAlertMoney(null);
         setAlertName(null);
         setAlertEmail(null);
-        const messages = validateData(money, name, email);
+        const messages = validateData(money, name, email, method);
         if (messages) {
             if (messages.money) {
                 setAlertMoney({ type: 'danger', msg: messages.money });
@@ -65,8 +67,13 @@ const FormDonateCashOrBanking = (props) => {
             }
         } else {
             const campaignId = campaignsContext.viewingCampaign.id;
-            const res = await sendDonate(campaignId, method, money, name, email, anonymous, noti, message);
-            
+            if (method === 'paypal') {
+                console.log(method + ' ' + money)
+                await donatePaypal(campaignId, money, name, anonymous, noti, message);
+            } else {
+                const res = await sendDonate(campaignId, method, money, name, email, anonymous, noti, message);
+            }
+
         }
     }
 
@@ -140,7 +147,7 @@ const FormDonateCashOrBanking = (props) => {
 
                 <div className="form-group">
                     <div style={{ textAlign: 'center' }}>
-                        <button className="btn btn-success" style={{minWidth: '120px'}} onClick={donate} >Xác nhận</button>
+                        <button className="btn btn-success" style={{ minWidth: '120px' }} onClick={donate} >Xác nhận</button>
                     </div>
                 </div>
             </form>
@@ -150,28 +157,12 @@ const FormDonateCashOrBanking = (props) => {
 
 export default FormDonateCashOrBanking;
 
-const validateData = (money, name, email, ) => {
+const validateData = (money, name, email, method) => {
     let msg = {};
-    const goal10M = 10000000000;
-    const min10K = 10000;
     //Validate Money
-    if (typeof money === 'number') {
-        if (money > goal10M) {
-            msg.money = 'Hiện tại chúng tôi chỉ hỗ trợ quyên góp dưới 10 tỷ đồng';
-        } else if (money < min10K) {
-            msg.money = 'Số tiền quyên góp tối thiểu là 10,000 vnđ';
-        }
-    } else {
-        if (money.length === 0) {
-            msg.money = 'Xin nhập số tiền quyên góp';
-        } else {
-            const moneyNumber = parseFloat(money);
-            if (moneyNumber > goal10M) {
-                msg.money = 'Hiện tại chúng tôi chỉ hỗ trợ quyên góp dưới 10 tỷ đồng';
-            } else if (moneyNumber < min10K) {
-                msg.money = 'Số tiền quyên góp tối thiểu là 10,000 vnđ';
-            }
-        }
+    const msgMoney = validateMoney(money, method);
+    if (msgMoney) {
+        msg.money = msgMoney;
     }
     //Validate Name
     if (name.length === 0) {
@@ -188,15 +179,47 @@ const validateData = (money, name, email, ) => {
     return msg;
 }
 
-const getDefaultData = () => {
+const validateMoney = (money, method) => {
+    const goal10M = 10000000000;
+    const min10K = 10000;
+    const minPaypal = 2;
+    const minMoney = (method === 'paypal') ? minPaypal : min10K;
+    const minMoneyFormat = (method === 'paypal') ? '20,000' : '10,000';
+    let msgMoney = null;
+    if (typeof money === 'number') {
+        if (money > goal10M) {
+            msgMoney = 'Hiện tại chúng tôi chỉ hỗ trợ quyên góp dưới 10 tỷ đồng';
+        } else if (money < minMoney) {
+            msgMoney = `Số tiền quyên góp tối thiểu là ${minMoneyFormat} vnđ`;
+        }
+    } else {
+        if (money.length === 0) {
+            msgMoney = 'Xin nhập số tiền quyên góp';
+        } else {
+            const moneyNumber = parseFloat(money);
+            if (moneyNumber > goal10M) {
+                msgMoney = 'Hiện tại chúng tôi chỉ hỗ trợ quyên góp dưới 10 tỷ đồng';
+            } else if (moneyNumber < minMoney) {
+                msgMoney = `Số tiền quyên góp tối thiểu là ${minMoneyFormat} vnđ`;
+            }
+        }
+    }
+    return msgMoney;
+}
+
+const getDefaultData = (method) => {
     let defaultData = {
         name: '',
-        email: ''
+        email: '',
+        money: 10000
     };
+    if (method === 'paypal') {
+        defaultData.money = 2;
+    }
     const token = localStorage.getItem(localStoreKeys.token);
     if (token) {
         defaultData.name = localStorage.getItem(localStoreKeys.userFullname);
         defaultData.email = localStorage.getItem(localStoreKeys.userEmail);
     }
     return defaultData;
-} 
+}

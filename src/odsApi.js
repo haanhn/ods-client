@@ -48,6 +48,7 @@ export const odsAPIOpenRoutes = {
   //Donations
   getCampaignDonations: (slug) => `/api/donations/get-by-campaign/${slug}`,
   donateCampaignCashOrBanking: '/api/donations/create',
+  donateCampaignPaypal: '/api/donations/paypal',
   uploadSingleImage: '/api/uploads'
 }
 

@@ -56,6 +56,31 @@ const DonateCampaign = (props) => {
         }
     }
 
+    const donatePaypal = async (campaignId, money, fullname, anonymous, noti, message) => {
+        try {
+            const objectDonation = {
+                campaignId: campaignId,
+                fullname: fullname,
+                amount: money,
+                anonymous: anonymous,
+                message: message,
+                noti: noti,
+            };
+            if (localStorage.getItem(localStoreKeys.token) && localStorage.getItem(localStoreKeys.userId)) {
+                objectDonation.userId = localStorage.getItem(localStoreKeys.userId);
+            }
+            const res = await axios.post(`${odsBase}${odsAPIOpenRoutes.donateCampaignPaypal}`,
+                objectDonation
+            );
+            const url = res.data.url;
+            console.log(res)
+            window.location.assign(url);
+        } catch (error) {
+            console.error('Error when donate paypal:');
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         campaignsContext.getCampaignBySlug(slug);
     }, []);
@@ -79,7 +104,8 @@ const DonateCampaign = (props) => {
                 <Route exact path={`${routes.CAMPAIGN_DONATE_DETAILS}`}
                     render={(props) => (<FormDonateCashOrBanking {...props}
                         method={method}
-                        sendDonate={sendDonate} />)} />
+                        sendDonate={sendDonate} 
+                        donatePaypal={donatePaypal} />)} />
                 <Route exact path={`${routes.CAMPAIGN_DONATE_COMPLETE}`}
                     render={(props) => (<DonateComplete {...props}
                         completedDonation={completedDonation} />)} />

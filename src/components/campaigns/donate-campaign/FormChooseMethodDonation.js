@@ -36,11 +36,7 @@ const FormChooseMethodDonation = (props) => {
         
         console.log(chosenMethod);
         
-        if (chosenMethod === 'paypal') {
-            console.log('paypal');
-        } else {
-            history.push(routes.getRouteDonateCampaignDetails(slug));
-        }
+        history.push(routes.getRouteDonateCampaignDetails(slug));
     }
 
     return (
