@@ -1,23 +1,19 @@
 import React, { useState, useContext } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { odsBase, odsAPIOpenRoutes } from '../../../odsApi';
-import { } from '@tinymce/tinymce-react';
 import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
 import Alert from '../../common/Alert';
 
-
 const FormCreateCampaignPost = (props) => {
-    let post = null;
-    if (props.location) {
-        if (props.location.state) {
-            if (props.location.state.post) {
-                post = props.location.state.post;
-            }
-        }
-    }
+    const { id } = props.match.params;
 
     const myCampaignsContext = useContext(MyCampaignsContext);
     const { createCampaignPost, updateCampaignPosts } = myCampaignsContext;
+
+    let post = null;
+    if (id) {
+        post = getPostData(id, myCampaignsContext.myCampaignPosts);
+    }
 
     //Init Values
     const initPostId = post ? post.id : null;
@@ -56,7 +52,7 @@ const FormCreateCampaignPost = (props) => {
             }
         } else {
             if (!postId) { //create post
-                const res = await createCampaignPost(title, content);
+                const res = await createCampaignPost(title, content, status);
                 setPostId(res.data.result.id);
                 setAlertResult({ type: 'success', msg: 'Tạo bài viết thành công.' })
             } else { //update post
@@ -190,6 +186,8 @@ const validateData = (title, content) => {
     let msg = {};
     if (title.length === 0) {
         msg.title = 'Xin nhập tiêu đề';
+    } else if (title.length > 50) {
+        msg.title = 'Tiêu đề không quá 50 kí tự';
     }
     if (content.length === 0) {
         msg.content = 'Xin nhập nội dung';
@@ -198,5 +196,17 @@ const validateData = (title, content) => {
         msg = null;
     }
     return msg;
+}
+
+const getPostData = (postId, posts) => {
+    if (!posts || posts.length === 0) {
+        return {};
+    }
+    let post = {};
+    for (post of posts) {
+        if (postId === post.id) {
+            return post;
+        }
+    }
 }
 export default FormCreateCampaignPost;

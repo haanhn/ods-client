@@ -57,9 +57,12 @@ const CampaignsState = (props) => {
         try {
             setLoading(true);
             const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getCampaignDetailBySlug}${slug}`);
+            const campaign = res.data.campaign;
+            campaign.raised = res.data.raised;
+            campaign.countDonations = res.data.countDonations;
             dispatch({
                 type: actionTypes.SET_VIEWING_CAMPAIGN,
-                payload: res.data.campaign
+                payload: campaign
             });
             console.log('get Campaign success');
             setLoading(false);

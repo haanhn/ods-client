@@ -2,6 +2,7 @@ import React from 'react';
 import './campaign.css';
 
 const CampaignStatistic = (props) => {
+    const { countDonations } = props;
     return (
         <div className="campaign-stats">
             <ul className="list-inline">
@@ -13,7 +14,7 @@ const CampaignStatistic = (props) => {
                 </li>
                 <li className="list-inline-item">
                     <strong >
-                        0
+                        { countDonations ? countDonations : 0 }
                     </strong>
                     <span>Quyên góp</span>
                 </li>

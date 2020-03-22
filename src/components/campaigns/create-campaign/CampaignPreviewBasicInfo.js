@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import CampaignProgressBar from '../../common/CampaignProgressBar';
 import CampaignStatistic from '../../common/CampaignStatistic';
 import ButtonSubscribeCampaign from '../../common/ButtonSubscribeCampaign';
@@ -8,22 +8,20 @@ import CampaignBasicInfo from '../../common/CampaignBasicInfo';
 import RatingOverviewBox from '../../common/RatingOverviewBox';
 import CampaignTabs from '../../campaigns/CampaignTabs';
 import CampaignPreviewTabMoreInfo from './CampaignPreviewTabMoreInfo';
-// import CampaignTabUpdates from '../campaigns/CampaignTabUpdates';
-// import CampaignTabComments from '../campaigns/CampaignTabComments';
-// import CampaignTabDonations from '../campaigns/CampaignTabDonations';
-// import { Switch, Route } from 'react-router-dom';
-// import { routes } from '../../odsApi';
-// import CampaignTabRatings from '../campaigns/CampaignTabRatings';
+import CampaignsContext from '../../../context/campaigns/campaignsContext';
 import '../campaign2.css';
 
 const Campaign = (props) => {
-
+    const campaignsContext = useContext(CampaignsContext);
     const { id,
         campaignTitle, campaignGoal,
         campaignEndDate, campaignRatingPoint,
+        image,
         campaignShortDescription, campaignDescription,
-        Category
+        category
     } = props.campaign;
+    props.campaign.campaignThumbnail = image;
+    props.campaign.Category = getCampaignCategory(campaignsContext.categories, category);
     const host = props.host;
     const { createCampaignStep5 } = props;
 
@@ -68,17 +66,6 @@ const Campaign = (props) => {
                         <ButtonSubscribeCampaign />
                     </aside>
                 </div>
-                {/* <div style={{ width: '100%' }}>
-                            <CampaignTabs />
-                            <Switch>
-                                <Route exact path={`${routes.CAMPAIGN_DETAIL}`}> <CampaignTabMoreInfo /> </Route>
-                                <Route exact path={`${routes.CAMPAIGN_DETAIL}/updates`}> <CampaignTabUpdates /> </Route>
-                                <Route exact path={`${routes.CAMPAIGN_DETAIL}/comments`}> <CampaignTabComments /> </Route>
-                                <Route exact path={`${routes.CAMPAIGN_DETAIL}/donations`}> <CampaignTabDonations /> </Route>
-                                <Route exact path={`${routes.CAMPAIGN_DETAIL}/ratings`} component={CampaignTabRatings} />
-                            </Switch>
-                        </div> */}
-
             </div>
             {/* End of section: basic info */}
             <div style={{ width: '100%' }}>
@@ -100,6 +87,17 @@ const Campaign = (props) => {
 
     );
 
+}
+
+const getCampaignCategory = (categories, categoryId) => {
+    if (!categories) {
+        return null;
+    }
+    for (const category of categories) {
+        if (categoryId === category.id) {
+            return category;
+        }
+    }
 }
 
 export default Campaign;

@@ -3,7 +3,7 @@ import CampaignsContext from '../../../context/campaigns/campaignsContext';
 import Alert from '../../common/Alert';
 import '../../css/icon.css';
 
-const CreateCampaignName = (props) => {
+const CreateCampaignStep1 = (props) => {
     const campaignsContext = useContext(CampaignsContext);
     const { categories } = campaignsContext;
     const { campaign, createCampaignStep1 } = props;
@@ -14,6 +14,7 @@ const CreateCampaignName = (props) => {
 
     //State Alerts
     const [alertTitle, setAlertTitle] = useState(null);
+    const [alertShortDescription, setAlertShortDescription] = useState(null);
 
     let categoriesJsx = null;
     if (categories) {
@@ -30,19 +31,25 @@ const CreateCampaignName = (props) => {
 
     const createStep1 = (event) => {
         event.preventDefault();
-        console.log('click create');
-        const title = inputTitle.current.value;
+        const title = inputTitle.current.value.trim();
         const category = inputCategory.current.value;
-        const shortDescription = inputShortDescription.current.value;
+        const shortDescription = inputShortDescription.current.value.trim();
 
         setAlertTitle(null);
-        const messages = validateData(title);
-        if (messages !== null) {
+        setAlertShortDescription(null);
+        console.log('category')
+        console.log(category)
+        const messages = validateData(title, shortDescription);
+        if (messages) {
             if (messages.title) {
                 setAlertTitle({ type: 'danger', msg: messages.title });
             }
+            if (messages.shortDescription) {
+                setAlertShortDescription({ type: 'danger', msg: messages.shortDescription });
+            }
         } else {
-            console.log(`category ${category}`);
+
+            console.log(category)
             createCampaignStep1(title, category, shortDescription);
         }
 
@@ -92,6 +99,7 @@ const CreateCampaignName = (props) => {
                             ref={inputShortDescription}
                             defaultValue={campaign.campaignShortDescription}
                         />
+                        <Alert alert={alertShortDescription} />
                     </div>
                 </div>
 
@@ -129,8 +137,8 @@ const tipsForName = (
 
                     <p>A good title can make your campaign stand out. Identify your cause, ask for help, and use a personal tone. You can include:
 
-The name of the person, group, or organization that needs help e.g. Nancy.
-A call to action e.g. Please help ....
+                    The name of the person, group, or organization that needs help e.g. Nancy.
+                    A call to action e.g. Please help ....
 A personal connection, detail or tone e.g. Please help us pay for Nancy's chemo costs.</p>
                 </div>
             </div>
@@ -157,8 +165,8 @@ const tipsForShortDescr = (
 
                     <p>A good title can make your campaign stand out. Identify your cause, ask for help, and use a personal tone. You can include:
 
-The name of the person, group, or organization that needs help e.g. Nancy.
-A call to action e.g. Please help ....
+                    The name of the person, group, or organization that needs help e.g. Nancy.
+                    A call to action e.g. Please help ....
 A personal connection, detail or tone e.g. Please help us pay for Nancy's chemo costs.</p>
                 </div>
             </div>
@@ -166,10 +174,15 @@ A personal connection, detail or tone e.g. Please help us pay for Nancy's chemo 
     </div >
 );
 
-const validateData = (title) => {
+const validateData = (title, shortDescription) => {
     let msg = {};
     if (title.length === 0) {
         msg.title = 'Xin nhập tên chiến dịch';
+    } else if (title.length > 50) {
+        msg.title = 'Tên chiến dịch không quá 50 kí tự';
+    }
+    if (shortDescription.length > 500) {
+        msg.shortDescription = 'Mô tả ngắn không quá 500 kí tự';
     }
     if (Object.keys(msg).length === 0) {
         msg = null;
@@ -177,4 +190,4 @@ const validateData = (title) => {
     return msg;
 }
 
-export default CreateCampaignName;
+export default CreateCampaignStep1;

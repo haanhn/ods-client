@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Alert from '../../common/Alert';
 
 const CreateCampaignImageBox = (props) => {
     const { image, setImage, setImageBinary } = props;
 
-    // const labelButtonImage = image ? 'Lưu và tiếp tục' : 'Bỏ qua';
+    //State Alerts
+    const [alertImage, setAlertImage] = useState(null);
 
     const chooseImage = (event) => {
         try {
@@ -13,9 +15,17 @@ const CreateCampaignImageBox = (props) => {
             reader.onload = (e) => {
                 console.log('Image file ');
                 console.log(file);
-                setImageBinary(file);
-                console.log(reader.result);
-                setImage(reader.result);
+                setAlertImage(null);
+                const messages = validateImageFile(file);
+                if (messages) {
+                    if (messages.image) {
+                        setAlertImage({ type: 'danger', msg: messages.image });
+                    }
+                } else {
+                    setImageBinary(file);
+                    console.log(reader.result);
+                    setImage(reader.result);
+                }
             }
             reader.readAsDataURL(file);
         } catch (error) {
@@ -49,6 +59,7 @@ const CreateCampaignImageBox = (props) => {
                     : <div className='btn-choose-image' > Chọn ảnh </div>
                 }
             </label>
+            <Alert alert={alertImage} />
             {image ? btnsUpdateImg : null}
             {imageGuide}
         </div>
@@ -59,5 +70,25 @@ const imageGuide = <p className='child image-guide'>
     Chọn ảnh bìa đại diện cho chiến dịch của bạn, nội dung ảnh nên khái quát lý do bạn gây quỹ.
     Những bức ảnh có người hoặc con vật làm tăng sự kết nối, đồng cảm giữa người xem với bạn, từ đó giúp bạn gây quỹ được nhiều và nhanh hơn.
 </p>;
+
+const validateImageFile = (file) => {
+    if (!file) {
+        return null;
+    }
+    let msg = {};
+    const acceptedTypes = ['image/jpeg', 'image/png'];
+    const maxSize = 5.1 * 1048576; //5 MB
+    
+    //Validate image
+    if (acceptedTypes.indexOf(file.type) < 0) {
+        msg.image = 'Chỉ nhận file ảnh .png hoặc .jpeg';
+    } else if (file.size > maxSize) {
+        msg.image = 'Ảnh không quá 5 MB';
+    }
+    if (Object.keys(msg).length === 0) {
+        msg = null;
+    }
+    return msg;
+}
 
 export default CreateCampaignImageBox;

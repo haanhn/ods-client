@@ -23,7 +23,8 @@ const Campaign = (props) => {
 
     const { slug } = props.match.params;
     const { id,
-        campaignTitle, campaignGoal,
+        campaignTitle, 
+        raised, campaignGoal, countDonations,
         campaignEndDate, campaignRatingPoint,
         campaignShortDescription, campaignDescription,
         Category
@@ -115,23 +116,12 @@ const Campaign = (props) => {
                             </aside>
                         </div>
                         <aside className="sidebar col-lg-12 col-md-12 col-sm-12">
-                            <CampaignProgressBar />
-                            <CampaignStatistic />
+                            <CampaignProgressBar raised={raised} goal={campaignGoal} />
+                            <CampaignStatistic countDonations={countDonations} />
                             <ButtonDonate slug={slug} />
                             <ButtonSubscribeCampaign />
                         </aside>
                     </div>
-                    {/* <div style={{ width: '100%' }}>
-                            <CampaignTabs />
-                            <Switch>
-                                <Route exact path={`${routes.CAMPAIGN_DETAIL}`}> <CampaignTabMoreInfo /> </Route>
-                                <Route exact path={`${routes.CAMPAIGN_DETAIL}/updates`}> <CampaignTabUpdates /> </Route>
-                                <Route exact path={`${routes.CAMPAIGN_DETAIL}/comments`}> <CampaignTabComments /> </Route>
-                                <Route exact path={`${routes.CAMPAIGN_DETAIL}/donations`}> <CampaignTabDonations /> </Route>
-                                <Route exact path={`${routes.CAMPAIGN_DETAIL}/ratings`} component={CampaignTabRatings} />
-                            </Switch>
-                        </div> */}
-
                 </div>
                 {/* End of section: basic info */}
                 <div style={{ width: '100%' }}>

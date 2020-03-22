@@ -3,24 +3,17 @@ import CurrencyFormat from 'react-currency-format';
 import NotFound from '../../pages/NotFound';
 import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
 import { getDonationStatus, getMethod } from './donationUtils';
-import { getDateTimeFormatDD_MM_YYYY_HH_MM_SS } from '../../../utils/commonUtils';
+import { getDateFormatDD_MM_YYYY } from '../../../utils/commonUtils';
+import '../../css/host-manage-donations.css';
 
 const HostViewDonationDetail = (props) => {
     const myCampaignsContext = useContext(MyCampaignsContext);
-    let donation = null;
-    let initStatus = 'done';
-    let initDonationStatus = 'done';
-    if (props && props.location) {
-        if (props.location.state) {
-            if (props.location.state.donation) {
-                donation = props.location.state.donation;
-                initStatus = getDonationStatus(donation.donationStatus);
-                initDonationStatus = donation.donationStatus;
-            }
-        }
-    }
+    const { code } = props.match.params;
+    const donation = getDonation(code, myCampaignsContext.myCampaignDonations);
 
-    
+    let initStatus = getDonationStatus(donation.donationMessage);
+    let initDonationStatus = donation.donationStatus;
+
     const [donationStatus, setDonationStatus] = useState(initDonationStatus);
     const [status, setStatus] = useState(initStatus);
 
@@ -41,12 +34,16 @@ const HostViewDonationDetail = (props) => {
         return <NotFound />
     }
 
-    const date = getDateTimeFormatDD_MM_YYYY_HH_MM_SS(donation.createdAt);
+    const date = getDateFormatDD_MM_YYYY(donation.createdAt);
     const method = getMethod(donation.donationMethod);
 
     return (
         <div className='host-donation-detail' >
             <table className="table">
+
+                <col style={{ width: '180px',  }} />
+                <col style={{  }} />
+
                 <tbody>
                     <tr>
                         <td>Mã quyên góp</td>
@@ -54,11 +51,11 @@ const HostViewDonationDetail = (props) => {
                     </tr>
                     <tr>
                         <td>Người quyên góp</td>
-                        <td> {donation.User.fullname} </td>
+                        <td> {donation.User ? donation.User.fullname : ''} </td>
                     </tr>
                     <tr>
                         <td>Email</td>
-                        <td> {donation.User.email} </td>
+                        <td> {donation.User ? donation.User.email : ''} </td>
                     </tr>
                     <tr>
                         <td>Số tiền</td>
@@ -100,18 +97,31 @@ const HostViewDonationDetail = (props) => {
                             <td> {donation.donationMessage} </td>
                         </tr>
                     ) : null}
-                    <tr>
+                    {donation.donationMethod !== 'paypal' ? (<tr>
                         <td colSpan='2' style={{ textAlign: 'center' }}>
                             <button className='btn btn-success' style={{ marginRight: '15px' }}
                                 onClick={updateStatus}
                             >Xác nhận</button>
                             <button className='btn btn-danger' onClick={updateStatus}>Từ chối</button>
                         </td>
-                    </tr>
+                    </tr>) : null}
+
                 </tbody>
             </table>
         </div>
     )
+}
+
+const getDonation = (trackingCode, donations) => {
+    if (!donations || donations.length === 0) {
+        return {};
+    }
+    let donation = {};
+    for (donation of donations) {
+        if (trackingCode === donation.trackingCode) {
+            return donation;
+        }
+    }
 }
 
 export default HostViewDonationDetail;

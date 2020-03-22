@@ -1,7 +1,7 @@
 export const getDonationStatus = (status) => {
-    let type = 'đã xác nhận';
+    let type = 'xác nhận';
     if (status === 'pending') {
-        type = 'chờ xác nhận';
+        type = 'chờ duyệt';
     } else if (status === 'reject') {
         type = 'từ chối';
     }
@@ -9,9 +9,9 @@ export const getDonationStatus = (status) => {
 }
 
 export const getMethod = (method) => {
-    let type = 'Chuyển tiền mặt';
+    let type = 'Tiền mặt';
     if (method === 'banking') {
-        type = 'Chuyển ngân hàng';
+        type = 'Ngân hàng';
     } else if (method === 'paypal') {
         type = 'Paypal';
     }

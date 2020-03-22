@@ -21,6 +21,7 @@ const MyCampaign = (props) => {
             HEADER HEADER
             <Switch>
                 <Route exact path={routes.MY_CAMPAIGN_POSTS} component={MyCampaignPosts} />
+                <Route exact path={routes.MY_CAMPAIGN_POST_CREATE} component={FormCreateCampaignPost} />
                 <Route exact path={routes.MY_CAMPAIGN_POST_DETAIL} component={FormCreateCampaignPost} />
                 <Route exact path={routes.MY_CAMPAIGN_DONATIONS} component={MyCampaignDonations} />
                 <Route exact path={routes.MY_CAMPAIGN_DONATION_DETAIL} component={HostViewDonationDetail} />

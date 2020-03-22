@@ -83,7 +83,7 @@ const MycampaignsState = props => {
   }
 
   //Host Create Campaign Posts
-  const createCampaignPost = async (title, content) => {
+  const createCampaignPost = async (title, content, status) => {
     const token = localStorage.getItem(localStoreKeys.token);
     const campaignId = state.hostViewingCampaign.id;
     try {
@@ -93,7 +93,8 @@ const MycampaignsState = props => {
           campaignId: campaignId,
           post: {
             postTitle: title,
-            postContent: content
+            postContent: content,
+            postStatus: status,
           }
         }
       );

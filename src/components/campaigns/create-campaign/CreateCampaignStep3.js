@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Alert from '../../common/Alert';
 
 
-const CreateCampaignDetails = (props) => {
+const CreateCampaignStep3 = (props) => {
     const campaignsContext = useContext(CampaignsContext);
     const { regions } = campaignsContext;
     const { campaign, createCampaignStep3 } = props;
@@ -39,7 +39,7 @@ const CreateCampaignDetails = (props) => {
 
     const createStep3 = (event) => {
         event.preventDefault();
-        const address = inputAddress.current.value;
+        const address = inputAddress.current.value.trim();
         let region = inputRegion.current.value;
 
         setAlertAddress(null);
@@ -74,10 +74,10 @@ const CreateCampaignDetails = (props) => {
             <form>
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
-                        Địa chỉ
+                        Địa chỉ chiến dịch
                     </label>
                     <div className="col-sm-12">
-                        <input type="text" className="form-control" placeholder="Địa chỉ"
+                        <input type="text" className="form-control" placeholder="Địa chỉ chiến dịch"
                             // value={title} onChange={updateTitle} 
                             defaultValue={campaign.address}
                             ref={inputAddress}
@@ -170,27 +170,25 @@ const CreateCampaignDetails = (props) => {
 const validateData = (address, goal, endDate) => {
     let msg = {};
     const goal10M = 10000000000;
+    const goalMin = 100000;
+    //Address
     if (address.length === 0) {
         msg.address = 'Xin nhập địa chỉ thực hiện chiến dịch';
+    } else if (address.length > 200) {
+        msg.address = 'Địa chỉ không quá 200 kí tự';
     }
     //Goal
-    if (typeof goal === 'number') {
-        console.log(`goal typeof number ${goal}`);
-        if (goal > goal10M) {
-            msg.goal = 'Hiện tại chúng tôi chỉ hỗ trợ mục tiêu dưới 10 tỷ đồng';
-        }
+    let goalStr = goal + '';
+    if (goalStr.length === 0) {
+        msg.goal = 'Xin nhập mục tiêu';
     } else {
-        if (goal.length === 0) {
-            msg.goal = 'Xin nhập mục tiêu';
-        } else {
-            const goalNumber = parseFloat(goal);
-            if (goalNumber > goal10M) {
-                msg.goal = 'Hiện tại chúng tôi chỉ hỗ trợ mục tiêu dưới 10 tỷ đồng';
-            }
+        const goalNumber = parseFloat(goalStr);
+        if (goalNumber > goal10M) {
+            msg.goal = 'Chúng tôi chỉ hỗ trợ mục tiêu dưới 10 tỷ đồng';
+        } else if (goal < goalMin) {
+            msg.goal = 'Mục tiêu cần lớn hơn 100,000 đồng';
         }
     }
-    console.log(`goal ${goal.length}`)
-    console.log(`goal ${typeof goal}`);
     //endDate
     if (!endDate) {
         msg.endDate = 'Xin nhập ngày kết thúc';
@@ -201,4 +199,4 @@ const validateData = (address, goal, endDate) => {
     return msg;
 }
 
-export default CreateCampaignDetails;
+export default CreateCampaignStep3;

@@ -5,7 +5,7 @@ import { odsBase, odsAPIOpenRoutes } from '../../../odsApi';
 import { Editor } from '@tinymce/tinymce-react';
 import { mceApiKey } from '../../../privateApiKeys';
 
-const CreateCampaignMoreInfo = (props) => {
+const CreateCampaignStep2 = (props) => {
 
     const { campaign, createCampaignStep2 } = props;
     const [image, setImage] = useState(campaign.image);
@@ -151,4 +151,4 @@ const tipsForStory = (
     People respond to authenticity, information, and hope. Your job is to provide them.</p>
 );
 
-export default CreateCampaignMoreInfo;
+export default CreateCampaignStep2;

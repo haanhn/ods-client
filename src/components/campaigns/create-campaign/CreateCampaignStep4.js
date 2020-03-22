@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import CampaignsContext from '../../../context/campaigns/campaignsContext';
 import Alert from '../../common/Alert';
 
-const CreateCampaignMethods = (props) => {
+const CreateCampaignStep4 = (props) => {
     const campaignsContext = useContext(CampaignsContext);
     const { regions } = campaignsContext;
     const { user, bankAccount, createCampaignStep4 } = props;
@@ -78,13 +78,13 @@ const CreateCampaignMethods = (props) => {
             <form>
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
-                        Địa chỉ <i class="fas fa-info-circle icon-small theme_color"
+                        Địa chỉ liên hệ<i class="fas fa-info-circle icon-small theme_color"
                             style={{ padding: '0 7px' }}
                         // onClick={showTipsStory} 
                         ></i>
                     </label>
                     <div className="col-sm-12">
-                        <input type="text" className="form-control" placeholder="Địa chỉ"
+                        <input type="text" className="form-control" placeholder="Địa chỉ liên hệ"
                             defaultValue={defaultAddress()}
                             ref={inputAddress}
                         />
@@ -173,11 +173,17 @@ const CreateCampaignMethods = (props) => {
 
 const validateData = (address, accountNumber, bankName) => {
     let msg = {};
+    //Address
     if (address.length === 0) {
-        msg.address = 'Xin nhập địa chỉ thường trú hoặc tạm trú của bạn';
+        msg.address = 'Xin nhập địa chỉ liên hệ của bạn';
+    } else if (address.length > 200) {
+        msg.address = 'Địa chỉ không quá 200 kí tự';
     }
+    //Account number
     if (accountNumber.length === 0) {
         msg.accountNumber = 'Xin nhập số tài khoản ngân hàng';
+    } else if (accountNumber.length > 22) {
+        msg.accountNumber = 'Số tài khoản ngân hàng không đúng';
     } else {
         const regex = new RegExp('^[0-9]+$');
         const valid = regex.test(accountNumber);
@@ -185,8 +191,11 @@ const validateData = (address, accountNumber, bankName) => {
             msg.accountNumber = 'Số tài khoản ngân hàng chỉ chứa các chữ số';
         }
     }
+    //Bank name
     if (bankName.length === 0) {
         msg.bankName = 'Xin nhập tên ngân hàng';
+    } else if (bankName.length > 100) {
+        msg.address = 'Tên ngân hàng không quá 100 kí tự';
     }
     if (Object.keys(msg).length === 0) {
         msg = null;
@@ -194,4 +203,4 @@ const validateData = (address, accountNumber, bankName) => {
     return msg;
 }
 
-export default CreateCampaignMethods;
+export default CreateCampaignStep4;

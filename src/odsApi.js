@@ -21,10 +21,14 @@ export const routes = {
   MY_CAMPAIGNS: '/my-campaigns',
   MY_CAMPAIGN_DETAIL: '/my-campaigns/:slug',
   getRouteMyCampaignDetail(slug) { return `/my-campaigns/${slug}`; },
+  //Route: Host campaign posts
   MY_CAMPAIGN_POSTS: '/my-campaigns/:slug/posts',
   getRouteMyCampaignPosts(slug) { return `/my-campaigns/${slug}/posts`; },
-  MY_CAMPAIGN_POST_DETAIL: '/my-campaigns/:slug/posts/detail',
-  getRouteMyCampaignPostDetail(slug) { return `/my-campaigns/${slug}/posts/detail`; },
+  MY_CAMPAIGN_POST_CREATE: '/my-campaigns/:slug/posts/create',
+  getRouteMyCampaignPostCreate(slug) { return `/my-campaigns/${slug}/posts/create`; },
+  MY_CAMPAIGN_POST_DETAIL: '/my-campaigns/:slug/posts/:id',
+  getRouteMyCampaignPostDetail(slug, postId) { return `/my-campaigns/${slug}/posts/${postId}`; },
+  //Route: Host campaign donations
   MY_CAMPAIGN_DONATIONS: '/my-campaigns/:slug/donations',
   getRouteMyCampaignDonations(slug) { return `/my-campaigns/${slug}/donations`; },
   MY_CAMPAIGN_DONATION_DETAIL: '/my-campaigns/:slug/donations/:code',

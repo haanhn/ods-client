@@ -10,16 +10,16 @@ import CreateCampaignCompleted from '../campaigns/create-campaign/CreateCampaign
 import { odsBase, odsAPIOpenRoutes, odsAPIAuthorizedUser, routes, localStoreKeys } from '../../odsApi';
 import '../campaigns/campaign2.css';
 import reducer from '../campaigns/create-campaign/createCampaignReducer';
-import CreateCampaignName from '../campaigns/create-campaign/CreateCampaignName';
+import CreateCampaignStep1 from '../campaigns/create-campaign/CreateCampaignStep1';
 import '../css/create-campaign.css';
 import CreateCampaignContentBox from '../campaigns/create-campaign/CreateCampaignContentBox';
-import CreateCampaignMoreInfo from '../campaigns/create-campaign/CreateCampaignMoreInfo';
-import CreateCampaignDetails from '../campaigns/create-campaign/CreateCampaignDetails';
+import CreateCampaignStep2 from '../campaigns/create-campaign/CreateCampaignStep2';
+import CreateCampaignStep3 from '../campaigns/create-campaign/CreateCampaignStep3';
 import CampaignPreviewBasicInfo from '../campaigns/create-campaign/CampaignPreviewBasicInfo';
 import CreateCampaignSuccess from '../campaigns/create-campaign/CreateCampaignSuccess';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
 import { types } from '../../components/campaigns/create-campaign/createCampaignTypes';
-import CreateCampaignMethods from '../campaigns/create-campaign/CreateCampaignMethods';
+import CreateCampaignStep4 from '../campaigns/create-campaign/CreateCampaignStep4';
 
 
 const CreateCampaign = (props) => {
@@ -271,17 +271,17 @@ const CreateCampaign = (props) => {
 
     switch (state.currentStep) {
         case 0:
-            stepJsx = <CreateCampaignName campaign={state.campaign}
+            stepJsx = <CreateCampaignStep1 campaign={state.campaign}
                 createCampaignStep1={createCampaignStep1} />;
             break;
         case 1:
-            stepJsx = <CreateCampaignMoreInfo campaign={state.campaign} createCampaignStep2={createCampaignStep2} />;
+            stepJsx = <CreateCampaignStep2 campaign={state.campaign} createCampaignStep2={createCampaignStep2} />;
             break;
         case 2:
-            stepJsx = <CreateCampaignDetails campaign={state.campaign} createCampaignStep3={createCampaignStep3} />;
+            stepJsx = <CreateCampaignStep3 campaign={state.campaign} createCampaignStep3={createCampaignStep3} />;
             break;
         case 3:
-            stepJsx = <CreateCampaignMethods user={state.user} bankAccount={state.bankAccount}
+            stepJsx = <CreateCampaignStep4 user={state.user} bankAccount={state.bankAccount}
                 createCampaignStep4={createCampaignStep4} />;
             break;
         case 4:
@@ -292,7 +292,7 @@ const CreateCampaign = (props) => {
             stepJsx = <CreateCampaignSuccess />;
             break;
         default:
-            stepJsx = <CreateCampaignName campaign={state.campaign}
+            stepJsx = <CreateCampaignStep1 campaign={state.campaign}
                 createCampaignStep1={createCampaignStep1} />;
     }
 
@@ -316,16 +316,6 @@ const CreateCampaign = (props) => {
                     </CreateCampaignContentBox>
                 )
             }
-
-            {/* <CreateCampaignContentBox campaignTitle={state.campaign.campaignTitle}>
-                {/* <CreateCampaignName campaign={state.campaign} createCampaignStep1={createCampaignStep1} />
-                <CreateCampaignMoreInfo campaign={state.campaign} createCampaignStep2={createCampaignStep2} />
-                <CreateCampaignDetails campaign={state.campaign} createCampaignStep3={createCampaignStep3} />
-                <CreateCampaignMethods user={state.user} bankAccount={state.bankAccount}
-                    createCampaignStep4={createCampaignStep4} /> */}
-            {/* {stepJsx} */}
-            {/* <CampaignPreviewBasicInfo campaign={state.campaign} host={state.user} /> */}
-            {/* </CreateCampaignContentBox> */}
         </div>
     );
 }
