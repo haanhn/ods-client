@@ -1,0 +1,61 @@
+.rating-statistics-container {
+    padding: 0;
+    margin-bottom: 12px;
+}
+.rating-point-overview {
+    text-align: center;
+}
+.rating-point-overview .point {
+    font-size: 230%;
+    font-weight: bold;
+}
+.rating-point-overview .fas {
+    font-size: 28px;
+}
+.rating-breakdown .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+.rating-breakdown .col-1,
+.rating-breakdown .col-9,
+.rating-breakdown .col-2 {
+    padding: 0 5px;
+}
+.rating-breakdown-item > div:first-of-type {
+    text-align: right;
+}
+.rating-breakdown-item > div:nth-of-type(2) {
+    padding-top: 7px;
+}
+
+/* Responsive for rating overview box */
+@media (min-width: 768px)  {
+    .rating-point-overview {
+        padding-left: 80px;
+        padding-top: 15px;
+    }
+}
+@media (min-width: 800px)  {
+    .rating-point-overview {
+        padding-left: 70px;
+        padding-top: 15px;
+    }
+}
+@media (min-width: 900px)  {
+    .rating-point-overview {
+        padding-left: 90px;
+        padding-top: 15px;
+    }
+}
+@media (min-width: 1000px)  {
+    .rating-point-overview {
+        padding-left: 120px;
+        padding-top: 15px;
+    }
+}
+@media (min-width: 1150px)  {
+    .rating-point-overview {
+        padding-left: 180px;
+        padding-top: 15px;
+    }
+}

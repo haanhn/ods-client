@@ -13,6 +13,8 @@ const CampaignsState = (props) => {
         viewingCampaign: {},
         campaignComments: [],
         campaignDonations: [],
+        campaignRatings: [],
+        myCampaignRating: {},
         loading: false
     }
 
@@ -78,7 +80,7 @@ const CampaignsState = (props) => {
     const createCampaignComment = async (commentContent) => {
         const token = localStorage.getItem(localStoreKeys.token);
         try {
-            const res = await axios.post(`${odsBase}${odsAPIOpenRoutes.createCampaignComment}`, {
+            await axios.post(`${odsBase}${odsAPIOpenRoutes.createCampaignComment}`, {
                 token: token,
                 campaign: {
                     id: state.viewingCampaign.id
@@ -129,6 +131,67 @@ const CampaignsState = (props) => {
         }
     };
 
+    //**********
+    //***** CAMPAIGN RATINGS *****
+    //**********
+    const getCampaignRatings = async (slug) => {
+        const route = odsAPIOpenRoutes.getCampaignRatings(slug);
+        try {
+            const res = await axios.get(`${odsBase}${route}`);
+            dispatch({
+                type: actionTypes.SET_CAMPAIGN_RATINGS,
+                payload: res.data.result
+            });
+            const myReview = getMyCampaignReview(res.data.result);
+            dispatch({
+                type: actionTypes.SET_MY_CAMPAIGN_RATING,
+                payload: myReview
+            });
+            console.log(`get campaign ratings success`);
+        } catch (error) {
+            console.error(`Error when get campaign ratings: ${error}`);
+            throw error;
+        }
+    };
+
+    // Get campaign rating stats
+    const getCampaignRatingsStats = async (slug) => {
+        const route = odsAPIOpenRoutes.getCampaignRatingsStats(slug);
+        try {
+            const res = await axios.get(`${odsBase}${route}`);
+            console.log(`get campaign ratings stats success`);
+            return res.data.result;
+        } catch (error) {
+            console.error(`Error when get campaign ratings stats: ${error}`);
+            throw error;
+        }
+    };
+    
+    const postCampaignRating = async (point, content) => {
+        const route = odsAPIOpenRoutes.postCampaignRating;
+        const token = localStorage.getItem(localStoreKeys.token);
+        const campaignId = state.viewingCampaign.id;
+        try {
+            const res = await axios.post(`${odsBase}${route}`, {
+                token,
+                campaignId,
+                review: {
+                    point: point,
+                    content: content
+                }
+            });
+            dispatch({
+                type: actionTypes.SET_MY_CAMPAIGN_RATING,
+                payload: res.data.result
+            });
+            console.log(`post campaign ratings success`);
+            return 1; //success
+        } catch (error) {
+            console.error(`Error when post campaign ratings: ${error}`);
+            return -1; //fail
+        }
+    };
+
     const setCampaignToEmpty = () => dispatch({ type: actionTypes.SET_VIEWING_CAMPAIGN, payload: {} });
 
     const setLoading = (isLoading) => dispatch({ type: actionTypes.SET_LOADING, payload: isLoading });
@@ -141,6 +204,8 @@ const CampaignsState = (props) => {
             regions: state.regions,
             campaignComments: state.campaignComments,
             campaignDonations: state.campaignDonations,
+            campaignRatings: state.campaignRatings,
+            myCampaignRating: state.myCampaignRating,
             getCategories: getCategories,
             loading: state.loading,
             //-------------------------------
@@ -154,11 +219,52 @@ const CampaignsState = (props) => {
             createCampaignComment,
             getCampaignComments,
             //Donations
-            getCampaignDonations
+            getCampaignDonations,
+            //Campaign Ratings
+            getCampaignRatings,
+            getCampaignRatingsStats,
+            postCampaignRating
         }}>
             {props.children}
         </CampaignsContext.Provider>
     );
 }
 
+const getMyCampaignReview = (reviews) => {
+    if (!reviews || reviews.length === 0) {
+        return {};
+    }
+    const userId = localStorage.getItem(localStoreKeys.userId);
+    let myReview = {};
+    let i = 0;
+    for (i = 0; i < reviews.length; i++) {
+        const review = reviews[i];
+        if (userId === review.userId) {
+            myReview = review;
+            break;
+        }
+    }
+    return myReview;
+}
+
 export default CampaignsState;
+
+//GET CAMPAIGN BY SLUG
+// const getCampaignRatingPoint = async (slug) => {
+//     try {
+//         setLoading(true);
+//         const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getCampaignDetailBySlug}${slug}`);
+//         const campaign = res.data.campaign;
+//         campaign.raised = res.data.raised;
+//         campaign.countDonations = res.data.countDonations;
+//         dispatch({
+//             type: actionTypes.SET_CAMPAIGN_RATING_POINT,
+//             payload: campaign.campaignRatingPoint
+//         });
+//         console.log('get Campaign rating success');
+//         setLoading(false);
+//     } catch (error) {
+//         console.log(error);
+//         // throw error;
+//     }
+// };

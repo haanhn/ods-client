@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import './campaign.css';
 
-const RatingStars = () => {
+const RatingStars = (props) => {
     const maxStars = 5;
-    const points = 2.5;
+    const points = props.points ? props.points : 1;
     const pointsRounded = Math.floor(points);
     const maxIndexStarChecked = pointsRounded - 1;
 

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import CampaignComment from './CampaignComment';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
+import Alert from '../common/Alert';
 
 const CampaignComments = () => {
     const campaignsContext = useContext(CampaignsContext);
@@ -13,7 +14,7 @@ const CampaignComments = () => {
             return <CampaignComment comment={comment} />
         });
     } else {
-        commentsJsx = <p>Hiện tại chưa có bình luận nào</p>
+        commentsJsx = <Alert alert={alertEmpty} />;
     }
 
     return (
@@ -22,5 +23,6 @@ const CampaignComments = () => {
         </div>
     );
 }
+const alertEmpty = { type: 'secondary', msg: 'Hiện tại chưa có bình luận nào' };
 
 export default CampaignComments;

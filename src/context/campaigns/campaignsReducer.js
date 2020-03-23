@@ -42,6 +42,25 @@ const campaignReducer = (state, action) => {
                 ...state,
                 campaignDonations: data
             });
+        //Campaign Ratings
+        case actionTypes.SET_CAMPAIGN_RATINGS:
+            return ({
+                ...state,
+                campaignRatings: data
+            });
+        case actionTypes.SET_MY_CAMPAIGN_RATING:
+            return ({
+                ...state,
+                myCampaignRating: data
+            });
+        // case actionTypes.SET_CAMPAIGN_RATING_POINT:
+        //     return ({
+        //         ...state,
+        //         viewingCampaign: {
+        //             ...state.viewingCampaign,
+        //             campaignRatingPoint: data
+        //         }
+        //     });
         case actionTypes.SET_LOADING:
             return ({
                 ...state,

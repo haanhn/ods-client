@@ -1,0 +1,31 @@
+/****** Campaign Rating ******/
+.form-create-rating {
+    /* text-align: center; */
+    /* max-width: 600px; */
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+.form-create-rating h6 {
+    margin-bottom: 10px;
+    padding-right: 8px;
+}
+.form-create-rating .form-group {
+    margin-bottom: 8px;
+}
+
+.form-create-rating .form-rating-stars {
+    margin-bottom: 10px;
+}
+.form-rating-stars .fa-star {
+    font-size: 16px;
+}
+.form-rating-stars .star-checked {
+    color: darkgoldenrod;
+}
+.form-create-rating .fa-star:hover {
+    cursor: pointer;
+}
+.div-rating-stars > h6,
+.div-rating-stars > div {
+    display: inline-block;
+}

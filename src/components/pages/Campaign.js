@@ -12,11 +12,12 @@ import CampaignTabUpdates from '../campaigns/CampaignTabUpdates';
 import CampaignTabComments from '../campaigns/CampaignTabComments';
 import CampaignTabDonations from '../campaigns/CampaignTabDonations';
 import { Switch, Route } from 'react-router-dom';
-import { routes } from '../../odsApi';
+import { odsBase, routes, localStoreKeys } from '../../odsApi';
 import CampaignTabRatings from '../campaigns/CampaignTabRatings';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
 import NotFound from './NotFound';
 import '../css/campaign-detail.css';
+import axios from 'axios';
 
 const Campaign = (props) => {
     const campaignsContext = useContext(CampaignsContext);
@@ -42,7 +43,11 @@ const Campaign = (props) => {
 
     const { loading } = campaignsContext;
 
+    const [ratingStats, setRatingStats] = useState({});
+    const [myRating, setMyRating] = useState({});
+    const [allowedRating, setAllowedRating] = useState(false);
     const [resStatus, setResStatus] = useState(200);
+
     useEffect(() => {
         fetchCampaign();
 
@@ -62,6 +67,13 @@ const Campaign = (props) => {
             // console.log(`get comments`);
             campaignsContext.getCampaignDonations(slug);
             // console.log(`get donations`);
+            campaignsContext.getCampaignRatings(slug);
+            const stats = await campaignsContext.getCampaignRatingsStats(slug);
+            const myCampRating = campaignsContext.myCampaignRating;
+            const allowed = await getCampaignRatingAllow(slug);
+            setRatingStats(stats);
+            setMyRating(myCampRating);
+            setAllowedRating(allowed);
         } catch (error) {
             if (error.response) {
                 console.log(error.response);
@@ -75,6 +87,7 @@ const Campaign = (props) => {
 
     const routeComments = routes.getRouteCampaignComments(slug);
     const routeDonations = routes.getRouteCampaignDetailDonations(slug);
+    const routeRatings = routes.getRouteCampaignRatings(slug);
 
     if (resStatus === 404) {
         return <NotFound />;
@@ -108,9 +121,9 @@ const Campaign = (props) => {
                     {/* <!--Sidebar Side--> */}
                     <div className="sidebar-side col-lg-4 col-md-12 col-sm-12" >
                         <div className='rating-host-container row'>
-                            <aside className="sidebar col-lg-12 col-md-6 col-sm-6">
-                                <RatingOverviewBox />
-                            </aside>
+                            {/* <aside className="sidebar col-lg-12 col-md-6 col-sm-6"> */}
+                                <RatingOverviewBox campaignRatingPoint={campaignRatingPoint} ratingStats={ratingStats} />
+                            {/* </aside> */}
                             <aside className="sidebar col-lg-12 col-md-6 col-sm-6">
                                 <CampaignHostInfo host={getHost()} />
                             </aside>
@@ -133,7 +146,12 @@ const Campaign = (props) => {
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}/updates`}> <CampaignTabUpdates /> </Route>
                         <Route exact path={routeComments}> <CampaignTabComments /> </Route>
                         <Route exact path={routeDonations}> <CampaignTabDonations /> </Route>
-                        <Route exact path={`${routes.CAMPAIGN_DETAIL}/ratings`} component={CampaignTabRatings} />
+                        <Route exact path={routeRatings}> 
+                            <CampaignTabRatings slug={slug}
+                                ratingPoint={campaignRatingPoint} 
+                                ratingStats={ratingStats}
+                                allowedRating={allowedRating} myRating={myRating} />
+                        </Route>
                     </Switch>
                 </div>
             </div>
@@ -147,3 +165,26 @@ const Campaign = (props) => {
 }
 
 export default Campaign;
+
+const getCampaignRatingAllow = async (slug) => {
+    const route = '/api/campaignReviews/check-allow/' + slug;
+    const token = localStorage.getItem(localStoreKeys.token);
+    if (!token) {
+        return false;
+    }
+    try {
+        const res = await axios.post(`${odsBase}${route}`, {
+            token: token
+        });
+        const result = res.data.result;
+        console.log('result ' +result);
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error(`Error when get campaign rating allow: ${error}`);
+        return false; //fail
+    }
+};

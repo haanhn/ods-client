@@ -64,6 +64,7 @@ const CreateCampaignStep1 = (props) => {
                         <i class="fas fa-info-circle icon-small theme_color"
                             data-toggle="modal" data-target="#modalTipsName"
                             style={{ padding: '0 7px' }} ></i>
+                            {/* <button data-toggle="modal" data-target="#modalTipsName">k</button> */}
                     </label>
                     <div className="col-sm-12">
                         <input type="text" className="form-control" placeholder="Tên chiến dịch"

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import CampaignDonorItem from './CampaignDonorItem';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
+import Alert from '../common/Alert';
 
 const CampaignDonorItems = () => {
     const campaignsContext = useContext(CampaignsContext);
@@ -8,23 +9,21 @@ const CampaignDonorItems = () => {
 
     let donationsJsx = null;
     if (donations && donations.length > 0) {
-        donationsJsx = donations.map(donation => <CampaignDonorItem donation={donation} /> );
+        donationsJsx = donations.map(donation => <CampaignDonorItem donation={donation} />);
+        return (
+            <div className='row clearfix donor-items'>
+                {donationsJsx}
+            </div>
+        );
     } else {
-        donationsJsx = <p>Chưa có ai quyên góp cho chiến dịch này. Hãy là người quyên góp đầu tiên.</p>
+        return <Alert alert={alertEmpty} />
     }
+}
 
-    return (
-        <div className='row clearfix donor-items'> 
-            { donationsJsx }
-            {/* <CampaignDonorItem/>
-            <CampaignDonorItem/>
-            <CampaignDonorItem/>
-            <CampaignDonorItem/>
-            <CampaignDonorItem/>
-            <CampaignDonorItem/>
-            <CampaignDonorItem/> */}
-        </div>
-    );
+const alertEmpty = {
+    type: 'secondary',
+    msg: 'Chưa có ai quyên góp cho chiến dịch này. Hãy là người quyên góp đầu tiên.'
 };
+
 
 export default CampaignDonorItems;

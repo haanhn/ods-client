@@ -67,7 +67,7 @@ h2 {
     margin-right: 0;
 }
 .campaign-comment:not(:last-child) {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 .campaign-comment img {
     max-width: 60px;
@@ -135,9 +135,16 @@ h2 {
     }
 }
 /******* Campaign Tab Ratings *******/
-.campaign-ratings {
-    padding: 20px 30px;
+
+/* .campaign-ratings { */
+.campaign-tab-ratings {
+    padding: 20px 30px 30px;
 }
 .campaign-rating > div:first-of-type {
     margin-bottom: 10px;
+}
+@media (max-width: 950px)  {
+    .campaign-tab-ratings {
+        padding: 20px 0px;
+    }
 }

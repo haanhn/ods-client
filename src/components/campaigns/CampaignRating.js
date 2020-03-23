@@ -1,24 +1,30 @@
 import React from 'react';
 import './campaign2.css';
 import RatingStars from '../common/RatingStars';
+import { getDateFormatDD_MM_YYYY } from '../../utils/commonUtils';
 
-const CampaignRating = () => {
+const CampaignRating = (props) => {
+    const { id, point, content, updatedAt, User } = props.rating;
+
+    const updatedAtFormated = getDateFormatDD_MM_YYYY(updatedAt);
+
     return (
         <div className='campaign-comment campaign-rating'>
             <div className='grid-row'>
                 <img src='/images/default-data-images/default-user-avatar.png' className='grid-col' />
                 <div className='grid-col'>
-                    <h5>Host name</h5>
-                    31/01/2020
+                    <h6> {User && User.fullname ? User.fullname : 'Tên donor'} </h6>
+                    <span style={{fontSize: '90%'}}>
+                        {updatedAtFormated}
+                    </span>
                     <div>
-                        <RatingStars />
+                        <RatingStars points={point} />
                     </div>
                 </div>
 
             </div>
-            <div className='comment-content'>
-                commenting commenting commenting commenting commenting commenting commenting
-                commenting commenting
+            <div>
+                {content}
             </div>
         </div>
     );
