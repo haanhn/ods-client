@@ -9,6 +9,8 @@ export const actionTypes = {
     //campaigns
     GET_CAMPAIGNS: 'GET_CAMPAIGNS',
     SET_VIEWING_CAMPAIGN: 'SET_VIEWING_CAMPAIGN',
+    //posts
+    SET_POSTS: 'SET_POSTS',
     //comments
     SET_COMMENTS: 'SET_COMMENTS',
     SET_DONATIONS: 'SET_DONATIONS',

@@ -8,6 +8,7 @@ export const routes = {
   // CAMPAIGN_DETAIL: '/campaigns/:slug',
   CAMPAIGN_DETAIL: '/campaigns/:slug',
   getRouteCampaignDetail: (slug) => `/campaigns/${slug}`,
+  getRouteCampaignPosts: (slug) => `/campaigns/${slug}/updates`,
   getRouteCampaignComments (slug) { return `/campaigns/${slug}/comments`; },
   getRouteCampaignDetailDonations (slug) { return `/campaigns/${slug}/donations`; },
   getRouteCampaignRatings (slug) { return `/campaigns/${slug}/ratings`; },
@@ -50,6 +51,7 @@ export const odsAPIOpenRoutes = {
   createCampaignComment: `/api/comments`,
   // url: /api/comments/:campaignSlug
   getCampaignComments: `/api/comments/`,
+  getCampaignPosts: (slug) => `/api/posts/get-all-post/${slug}`,
   //Donations
   getCampaignDonations: (slug) => `/api/donations/get-by-campaign/${slug}`,
   donateCampaignCashOrBanking: '/api/donations/create',

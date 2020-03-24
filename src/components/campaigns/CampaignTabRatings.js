@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CampaignRatings from './CampaignRatings';
 import FormCreateRating from './campaign-detail/campaign-ratings/FormCreateRating';
 import RatingStatisticsContainer from '../common/rating-statistics/RatingStatisticsContainer';

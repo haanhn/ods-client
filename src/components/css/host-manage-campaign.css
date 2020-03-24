@@ -14,6 +14,9 @@
     padding-top: 25px;
     padding-bottom: 30px;
 }
+.host-list-posts header {
+    display: none;
+}
 .host-list-posts .table td {
     padding: .3rem;
 }
@@ -32,6 +35,6 @@
     .form-create-campaign-post,
     .host-list-posts,
     .preview-campaign-post {
-        max-width: 700px;
+        max-width: 1100px;
     }
 }

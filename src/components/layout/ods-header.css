@@ -1,0 +1,11 @@
+.ods-header a {
+    color: #252b2c;
+    font-size: 18px;
+}
+.ods-header {
+    border-bottom: 3px #3cc88f solid;
+    /* border-bottom: 3px #252b2c solid; */
+}
+/* .ods-header .navbar {
+    background-color: #3cc88f;
+} */

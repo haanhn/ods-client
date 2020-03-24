@@ -11,6 +11,7 @@ const CampaignsState = (props) => {
         regions: [],
         campaigns: [],
         viewingCampaign: {},
+        campaignPosts: [],
         campaignComments: [],
         campaignDonations: [],
         campaignRatings: [],
@@ -69,7 +70,26 @@ const CampaignsState = (props) => {
             console.log('get Campaign success');
             setLoading(false);
         } catch (error) {
+            setLoading(false);
             console.log(error);
+            throw error;
+        }
+    };
+
+    //**********
+    //***** CAMPAIGN POSTS *****
+    //**********
+    const getCampaignPosts = async (slug) => {
+        try {
+            const route = odsAPIOpenRoutes.getCampaignPosts(slug);
+            const res = await axios.get(`${odsBase}${route}`);
+            dispatch({
+                type: actionTypes.SET_POSTS,
+                payload: res.data.result
+            });
+            console.log(`get posts success`);
+        } catch (error) {
+            console.error(`Error when get campaign posts: ${error}`);
             throw error;
         }
     };
@@ -105,7 +125,7 @@ const CampaignsState = (props) => {
                 payload: res.data.comments
             });
             console.log(`get comments success`);
-            
+
         } catch (error) {
             console.error(`Error when get campaign comments: ${error}`);
             throw error;
@@ -124,7 +144,7 @@ const CampaignsState = (props) => {
                 payload: res.data.donations
             });
             console.log(`get donations success`);
-            
+
         } catch (error) {
             console.error(`Error when get campaign comments: ${error}`);
             throw error;
@@ -166,7 +186,7 @@ const CampaignsState = (props) => {
             throw error;
         }
     };
-    
+
     const postCampaignRating = async (point, content) => {
         const route = odsAPIOpenRoutes.postCampaignRating;
         const token = localStorage.getItem(localStoreKeys.token);
@@ -202,6 +222,7 @@ const CampaignsState = (props) => {
             campaigns: state.campaigns,
             viewingCampaign: state.viewingCampaign,
             regions: state.regions,
+            campaignPosts: state.campaignPosts,
             campaignComments: state.campaignComments,
             campaignDonations: state.campaignDonations,
             campaignRatings: state.campaignRatings,
@@ -215,6 +236,8 @@ const CampaignsState = (props) => {
             setCampaignToEmpty,
             searchCampaigns,
             getRegions,
+            //Posts methods
+            getCampaignPosts,
             //Comments methods
             createCampaignComment,
             getCampaignComments,

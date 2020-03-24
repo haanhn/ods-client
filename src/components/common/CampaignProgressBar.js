@@ -1,9 +1,10 @@
 import React from 'react';
 import CurrencyFormat from 'react-currency-format';
 import './campaign.css';
+import { calculateDaysBetweenDates } from '../../utils/commonUtils';
 
 const CampaignProgressBar = (props) => {
-    const { raised, goal } = props;
+    const { raised, goal, campaignEndDate } = props;
     const raisedValue = raised ? raised : 0;
     const goalValue = goal ? goal : 0;
     const raisedJsx = <CurrencyFormat value={raisedValue} displayType={'text'} thousandSeparator={true} />;
@@ -18,13 +19,16 @@ const CampaignProgressBar = (props) => {
     if (progress >= 1) {
         progress = progress + '%';
     }
+    //left time
+    const today = new Date();
+    let leftTime = calculateDaysBetweenDates(today.toString(), campaignEndDate);
     return (
         <div className="campaign-progress">
             <div className="campaign-progress-number clearfix">
                 <div>
                     <strong> {raisedJsx} / {goalJsx} vnđ </strong>
                 </div>
-                <div>Còn <strong>5 ngày</strong> </div>
+                <div>Còn <strong>{leftTime}</strong> </div>
             </div>
             <div class="progress">
                 <div class="progress-bar bg-success"

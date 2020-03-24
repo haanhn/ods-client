@@ -1,3 +1,12 @@
+/****** Tab Campaign Posts ******/
+.campaign-tab-updates {
+    padding: 20px 20px 15px;
+}
+@media (max-width: 950px)  {
+    .campaign-tab-updates {
+        padding: 20px 0px 15px;
+    }
+}
 /****** Campaign Rating ******/
 .form-create-rating {
     /* text-align: center; */

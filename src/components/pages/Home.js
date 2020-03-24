@@ -23,7 +23,7 @@ function Home() {
             </div>
             <HomeFeatures />
             {/* <div className="dropdown" > */}
-                {/* <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {/* <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dropdown button
                             </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{ display: 'block' }}>

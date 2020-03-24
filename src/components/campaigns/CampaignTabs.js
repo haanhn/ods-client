@@ -5,6 +5,7 @@ import { routes } from '../../odsApi';
 const CampaignTabs = (props) => {
     const slug = props.slug;
     const routeCampaign = routes.getRouteCampaignDetail(slug);
+    const routePosts = routes.getRouteCampaignPosts(slug);
     const routeComments = routes.getRouteCampaignComments(slug);
     const routeDonations = routes.getRouteCampaignDetailDonations(slug);
     const routeRatings = routes.getRouteCampaignRatings(slug);
@@ -16,7 +17,7 @@ const CampaignTabs = (props) => {
                     <Link className="nav-link" to={routeCampaign}>Thông tin</Link>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="#">Cập nhật</a>
+                    <Link className="nav-link" to={routePosts}>Cập nhật</Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to={routeComments}>Bình luận</Link>

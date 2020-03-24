@@ -113,6 +113,14 @@ const AuthState = props => {
   // Clear Errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
+  // const isLoggedIn = () => {
+  //   const token = localStorage.getItem(localStoreKeys.token);
+  //   const [loggedIn, setLoggedIn] = useState(false);
+  //   if (token) {
+  //     setLoggedIn(true);
+  //   }
+  // }
+
   return (
     <AuthContext.Provider
       value={{

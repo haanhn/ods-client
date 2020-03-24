@@ -24,6 +24,7 @@ const FormDonateCashOrBanking = (props) => {
     const [alertMoney, setAlertMoney] = useState(null);
     const [alertName, setAlertName] = useState(null);
     const [alertEmail, setAlertEmail] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     //Jsx
     let nameJsx = <input type="text" className="form-control" placeholder="Tên"
@@ -69,9 +70,13 @@ const FormDonateCashOrBanking = (props) => {
             const campaignId = campaignsContext.viewingCampaign.id;
             if (method === 'paypal') {
                 console.log(method + ' ' + money)
+                setLoading(true);
                 await donatePaypal(campaignId, money, name, anonymous, noti, message);
+                setLoading(false);
             } else {
+                setLoading(true);
                 const res = await sendDonate(campaignId, method, money, name, email, anonymous, noti, message);
+                setLoading(false);
             }
 
         }
@@ -147,7 +152,14 @@ const FormDonateCashOrBanking = (props) => {
 
                 <div className="form-group">
                     <div style={{ textAlign: 'center' }}>
-                        <button className="btn btn-success" style={{ minWidth: '120px' }} onClick={donate} >Xác nhận</button>
+                        {loading ? (
+                            <button class="btn btn-success" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm"></span>
+                                &nbsp; Đang gửi...
+                            </button>
+                        ) : (
+                                <button className="btn btn-success" style={{ minWidth: '120px' }} onClick={donate} >Xác nhận</button>
+                            )}
                     </div>
                 </div>
             </form>
@@ -182,7 +194,7 @@ const validateData = (money, name, email, method) => {
 const validateMoney = (money, method) => {
     const goal10M = 10000000000;
     const min10K = 10000;
-    const minPaypal = 2;
+    const minPaypal = 20000;
     const minMoney = (method === 'paypal') ? minPaypal : min10K;
     const minMoneyFormat = (method === 'paypal') ? '20,000' : '10,000';
     let msgMoney = null;
@@ -214,7 +226,7 @@ const getDefaultData = (method) => {
         money: 10000
     };
     if (method === 'paypal') {
-        defaultData.money = 2;
+        defaultData.money = 20000;
     }
     const token = localStorage.getItem(localStoreKeys.token);
     if (token) {

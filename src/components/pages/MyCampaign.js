@@ -7,6 +7,7 @@ import mycampaignsContext from '../../context/mycampaigns/mycampaignsContext';
 import '../css/host-manage-campaign.css';
 import MyCampaignDonations from '../host-managements/manage-campaign-donation/MyCampaignDonations';
 import HostViewDonationDetail from '../host-managements/manage-campaign-donation/HostViewDonationDetail';
+import HostHeader from '../host-managements/HostHeader';
 
 const MyCampaign = (props) => {
     const myCampaignsContext = useContext(mycampaignsContext);
@@ -18,7 +19,7 @@ const MyCampaign = (props) => {
 
     return (
         <div className='my-campaign-management' >
-            HEADER HEADER
+            <HostHeader slug={slug} />
             <Switch>
                 <Route exact path={routes.MY_CAMPAIGN_POSTS} component={MyCampaignPosts} />
                 <Route exact path={routes.MY_CAMPAIGN_POST_CREATE} component={FormCreateCampaignPost} />

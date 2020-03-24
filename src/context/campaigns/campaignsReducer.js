@@ -30,6 +30,12 @@ const campaignReducer = (state, action) => {
                 ...state,
                 viewingCampaign: action.payload,
             });
+        //Posts
+        case actionTypes.SET_POSTS:
+            return ({
+                ...state,
+                campaignPosts: data
+            });
         //Comments
         case actionTypes.SET_COMMENTS:
             return ({

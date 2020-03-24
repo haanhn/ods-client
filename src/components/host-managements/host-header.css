@@ -1,0 +1,10 @@
+.host-header a {
+    color: #f0fff0;
+}
+.host-header {
+    margin-top: -3px;
+}
+.host-header .navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+}

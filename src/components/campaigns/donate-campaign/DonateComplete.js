@@ -12,16 +12,19 @@ const DonateComplete = (props) => {
         history.replace(route);
     }
 
-    // const alert = { type: 'success', message: 'Quyên góp của bạn đa' }
-
     return (
         <div className='donate-success' >
-            Đơn quyên góp của bạn đã được chuyển đến chủ của chiến dịch. <br/> 
-            Quyên góp của bạn sẽ được xác nhận qua email trong thời gian sớm nhất kể từ khi tiền được chuyển thành công đến người nhận.<br/>
-            Bạn vui lòng kiếm tra mail để xem các thông tin cần thiết cho việc chuyển tiền.<br/>
-            <b>Xin chân thành cảm ơn vì sự chia sẻ của bạn.</b>
+            {/* Đơn quyên góp của bạn đã được chuyển đến chủ của chiến dịch. <br/>  */}
+            <Alert alert={alertSuccess} />
+            Quyên góp của bạn sẽ được xác nhận qua email từ 1-7 ngày.<br/>
+            Xin bạn kiếm tra mail để xem các thông tin cần thiết cho việc chuyển tiền.<br/>
+            <b>Chân thành cảm ơn vì sự chia sẻ của bạn.</b>
         </div>
     );
 }
+const alertSuccess = {
+    type: 'success',
+    msg: 'Quyên góp thành công'
+};
 
 export default DonateComplete;

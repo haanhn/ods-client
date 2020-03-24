@@ -17,14 +17,17 @@ import CampaignTabRatings from '../campaigns/CampaignTabRatings';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
 import NotFound from './NotFound';
 import '../css/campaign-detail.css';
+import '../css/social-css.css';
 import axios from 'axios';
+import Spinner from '../common/Spinner';
+// import { FacebookShareButton, FacebookIcon, FacebookShareCount } from 'react-share';
 
 const Campaign = (props) => {
     const campaignsContext = useContext(CampaignsContext);
 
     const { slug } = props.match.params;
     const { id,
-        campaignTitle, 
+        campaignTitle,
         raised, campaignGoal, countDonations,
         campaignEndDate, campaignRatingPoint,
         campaignShortDescription, campaignDescription,
@@ -63,6 +66,7 @@ const Campaign = (props) => {
             console.log(`get campaign done`);
             //After get campaign success, do not need to await to get comments, donations 
             // console.log(`start get comments`);
+            campaignsContext.getCampaignPosts(slug);
             campaignsContext.getCampaignComments(slug);
             // console.log(`get comments`);
             campaignsContext.getCampaignDonations(slug);
@@ -94,9 +98,7 @@ const Campaign = (props) => {
     }
 
     if (loading) {
-        return <div>
-            LOADING............
-        </div>;
+        return <Spinner/>;
     } else {
         return (
             // <div className="sidebar-page-container">
@@ -122,14 +124,15 @@ const Campaign = (props) => {
                     <div className="sidebar-side col-lg-4 col-md-12 col-sm-12" >
                         <div className='rating-host-container row'>
                             {/* <aside className="sidebar col-lg-12 col-md-6 col-sm-6"> */}
-                                <RatingOverviewBox campaignRatingPoint={campaignRatingPoint} ratingStats={ratingStats} />
+                            <RatingOverviewBox campaignRatingPoint={campaignRatingPoint} ratingStats={ratingStats} />
                             {/* </aside> */}
                             <aside className="sidebar col-lg-12 col-md-6 col-sm-6">
                                 <CampaignHostInfo host={getHost()} />
                             </aside>
                         </div>
                         <aside className="sidebar col-lg-12 col-md-12 col-sm-12">
-                            <CampaignProgressBar raised={raised} goal={campaignGoal} />
+                            <CampaignProgressBar raised={raised} goal={campaignGoal}
+                                campaignEndDate={campaignEndDate} />
                             <CampaignStatistic countDonations={countDonations} />
                             <ButtonDonate slug={slug} />
                             <ButtonSubscribeCampaign />
@@ -137,6 +140,7 @@ const Campaign = (props) => {
                     </div>
                 </div>
                 {/* End of section: basic info */}
+
                 <div style={{ width: '100%' }}>
                     <CampaignTabs slug={slug} />
                     <Switch>
@@ -146,9 +150,9 @@ const Campaign = (props) => {
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}/updates`}> <CampaignTabUpdates /> </Route>
                         <Route exact path={routeComments}> <CampaignTabComments /> </Route>
                         <Route exact path={routeDonations}> <CampaignTabDonations /> </Route>
-                        <Route exact path={routeRatings}> 
+                        <Route exact path={routeRatings}>
                             <CampaignTabRatings slug={slug}
-                                ratingPoint={campaignRatingPoint} 
+                                ratingPoint={campaignRatingPoint}
                                 ratingStats={ratingStats}
                                 allowedRating={allowedRating} myRating={myRating} />
                         </Route>
@@ -177,7 +181,7 @@ const getCampaignRatingAllow = async (slug) => {
             token: token
         });
         const result = res.data.result;
-        console.log('result ' +result);
+        console.log('result ' + result);
         if (result > 0) {
             return true;
         } else {
@@ -188,3 +192,19 @@ const getCampaignRatingAllow = async (slug) => {
         return false; //fail
     }
 };
+
+/* <div className="Demo__some-network">
+    <FacebookShareButton
+        url={'https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx'}
+        quote={'title'}
+        className="Demo__some-network__share-button"
+    >
+        {/* <FacebookIcon size={52} round={false} /> */
+//                     </FacebookShareButton>
+
+//     <div>
+//         <FacebookShareCount url={'https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx'} className="Demo__some-network__share-count">
+//             {count => <span style={{ fontWeight: 'bold', fontSize: '18px' }}>{count}</span>}
+//         </FacebookShareCount>
+//     </div>
+// </div> */}

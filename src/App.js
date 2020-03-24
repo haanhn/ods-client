@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Home from './components/pages/Home';
-import { routes } from './odsApi';
+import { routes, localStoreKeys } from './odsApi';
 import CampaignsState from './context/campaigns/CampaignsState';
 import MycampaignsState from './context/mycampaigns/MycampaignsState';
 import AuthState from './context/auth/AuthState';
@@ -19,13 +19,7 @@ import Alerts from './components/layout/Alerts';
 import Register from './components/auth/Register';
 import { clearLocalStorage } from './context/auth/AuthState';
 import MyCampaign from './components/pages/MyCampaign';
-
 const App = () => {
-  // window.addEventListener('beforeunload', (event) => {
-    // clearLocalStorage();
-    // Chrome requires returnValue.
-    // event.returnValue = ' ';
-  // });
 
   return (
     <AuthState>

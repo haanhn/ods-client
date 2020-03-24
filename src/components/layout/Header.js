@@ -1,13 +1,16 @@
 import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { routes } from '../../odsApi';
+import { routes, localStoreKeys } from '../../odsApi';
 import AuthContext from '../../context/auth/authContext';
 import MycampaignsContext from '../../context/mycampaigns/mycampaignsContext';
 
-function Header() {
-  const styles = {
-    borderBottom: '3px #3cc88f solid'
-  };
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import './ods-header.css';
+
+function Header(props) {
+  const token = localStorage.getItem(localStoreKeys.token);
 
   const userStyles = {
     float: 'right',
@@ -25,76 +28,61 @@ function Header() {
     clearMycampaigns();
   };
 
-  const authLinks = (
-    <Fragment>
-      <div style={userStyles}>
-        <li>
-          <Link to={routes.HOME} onClick={onLogout}>
-            <i className='fas fa-sign-out-alt'></i>{' '}
-            <span className='hide-sm'>Logout</span>
-          </Link>
-        </li>
-      </div>
-    </Fragment>
-  );
+  // const authLinks = (
+  //   <Fragment>
+  //     <div style={userStyles}>
+  //       <li>
+  //         <Link to={routes.HOME} onClick={onLogout}>
+  //           <i className='fas fa-sign-out-alt'></i>{' '}
+  //           <span className='hide-sm'>Logout</span>
+  //         </Link>
+  //       </li>
+  //     </div>
+  //   </Fragment>
+  // );
 
-  const guestLinks = (
-    <Fragment>
-      <li className=''>
-        <Link to={routes.PAGE_SIGN_IN}>Đăng nhập</Link>
-      </li>
-      <li className=''>
-        <Link to={routes.PAGE_REGISTER}>Đăng ký</Link>
-      </li>
-    </Fragment>
-  );
-
+  const routeCreateCampaign = routes.CAMPAIGNS_CREATE;
   return (
-    // <!-- Header Upper -->
-    <div className='header-upper' style={styles}>
-      <div className='auto-container'>
-        <div className='inner-container clearfix'>
-          {/* <!--Logo--> */}
-          {/* <div className="logo-box">
-                        <div className="logo"><a href="index.html" title="LoveUs - Charity and Fundraising HTML Template"><img src="images/logo.png" alt="LoveUs - Charity and Fundraising HTML Template" title="LoveUs - Charity and Fundraising HTML Template"/></a></div>
-                    </div> */}
+    <Fragment>
+      <div className='ods-header'>
+        <Navbar collapseOnSelect expand="lg" 
+        // bg="dark" variant="dark"
+        >
+          <Navbar.Brand href="#home">ODS</Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link ><Link to='/'>Home</Link></Nav.Link>
+              <Nav.Link ><Link to='/campaigns'>Các chiến dịch</Link></Nav.Link>
+              <Nav.Link ><Link to={routeCreateCampaign}>Tạo chiến dịch</Link></Nav.Link>
+            </Nav>
+            <Nav>
+              {token ? (
+                <NavDropdown title="Tài khoản" id="collasible-nav-dropdown" alignRight>
+                  <NavDropdown.Item><Link to={routeCreateCampaign}>Tạo chiến dịch</Link></NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item>
+                    <Link to='/my-campaigns'>Chiến dịch của tôi</Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Link to='#'>Quyên góp của tôi</Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>Tài khoản</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={onLogout}><Link to='/'>Đăng xuất</Link></NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                  <Nav.Link><Link to='/login'>Đăng nhập</Link></Nav.Link>
+                )}
+              {/* <Nav.Link href="#deets">More deets</Nav.Link>
+              <Nav.Link eventKey={2} href="#memes">Dank memes</Nav.Link> */}
 
-          {/* <!--Nav Box--> */}
-          <div className='nav-outer clearfix'>
-            {/* <!--Mobile Navigation Toggler--> */}
-            <div className='mobile-nav-toggler'>
-              <span className='icon flaticon-menu-1'></span>
-            </div>
-
-            {/* <!-- Main Menu --> */}
-            <nav className='main-menu navbar-expand-md navbar-light'>
-              <div
-                className='collapse navbar-collapse show clearfix'
-                id='navbarSupportedContent'
-              >
-                <ul className='navigation clearfix'>
-                  <li className='current'>
-                    <Link to={routes.HOME}>Home</Link>
-                  </li>
-                  <li className=''>
-                    <Link to={routes.CAMPAIGNS}>Các chiến dịch</Link>
-                  </li>
-                  <li className=''>
-                    <Link to={routes.CAMPAIGNS_CREATE}>Tạo chiến dịch</Link>
-                  </li>
-                  <li className=''>
-                    <Link to={routes.MY_CAMPAIGNS}>Chiến dịch của tôi</Link>
-                  </li>
-                  {isLoggedIn ? authLinks : guestLinks}
-                </ul>
-              </div>
-            </nav>
-            {/* Main Menu End */}
-          </div>
-        </div>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
       </div>
-    </div>
-    // End Header Upper
+
+      </Fragment>
   );
 }
 
