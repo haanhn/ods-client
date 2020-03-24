@@ -35,6 +35,9 @@ export const routes = {
   getRouteMyCampaignDonations(slug) { return `/my-campaigns/${slug}/donations`; },
   MY_CAMPAIGN_DONATION_DETAIL: '/my-campaigns/:slug/donations/:code',
   getRouteMyCampaignDonationDetail(slug, code) { return `/my-campaigns/${slug}/donations/${code}`; },
+  //Route: Host campaign expenses
+  MY_CAMPAIGN_EXPENSES: '/my-campaigns/:slug/expenses',
+  getRouteMyCampaignExpenses(slug) { return `/my-campaigns/${slug}/expenses`; },
   //---------------------------
   NOT_FOUND: '/not-found',
   PAGE_SIGN_IN: '/login',
@@ -81,7 +84,11 @@ export const odsAPIHost = {
   createCampaignPost: '/api/posts/host/create',
   updateCampaignPost: '/api/posts/host/update',
   getCampaignDonations(slug) { return `/api/donations/host/get-by-campaign/${slug}`; },
-  updateCampaignDonationStatus(action) { return `/api/donations/host/update-donation-status/${action}`; }
+  updateCampaignDonationStatus(action) { return `/api/donations/host/update-donation-status/${action}`; },
+  getCampaignExpenses(slug) { return `/api/expenses/${slug}`; },
+  createCampaignExpense: '/api/expenses',
+  updateCampaignExpense: '/api/expenses/update',
+  deleteCampaignExpense: (expenseId) => `/api/expenses/${expenseId}`
 };
 
 export const odsAPIRegions = '/api/regions';

@@ -11,6 +11,7 @@ const MycampaignsState = props => {
     hostViewingCampaign: {},
     myCampaignPosts: [],
     myCampaignDonations: [],
+    myCampaignExpenses: [],
   };
 
   const [state, dispatch] = useReducer(mycampaingsReducer, initialState);
@@ -167,12 +168,86 @@ const MycampaignsState = props => {
     }
   }
 
+  //Host Get Campaign Expenses
+  const getCampaignExpenses = async (slug) => {
+    const api = odsAPIHost.getCampaignExpenses(slug);
+    try {
+      const res = await axios.get(`${odsBase}${api}`);
+      dispatch({
+        type: hostActionTypes.GET_EXPENSES,
+        payload: res.data.result
+      });
+    } catch (error) {
+      console.error('Error when host get expenses');
+      console.error(error);
+    }
+  }
+
+  //Host Create Campaign Expenses
+  const createCampaignExpense = async (title, cost, description) => {
+    const token = localStorage.getItem(localStoreKeys.token);
+    const campaignId = state.hostViewingCampaign.id;
+    const api = odsAPIHost.createCampaignExpense;
+
+    try {
+      await axios.post(`${odsBase}${api}`, {
+        token,
+        campaignId,
+        expense: { title, cost, description }
+      });
+      return true;
+    } catch (error) {
+      console.error('Error when host create expense');
+      console.error(error);
+      return false;
+    }
+  }
+
+  //Host Update Campaign Expenses
+  const updateCampaignExpense = async (id, title, cost, description) => {
+    const token = localStorage.getItem(localStoreKeys.token);
+    const api = odsAPIHost.updateCampaignExpense;
+
+    try {
+      await axios.post(`${odsBase}${api}`, {
+        token,
+        expense: { id, title, cost, description }
+      });
+      return true;
+    } catch (error) {
+      console.error('Error when host update expense');
+      console.error(error);
+      return false;
+    }
+  }
+
+  //Host Delete Campaign Expenses
+  const deleteCampaignExpense = async (expenseId) => {
+    const token = localStorage.getItem(localStoreKeys.token);
+    const api = odsAPIHost.deleteCampaignExpense(expenseId);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': `${token}`
+      }
+    };
+    try {
+      await axios.delete(`${odsBase}${api}`, config);
+      return true;
+    } catch (error) {
+      console.error('Error when host delete expense');
+      console.error(error);
+      return false;
+    }
+  }
+
   return (
     <MycampaignsContext.Provider
       value={{
         mycampaigns: state.mycampaigns,
         myCampaignPosts: state.myCampaignPosts,
         myCampaignDonations: state.myCampaignDonations,
+        myCampaignExpenses: state.myCampaignExpenses,
         //Methods
         getMyCampaign,
         getCampaignBySlug,
@@ -183,7 +258,12 @@ const MycampaignsState = props => {
         updateCampaignPosts,
         //Methods for donations
         getCampaignDonations,
-        updateDonationStatus
+        updateDonationStatus,
+        //Methods for expenses
+        getCampaignExpenses,
+        createCampaignExpense,
+        updateCampaignExpense,
+        deleteCampaignExpense
       }}
     >
       {props.children}

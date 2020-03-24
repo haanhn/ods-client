@@ -9,6 +9,7 @@ const HostHeader = (props) => {
     const { slug } = props;
     const routePosts = routes.getRouteMyCampaignPosts(slug);
     const routeDonations = routes.getRouteMyCampaignDonations(slug);
+    const routeExpenses = routes.getRouteMyCampaignExpenses(slug);
 
     return (
         <div className='host-header'>
@@ -20,7 +21,7 @@ const HostHeader = (props) => {
                         <Nav.Link ><Link to='#'>Dashboard</Link></Nav.Link>
                         <Nav.Link ><Link to='/campaigns'>Sửa chiến dịch</Link></Nav.Link>
                         <Nav.Link ><Link to={routePosts}>Bài viết</Link></Nav.Link>
-                        <Nav.Link ><Link to='/campaigns'>Chi phí</Link></Nav.Link>
+                        <Nav.Link ><Link to={routeExpenses}>Chi phí</Link></Nav.Link>
                         <Nav.Link ><Link to={routeDonations}>Quyên góp</Link></Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
