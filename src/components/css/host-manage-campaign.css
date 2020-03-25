@@ -43,8 +43,7 @@
 /***************/
 /* Host list expenses */
 .host-list-expenses-container {
-    padding-top: 25px;
-    padding-bottom: 30px;
+    padding: 25px 12px 30px;
     min-height: 85vh;
 }
 .host-list-expenses {
@@ -62,7 +61,7 @@
     max-width: 50px;
 }
 .host-list-expenses table tr td:last-of-type {
-    max-width: 75px;
+    width: 80px;
 }
 .host-list-expenses table tr td:nth-of-type(3) {
     text-align: center;
@@ -72,4 +71,13 @@
     font-size: 83%;
     /* margin-top: -6px; */
     line-height: 122%;
+}
+@media (max-width: 575px) {
+    .host-list-expenses table tr td:last-of-type {
+        width: 50px;
+    }
+    .host-list-expenses table tr td:last-of-type button:first-of-type {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
 }

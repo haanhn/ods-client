@@ -65,7 +65,7 @@ function Header(props) {
                     <Link to='/my-campaigns'>Chiến dịch của tôi</Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
-                    <Link to='#'>Quyên góp của tôi</Link>
+                    <Link to='/my-donations'>Quyên góp của tôi</Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item>Tài khoản</NavDropdown.Item>
                   <NavDropdown.Divider />

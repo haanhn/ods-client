@@ -1,0 +1,13 @@
+.my-donations-container {
+    padding: 20px 15px 20px;
+    min-height: 90vh;
+}
+.my-donations-container .header {
+    margin-bottom: 5px;
+}
+.my-donations-container header {
+    display: none;
+}
+.my-donations-container .rdt_Table button {
+    padding: 1px 3px;
+}

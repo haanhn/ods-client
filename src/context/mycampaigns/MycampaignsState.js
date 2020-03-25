@@ -12,6 +12,7 @@ const MycampaignsState = props => {
     myCampaignPosts: [],
     myCampaignDonations: [],
     myCampaignExpenses: [],
+    totalExpense: 0,
   };
 
   const [state, dispatch] = useReducer(mycampaingsReducer, initialState);
@@ -90,7 +91,7 @@ const MycampaignsState = props => {
     try {
       const res = await axios.post(`${odsBase}${odsAPIHost.createCampaignPost}`,
         {
-          token: token, 
+          token: token,
           campaignId: campaignId,
           post: {
             postTitle: title,
@@ -112,7 +113,7 @@ const MycampaignsState = props => {
     try {
       const res = await axios.post(`${odsBase}${odsAPIHost.updateCampaignPost}`,
         {
-          token: token, 
+          token: token,
           post: {
             postId: postId,
             postTitle: title,
@@ -177,6 +178,7 @@ const MycampaignsState = props => {
         type: hostActionTypes.GET_EXPENSES,
         payload: res.data.result
       });
+      setTotalExpense(res.data.result);
     } catch (error) {
       console.error('Error when host get expenses');
       console.error(error);
@@ -241,6 +243,21 @@ const MycampaignsState = props => {
     }
   }
 
+  const setTotalExpense = (expenses) => {
+    let total = 0;
+    if (expenses && expenses.length > 0) {
+      let i = 0;
+      for (i = 0; i < expenses.length; i++) {
+        const expense = expenses[i];
+        total = expense.cost + total;
+      }
+    }
+    dispatch({
+      type: hostActionTypes.SET_TOTAL_EXPENSE,
+      payload: total
+    });
+  }
+
   return (
     <MycampaignsContext.Provider
       value={{
@@ -248,6 +265,7 @@ const MycampaignsState = props => {
         myCampaignPosts: state.myCampaignPosts,
         myCampaignDonations: state.myCampaignDonations,
         myCampaignExpenses: state.myCampaignExpenses,
+        totalExpense: state.totalExpense,
         //Methods
         getMyCampaign,
         getCampaignBySlug,

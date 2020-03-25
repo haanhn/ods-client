@@ -45,8 +45,7 @@ const MyCampaignDonations = (props) => {
             name: 'Phương thức chuyển',
             selector: 'method',
             sortable: true,
-            hide: 'sm',
-            allowOverflow: true
+            hide: 'sm'
         },
         {
             name: 'Trạng thái',

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, Fragment } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
 import Alert from '../../common/Alert';
@@ -10,6 +10,7 @@ const MyCampaignExpenses = (props) => {
     const { slug } = props.match.params;
     const myCampaignsContext = useContext(MyCampaignsContext);
     const expenses = myCampaignsContext.myCampaignExpenses;
+    const totalExpense = myCampaignsContext.totalExpense;
 
     const [showingModal, setShowingModal] = useState(false);
     const [currentExpense, setCurrentExpense] = useState(null);
@@ -22,7 +23,7 @@ const MyCampaignExpenses = (props) => {
     const deleteExpense = async (expense) => {
         // const isDeleting = confirm('Bạn có muốn xóa chi phí?\n' + expense.title);
         // if (!isDeleting) {
-            // return;
+        // return;
         // }
         const result = await myCampaignsContext.deleteCampaignExpense(expense.id);
         if (result) {
@@ -51,7 +52,7 @@ const MyCampaignExpenses = (props) => {
                 </td>
                 <td>
                     <button className='btn btn-super-sm btn-info' style={{ marginRight: '5px' }} >
-                        <i className="fas fa-edit" style={styleIconBtnEdit} 
+                        <i className="fas fa-edit" style={styleIconBtnEdit}
                             onClick={(event) => viewExpense(event, expense)}></i>
                     </button>
                     <button className='btn btn-super-sm btn-danger' >
@@ -64,38 +65,45 @@ const MyCampaignExpenses = (props) => {
     }
 
     useEffect(() => {
-        myCampaignsContext.getCampaignExpenses(slug);
+        myCampaignsContext.getCampaignExpenses(slug);        
     }, []);
 
     return (
         <div className='host-list-expenses-container' >
 
             <div className='host-list-expenses'>
-                <h4 style={{marginBottom: '20px'}}>
+                <h4 style={{ marginBottom: '20px' }}>
                     Quản lý chi phí
                     <button className='btn btn-sm btn-success' style={{ float: 'right' }}
                         onClick={(event) => viewExpense(event, null)}> Tạo chi phí </button>
                 </h4>
 
                 {expenses && expenses.length > 0 ? (
-                    <table className='table table-hover'>
-                        <thead>
-                            <tr>
-                                <td>STT</td>
-                                <td>Chi phí</td>
-                                <td>Số tiền</td>
-                                <td> </td>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <Fragment>
+                        <table className='table table-hover'>
+                            <thead>
+                                <tr>
+                                    <td>STT</td>
+                                    <td>Chi phí</td>
+                                    <td>Số tiền</td>
+                                    <td> </td>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                            {expensesJsx}
-                        </tbody>
-                    </table>
+                                {expensesJsx}
+                            </tbody>
+                        </table>
+                        <div>
+                            <b>Tổng chi phí: </b>
+                            <CurrencyFormat value={totalExpense} displayType={'text'} thousandSeparator={true} />
+                            đ
+                        </div>
+                    </Fragment>
                 ) : (
                         <Alert alert={alertEmpty} />
                     )}
-                <MyCampaignExpenseModal showingModal={showingModal} setShowingModal={setShowingModal} 
+                <MyCampaignExpenseModal showingModal={showingModal} setShowingModal={setShowingModal}
                     slug={slug} expense={currentExpense} />
             </div>
         </div>

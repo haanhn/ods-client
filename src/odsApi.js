@@ -38,7 +38,10 @@ export const routes = {
   //Route: Host campaign expenses
   MY_CAMPAIGN_EXPENSES: '/my-campaigns/:slug/expenses',
   getRouteMyCampaignExpenses(slug) { return `/my-campaigns/${slug}/expenses`; },
-  //---------------------------
+  //--------------------------------------
+  //----- Routes: for Campagin Donor -----
+  //--------------------------------------
+  MY_DONATIONS: '/my-donations',
   NOT_FOUND: '/not-found',
   PAGE_SIGN_IN: '/login',
   PAGE_REGISTER: '/register',
@@ -89,6 +92,10 @@ export const odsAPIHost = {
   createCampaignExpense: '/api/expenses',
   updateCampaignExpense: '/api/expenses/update',
   deleteCampaignExpense: (expenseId) => `/api/expenses/${expenseId}`
+};
+
+export const odsAPIDonor = {
+  getMyDonations: '/api/donations'
 };
 
 export const odsAPIRegions = '/api/regions';

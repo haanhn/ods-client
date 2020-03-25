@@ -33,6 +33,11 @@ export default (state, action) => {
         ...state,
         myCampaignExpenses: data
       };
+    case hostActionTypes.SET_TOTAL_EXPENSE:
+      return {
+        ...state,
+        totalExpense: data
+      };
     default:
       return state;
   }

@@ -47,5 +47,11 @@ export const hostActionTypes = {
     GET_POSTS: 'GET_POSTS',
     //Donations
     GET_DONATIONS: 'GET_DONATIONS',
-    GET_EXPENSES: 'GET_EXPENSES'
+    GET_EXPENSES: 'GET_EXPENSES',
+    SET_TOTAL_EXPENSE: 'SET_TOTAL_EXPENSE',
+};
+
+//My Donations
+export const donorActionTypes = {
+    GET_MY_DONATIONS: 'GET_MY_DONATIONS'
 };
