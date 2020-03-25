@@ -3,7 +3,7 @@ import MycampaignsContext from './mycampaignsContext';
 import mycampaingsReducer from './mycampaignsReducer';
 import axios from 'axios';
 import { GET_MYCAMPAIGNS, CLEAR_MYCAMPAIGNS, hostActionTypes } from '../types';
-import { odsBase, odsAPIOpenRoutes, odsAPIHost, localStoreKeys } from '../../odsApi';
+import { odsBase, odsAPIOpenRoutes, odsAPIHost, localStoreKeys, odsAPIAuthorizedUser } from '../../odsApi';
 
 const MycampaignsState = props => {
   const initialState = {
@@ -54,6 +54,68 @@ const MycampaignsState = props => {
       throw error;
     }
   };
+
+  const updateCampaignImage = async (imageBinary) => {
+    try {
+      const token = localStorage.getItem(localStoreKeys.token);
+      const slug = state.hostViewingCampaign.campaignSlug;
+      const routeUploadCampaignImg = odsAPIAuthorizedUser.uploadCampaignImageCover(slug);
+
+      let imgUrl = null;
+      if (imageBinary) {
+        let formData = new FormData();
+        formData.append('image', imageBinary);
+        const resImg = await axios.post(`${odsBase}${routeUploadCampaignImg}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'x-access-token': token,
+          }
+        });
+        console.log(`update campaign img cover:`);
+        console.log(resImg);
+        imgUrl = resImg.data.data.campaignThumbnail;
+        dispatch({
+          type: hostActionTypes.SET_CAMPAIGN_IMAGE,
+          payload: imgUrl
+        });
+        return true;
+      }
+    } catch (error) {
+      console.error(`Host update campaign image error: ${error}`);
+      return false;
+    }
+  }
+
+  const updateCampaign = async (id, title, category, shortDesription, description,
+    image, address, region, endDate, goal, autoClose) => {
+    try {
+      const res = await axios.post(`${odsBase}${odsAPIHost.updateCampaignInfo}`, {
+        token: localStorage.getItem(localStoreKeys.token),
+        campaign: {
+          id: id,
+          campaignTitle: title,
+          categoryId: category,
+          campaignShortDescription: shortDesription,
+          campaignDescription: description,
+          campaignThumbnail: image,
+          campaignAddress: address,
+          campaignRegion: region,
+          campaignEndDate: endDate,
+          campaignGoal: goal,
+          autoClose: autoClose
+        }
+      });
+      dispatch({
+        type: hostActionTypes.GET_CAMPAIGN_DETAIL,
+        payload: res.data.result
+      });
+      return true;
+    } catch (error) {
+      console.error('Update campaign error');
+      console.error(error);
+      return false;
+    }
+  }
 
   // Clear MyCampaign
   const clearMycampaigns = () => {
@@ -262,6 +324,7 @@ const MycampaignsState = props => {
     <MycampaignsContext.Provider
       value={{
         mycampaigns: state.mycampaigns,
+        hostViewingCampaign: state.hostViewingCampaign,
         myCampaignPosts: state.myCampaignPosts,
         myCampaignDonations: state.myCampaignDonations,
         myCampaignExpenses: state.myCampaignExpenses,
@@ -269,6 +332,8 @@ const MycampaignsState = props => {
         //Methods
         getMyCampaign,
         getCampaignBySlug,
+        updateCampaignImage,
+        updateCampaign,
         clearMycampaigns,
         //Methods for posts
         getMyCampaignPosts,

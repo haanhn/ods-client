@@ -24,6 +24,14 @@ export const routes = {
   MY_CAMPAIGN_DETAIL: '/my-campaigns/:slug',
   getRouteMyCampaignDetail(slug) { return `/my-campaigns/${slug}`; },
   //Route: Host campaign posts
+  MY_CAMPAIGN_INFO: '/my-campaigns/:slug/info',
+  getRouteMyCampaignInfo(slug) { return `/my-campaigns/${slug}/info`; },
+  // MY_CAMPAIGN_INFO_IMAGE: '/my-campaigns/:slug/info/image',
+  // getRouteMyCampaignInfoImage(slug) { return `/my-campaigns/${slug}/info/image`; },
+  MY_CAMPAIGN_INFO_DETAILS: '/my-campaigns/:slug/info/details',
+  getRouteMyCampaignInfoDetails(slug) { return `/my-campaigns/${slug}/info/details`; },
+  MY_CAMPAIGN_INFO_STORY: '/my-campaigns/:slug/info/story',
+  getRouteMyCampaignInfoStory(slug) { return `/my-campaigns/${slug}/info/story`; },
   MY_CAMPAIGN_POSTS: '/my-campaigns/:slug/posts',
   getRouteMyCampaignPosts(slug) { return `/my-campaigns/${slug}/posts`; },
   MY_CAMPAIGN_POST_CREATE: '/my-campaigns/:slug/posts/create',
@@ -84,6 +92,7 @@ export const odsAPIAuthorizedUser = {
 
 export const odsAPIHost = {
   getCampaignPosts(slug) { return `/api/posts/host/get-all-post/${slug}`; },
+  updateCampaignInfo: '/api/campaign/update',
   createCampaignPost: '/api/posts/host/create',
   updateCampaignPost: '/api/posts/host/update',
   getCampaignDonations(slug) { return `/api/donations/host/get-by-campaign/${slug}`; },

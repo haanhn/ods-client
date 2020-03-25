@@ -7,6 +7,7 @@ import './host-header.css';
 
 const HostHeader = (props) => {
     const { slug } = props;
+    const routeInfo = routes.getRouteMyCampaignInfo(slug);
     const routePosts = routes.getRouteMyCampaignPosts(slug);
     const routeDonations = routes.getRouteMyCampaignDonations(slug);
     const routeExpenses = routes.getRouteMyCampaignExpenses(slug);
@@ -19,7 +20,7 @@ const HostHeader = (props) => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link ><Link to='#'>Dashboard</Link></Nav.Link>
-                        <Nav.Link ><Link to='/campaigns'>Sửa chiến dịch</Link></Nav.Link>
+                        <Nav.Link ><Link to={routeInfo}>Sửa chiến dịch</Link></Nav.Link>
                         <Nav.Link ><Link to={routePosts}>Bài viết</Link></Nav.Link>
                         <Nav.Link ><Link to={routeExpenses}>Chi phí</Link></Nav.Link>
                         <Nav.Link ><Link to={routeDonations}>Quyên góp</Link></Nav.Link>
