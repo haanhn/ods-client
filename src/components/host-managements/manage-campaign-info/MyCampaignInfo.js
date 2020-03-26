@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../css/host-manage-campaign.css';
 import MyCampaignTabImage from './MyCampaignTabImage';
 import MyCampaignTabDetails from './MyCampaignTabDetails';
@@ -12,22 +12,55 @@ const MyCampaignInfo = (props) => {
     const routeInfoImage = routes.getRouteMyCampaignInfo(slug);
     const routeInfoDetails = routes.getRouteMyCampaignInfoDetails(slug);
     const routeInfoStory = routes.getRouteMyCampaignInfoStory(slug);
+
+    const [activeImg, setActiveImg] = useState(false);
+    const [activeDetails, setActiveDetails] = useState(false);
+    const [activeStory, setActiveStory] = useState(false);
+
+    const setActive = (event) => {
+        const target = event.target;
+        if (!target) {
+            return;
+        }
+        const id = target.id;
+        setActiveImg(false);
+        setActiveDetails(false);
+        setActiveStory(false);
+        switch (id) {
+            case 'linkTabInfoImg':
+                setActiveImg(true);
+                break;
+            case 'linkTabInfoDetails':
+                setActiveDetails(true);
+                break;
+            case 'linkTabInfoStory':
+                setActiveStory(true);
+                break;
+        }
+    }
+
     return (
         <div className='my-campaign-info-container'>
             <div className='my-campaign-info-box'>
                 <div className='auto-container'>
                     <div className='row clearfix'>
                         <div className='col-lg-2 col-md-3 col-sm-3 col-12 campaign-info-tabs'>
-                            <ul class="list-group list-group-flush">
+                            <ul className="list-group list-group-flush">
                                 {/* <li class="list-group-item active"> */}
-                                <li class="list-group-item">
-                                    <Link to={routeInfoImage}>Ảnh bìa</Link>
+                                <li className={`list-group-item ${activeImg ? 'active' : null}`}>
+                                    <Link to={routeInfoImage} id='linkTabInfoImg' onClick={setActive}>
+                                        Ảnh bìa
+                                    </Link>
                                 </li>
-                                <li class="list-group-item">
-                                    <Link to={routeInfoDetails}>Chi tiết</Link>
+                                <li className={`list-group-item ${activeDetails ? 'active' : null}`}>
+                                    <Link to={routeInfoDetails} id='linkTabInfoDetails' onClick={setActive}>
+                                        Chi tiết
+                                    </Link>
                                 </li>
-                                <li class="list-group-item">
-                                    <Link to={routeInfoStory}>Câu chuyện</Link>
+                                <li className={`list-group-item ${activeStory ? 'active' : null}`}>
+                                    <Link to={routeInfoStory} id='linkTabInfoStory' onClick={setActive}>
+                                        Câu chuyện
+                                    </Link>
                                 </li>
                             </ul>
 

@@ -121,7 +121,7 @@ const MyCampaignTabStory = () => {
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
                         Mô tả ngắn
-                        <i class="fas fa-info-circle icon-small theme_color"
+                        <i className="fas fa-info-circle icon-small theme_color"
                             data-toggle="modal" data-target="#modalTipsShortDescr"
                             style={{ padding: '0 7px' }} ></i>
                     </label>
@@ -137,7 +137,7 @@ const MyCampaignTabStory = () => {
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
                         Câu chuyện của bạn
-                        <i class="fas fa-info-circle icon-small theme_color"
+                        <i className="fas fa-info-circle icon-small theme_color"
                             data-toggle="modal" data-target="#modalTipsShortDescr"
                             style={{ padding: '0 7px' }} ></i>
                     </label>

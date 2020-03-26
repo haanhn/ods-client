@@ -7,7 +7,7 @@
 .my-campaign-info-box {
     border: 1px solid #ddd;
     border-radius: 4px;
-    max-width: 1200px;
+    max-width: 1150px;
     margin: 0 auto;
 }
 .my-campaign-info-box .campaign-info-tabs {
@@ -16,6 +16,13 @@
 }
 .my-campaign-info-box .campaign-info-tabs .list-group .list-group-item:last-of-type {
     border-bottom: 1px solid #ddd;
+}
+.campaign-info-tabs .active {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.campaign-info-tabs .active a {
+    color: #fff;
 }
 .my-campaign-info-box .cammpaign-into-content {
     padding: 30px 12px;

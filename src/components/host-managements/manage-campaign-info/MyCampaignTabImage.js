@@ -77,7 +77,7 @@ const MyCampaignTabImage = () => {
     const btnsUpdateImg = (
         <div className='child btns-update-img' >
             <div className='btn-update-img' onClick={removeImage}>Xóa ảnh</div>
-            <label for='createCampaignImage' className='btn-update-img'>
+            <label htmlFor='createCampaignImage' className='btn-update-img'>
                 <div>Chọn ảnh</div>
             </label>
         </div>
@@ -96,7 +96,7 @@ const MyCampaignTabImage = () => {
                 style={{ display: 'none' }}
                 onChange={chooseImage}
             />
-            <label for='createCampaignImage' className='child campaign-image-cover'>
+            <label htmlFor='createCampaignImage' className='child campaign-image-cover'>
                 {newImageUrl ?
                     <img src={newImageUrl} alt='' />
                     : <div className='btn-choose-image' > Chọn ảnh </div>
