@@ -87,7 +87,7 @@ const MyCampaignTabStory = () => {
         const shortDescription = inputShortDescription.current.value.trim();
         setAlertShortDescription(null);
         setAlertResult(null);
-        
+
         const messages = validateData(shortDescription);
         if (messages) {
             if (messages.shortDescription) {
@@ -145,11 +145,10 @@ const MyCampaignTabStory = () => {
                         {editor}
                     </div>
                 </div>
-                <div className="row justify-content-end">
-                    <Alert alert={alertResult}/>
-                    <div className='box-button'>
-                        <button className="btn btn-primary"
-                        onClick={saveStory}
+                <div className="row">
+                    <div className="col-sm-12" style={{ textAlign: 'center', paddingTop: '10px' }}>
+                        <button className="btn btn-sm btn-success"
+                            onClick={saveStory}
                         >Lưu và tiếp tục</button>
                     </div>
                 </div>

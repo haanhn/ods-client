@@ -10,6 +10,7 @@ const MyCampaignTabDetails = () => {
     const campaignsContext = useContext(CampaignsContext);
     const myCampaignsContext = useContext(MyCampaignsContext);
     const campaign = myCampaignsContext.hostViewingCampaign;
+    const campaignStats = myCampaignsContext.viewingCampaignStats;
     const { categories, regions } = campaignsContext;
 
     //Init campaign value
@@ -52,7 +53,8 @@ const MyCampaignTabDetails = () => {
         setAlertEndDate(null);
         setAlertResult(null);
 
-        const messages = validateData(title, address, goalValue, endValue);
+        const minGoal = campaignStats && campaignStats.raised ? campaignStats.raised : 0; 
+        const messages = validateData(title, address, goalValue, minGoal, endValue);
         if (messages) {
             if (messages.title) {
                 setAlertTitle({ type: 'danger', msg: messages.title });
@@ -99,14 +101,14 @@ const MyCampaignTabDetails = () => {
     }
 
     return (
-        <div>
+        <div className='campaign-info-tab-details'>
             <form>
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
                         Tên chiến dịch
-                        <i class="fas fa-info-circle icon-small theme_color"
+                        {/* <i class="fas fa-info-circle icon-small theme_color"
                             data-toggle="modal" data-target="#modalTipsName"
-                            style={{ padding: '0 7px' }} ></i>
+                            style={{ padding: '0 7px' }} ></i> */}
                         {/* <button data-toggle="modal" data-target="#modalTipsName">k</button> */}
                     </label>
                     <div className="col-sm-12">
@@ -158,9 +160,9 @@ const MyCampaignTabDetails = () => {
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
                         Mục tiêu
-                        <i class="fas fa-info-circle icon-small theme_color"
+                        {/* <i class="fas fa-info-circle icon-small theme_color"
                             data-toggle="modal" data-target="#modalTipsName"
-                            style={{ padding: '0 7px' }} ></i>
+                            style={{ padding: '0 7px' }} ></i> */}
                     </label>
                     <div className="col-sm-12">
                         <div className="input-group"  >
@@ -225,10 +227,10 @@ const MyCampaignTabDetails = () => {
                 </div>
 
                 <Alert alert={alertResult} />
-                
-                <div className="row justify-content-end">
-                    <div className='box-button'>
-                        <button className="btn btn-primary"
+
+                <div className="row">
+                    <div className="col-sm-12" style={{ textAlign: 'center', paddingTop: '7px' }}>
+                        <button className="btn btn-sm btn-success"
                             onClick={saveCampaignDetails}
                         >Lưu và tiếp tục</button>
                     </div>
@@ -268,10 +270,10 @@ const getRegionsJsx = (regions, campaignRegion) => {
     return regionsJsx;
 }
 
-const validateData = (title, address, goal, endDate) => {
+const validateData = (title, address, goal, minGoal, endDate) => {
     let msg = {};
     const goal10M = 10000000000;
-    const goalMin = 100000;
+    // const goalMin = 100000;
     //Title
     if (title.length === 0) {
         msg.title = 'Xin nhập tên chiến dịch';
@@ -292,8 +294,9 @@ const validateData = (title, address, goal, endDate) => {
         const goalNumber = parseFloat(goalStr);
         if (goalNumber > goal10M) {
             msg.goal = 'Chúng tôi chỉ hỗ trợ mục tiêu dưới 10 tỷ đồng';
-        } else if (goal < goalMin) {
-            msg.goal = 'Mục tiêu cần lớn hơn 100,000 đồng';
+        } else if (goal < minGoal) {
+            const goalFormat = new Intl.NumberFormat('ja-JP').format(minGoal);
+            msg.goal = 'Mục tiêu cần lớn hơn số tiền quyên góp được: ' +goalFormat+ ' đồng';
         }
     }
     //endDate

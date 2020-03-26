@@ -9,6 +9,7 @@ const MycampaignsState = props => {
   const initialState = {
     mycampaigns: [],
     hostViewingCampaign: {},
+    viewingCampaignStats: {},
     myCampaignPosts: [],
     myCampaignDonations: [],
     myCampaignExpenses: [],
@@ -44,9 +45,17 @@ const MycampaignsState = props => {
     try {
       // setLoading(true);
       const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getCampaignDetailBySlug}${slug}`);
+      const stats = {
+        raised: res.data.raised,
+        countDonations: res.data.countDonations
+      }
       dispatch({
         type: hostActionTypes.GET_CAMPAIGN_DETAIL,
         payload: res.data.campaign
+      });
+      dispatch({
+        type: hostActionTypes.SET_CAMPAIGN_STATS,
+        payload: stats
       });
       // setLoading(false);
     } catch (error) {
@@ -325,6 +334,7 @@ const MycampaignsState = props => {
       value={{
         mycampaigns: state.mycampaigns,
         hostViewingCampaign: state.hostViewingCampaign,
+        viewingCampaignStats: state.viewingCampaignStats,
         myCampaignPosts: state.myCampaignPosts,
         myCampaignDonations: state.myCampaignDonations,
         myCampaignExpenses: state.myCampaignExpenses,

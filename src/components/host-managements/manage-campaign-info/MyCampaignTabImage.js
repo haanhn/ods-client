@@ -76,8 +76,8 @@ const MyCampaignTabImage = () => {
 
     const btnsUpdateImg = (
         <div className='child btns-update-img' >
-            <button className='btn btn-secondary' onClick={removeImage}>Xóa ảnh</button>
-            <label for='createCampaignImage' className='btn btn-primary'>
+            <div className='btn-update-img' onClick={removeImage}>Xóa ảnh</div>
+            <label for='createCampaignImage' className='btn-update-img'>
                 <div>Chọn ảnh</div>
             </label>
         </div>
@@ -104,7 +104,7 @@ const MyCampaignTabImage = () => {
             </label>
             <Alert alert={alertImage} />
             {newImageUrl ? btnsUpdateImg : null}
-            <div>
+            <div className='box-btn-save-campaign-image'>
                 <button className='btn btn-sm btn-success' onClick={saveImage}>Cập nhật</button>
             </div>
             {/* {imageGuide} */}

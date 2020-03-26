@@ -1,15 +1,11 @@
 import React from 'react';
-// import Nav from 'react-bootstrap/Nav';
-// import Tabs from 'react-bootstrap/Tabs';
-// import Tab from 'react-bootstrap/Tab';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
 import '../../css/host-manage-campaign.css';
 import MyCampaignTabImage from './MyCampaignTabImage';
 import MyCampaignTabDetails from './MyCampaignTabDetails';
 import MyCampaignTabStory from './MyCampaignTabStory';
 import { routes } from '../../../odsApi';
 import { Switch, Route, Link } from 'react-router-dom';
+import './my-campaign-tab-info.css';
 
 const MyCampaignInfo = (props) => {
     const { slug } = props;
@@ -18,23 +14,41 @@ const MyCampaignInfo = (props) => {
     const routeInfoStory = routes.getRouteMyCampaignInfoStory(slug);
     return (
         <div className='my-campaign-info-container'>
-            <div className='my-campaign-info'>
-                <Link to={routeInfoImage}>img</Link>
-                <Link to={routeInfoDetails}>details</Link>
-                <Link to={routeInfoStory}>story</Link>
-                <Switch>
-                    <Route exact path={`${routes.MY_CAMPAIGN_INFO}`}>
-                        <MyCampaignTabImage />
-                    </Route>
-                    <Route exact path={`${routes.MY_CAMPAIGN_INFO_DETAILS}`}>
-                        {/* <CampaignTabMoreInfo description={campaign.campaignDescription} /> */}
-                        <MyCampaignTabDetails />
-                    </Route>
-                    <Route exact path={`${routes.MY_CAMPAIGN_INFO_STORY}`}>
-                        {/* <CampaignTabMoreInfo description={campaign.campaignDescription} /> */}
-                        <MyCampaignTabStory />
-                    </Route>
-                </Switch>
+            <div className='my-campaign-info-box'>
+                <div className='auto-container'>
+                    <div className='row clearfix'>
+                        <div className='col-lg-2 col-md-3 col-sm-3 col-12 campaign-info-tabs'>
+                            <ul class="list-group list-group-flush">
+                                {/* <li class="list-group-item active"> */}
+                                <li class="list-group-item">
+                                    <Link to={routeInfoImage}>Ảnh bìa</Link>
+                                </li>
+                                <li class="list-group-item">
+                                    <Link to={routeInfoDetails}>Chi tiết</Link>
+                                </li>
+                                <li class="list-group-item">
+                                    <Link to={routeInfoStory}>Câu chuyện</Link>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div className='col-lg-10 col-md-9 col-sm-9 col-12 cammpaign-into-content'>
+                            <Switch>
+                                <Route exact path={`${routes.MY_CAMPAIGN_INFO}`}>
+                                    <MyCampaignTabImage />
+                                </Route>
+                                <Route exact path={`${routes.MY_CAMPAIGN_INFO_DETAILS}`}>
+                                    {/* <CampaignTabMoreInfo description={campaign.campaignDescription} /> */}
+                                    <MyCampaignTabDetails />
+                                </Route>
+                                <Route exact path={`${routes.MY_CAMPAIGN_INFO_STORY}`}>
+                                    {/* <CampaignTabMoreInfo description={campaign.campaignDescription} /> */}
+                                    <MyCampaignTabStory />
+                                </Route>
+                            </Switch>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

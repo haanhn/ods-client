@@ -13,6 +13,11 @@ export default (state, action) => {
         ...state,
         hostViewingCampaign: data
       };
+    case hostActionTypes.SET_CAMPAIGN_STATS:
+      return {
+        ...state,
+        viewingCampaignStats: data
+      };
     case hostActionTypes.SET_CAMPAIGN_IMAGE:
       return {
         ...state,

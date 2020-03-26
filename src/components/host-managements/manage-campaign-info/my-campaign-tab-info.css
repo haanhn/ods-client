@@ -1,0 +1,63 @@
+/***************/
+/***** Host manage campaign info *****/
+/***************/
+.my-campaign-info-container {
+    padding: 35px 12px 30px;
+}
+.my-campaign-info-box {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.my-campaign-info-box .campaign-info-tabs {
+    padding: 0;
+    border-right: 1px solid #ddd;
+}
+.my-campaign-info-box .campaign-info-tabs .list-group .list-group-item:last-of-type {
+    border-bottom: 1px solid #ddd;
+}
+.my-campaign-info-box .cammpaign-into-content {
+    padding: 30px 12px;
+}
+/****** Campaign Tab Image ******/
+.cammpaign-into-content .campaign-image-cover {
+    margin-bottom: 10px;
+}
+.cammpaign-into-content .btns-update-img {
+    padding: 0;
+    margin-bottom: 10px;
+}
+.cammpaign-into-content .btn-update-img {
+    color: #069;
+    font-weight: 550;
+    display: inline-block;
+}
+.cammpaign-into-content .btn-update-img:last-of-type {
+    margin-left: 10px;
+    margin-bottom: 0;
+}
+.cammpaign-into-content .btn-update-img:hover {
+    cursor: pointer;
+    color: darkblue;
+}
+.cammpaign-into-content .campaign-image-cover {
+    border: 2px dashed #ddd;
+}
+.box-btn-save-campaign-image {
+    text-align: center;
+}
+.box-btn-save-campaign-image button {
+    min-width: 120px;
+}
+
+/****** Campaign Tab Details ******/
+.campaign-info-tab-details {
+    padding: 0 25px;
+}
+@media (max-width: 800px) {
+    .campaign-info-tab-details {
+        padding: 0;
+        margin-top: -15px;
+    }
+}

@@ -4,13 +4,6 @@
 .my-campaign-management {
     min-height: 82vh;
 }
-/***************/
-/***** Host manage campaign info *****/
-/***************/
-.my-campaign-info-container {
-    padding: 25px 12px 30px;
-}
-
 
 /***************/
 /***** Host manage campaign posts *****/
