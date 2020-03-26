@@ -219,11 +219,13 @@ const MyCampaignTabDetails = () => {
                 </div>
 
                 <div className="form-check" style={{ paddingTop: '7px' }}>
-                    <input type="checkbox" className="form-check-input"
-                        ref={inputAutoClose}
-                        defaultChecked={campaign ? campaign.autoClose : true}
-                    />
-                    <label className="form-check-label">Tự đóng khi đạt được mục tiêu</label>
+                    <label className="form-check-label">
+                        <input type="checkbox" className="form-check-input"
+                            ref={inputAutoClose}
+                            defaultChecked={campaign ? campaign.autoClose : true}
+                        />
+                        Tự đóng khi đạt được mục tiêu
+                    </label>
                 </div>
 
                 <Alert alert={alertResult} />

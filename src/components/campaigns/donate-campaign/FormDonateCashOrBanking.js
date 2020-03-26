@@ -126,8 +126,10 @@ const FormDonateCashOrBanking = (props) => {
                     </div>
                 </div>
                 <div className="form-check">
-                    <input type="checkbox" className="form-check-input" ref={inputAnonymous} />
-                    <label className="form-check-label">Ẩn danh</label>
+                    <label className="form-check-label">
+                        <input type="checkbox" className="form-check-input" ref={inputAnonymous} />
+                        Ẩn danh
+                    </label>
                 </div>
                 <div className="form-group row">
                     <label className="col-sm-12 col-form-label">Email</label>
@@ -137,8 +139,10 @@ const FormDonateCashOrBanking = (props) => {
                     </div>
                 </div>
                 <div className="form-check">
-                    <input type="checkbox" className="form-check-input" ref={inputNoti} />
-                    <label className="form-check-label">Nhận thông báo của chiến dịch</label>
+                    <label className="form-check-label">
+                        <input type="checkbox" className="form-check-input" ref={inputNoti} />
+                        Nhận thông báo của chiến dịch
+                    </label>
                 </div>
 
                 <div className="form-group row">

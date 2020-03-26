@@ -148,10 +148,10 @@ const FormCreateCampaignPost = (props) => {
                     </div>
                 </div>
                 <div className="form-check">
-                    <input type="checkbox" className="form-check-input" ref={inputStatus}
+                <label className="form-check-label"><input type="checkbox" className="form-check-input" ref={inputStatus}
                         defaultChecked={initPostStatus === 'enable' ? true : false}
                     />
-                    <label className="form-check-label">Công khai bài viết</label>
+                    Công khai bài viết</label>
                 </div>
 
                 {editor}
