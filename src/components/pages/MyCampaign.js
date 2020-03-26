@@ -4,6 +4,7 @@ import { routes } from '../../odsApi';
 import MyCampaignPosts from '../host-managements/manage-campaign-post/MyCampaignPosts';
 import FormCreateCampaignPost from '../host-managements/manage-campaign-post/FormCreateCampaignPost';
 import mycampaignsContext from '../../context/mycampaigns/mycampaignsContext';
+import CampaignsContext from '../../context/campaigns/campaignsContext';
 import '../css/host-manage-campaign.css';
 import MyCampaignDonations from '../host-managements/manage-campaign-donation/MyCampaignDonations';
 import HostViewDonationDetail from '../host-managements/manage-campaign-donation/HostViewDonationDetail';
@@ -12,11 +13,17 @@ import MyCampaignExpenses from '../host-managements/manage-campaign-expense/MyCa
 import MyCampaignInfo from '../host-managements/manage-campaign-info/MyCampaignInfo';
 
 const MyCampaign = (props) => {
+    const campaignsContext = useContext(CampaignsContext);
     const myCampaignsContext = useContext(mycampaignsContext);
+    const { getCategories, getRegions } = campaignsContext;
+
     const { slug } = props.match.params;
 
     useEffect(() => {
         myCampaignsContext.getCampaignBySlug(slug);
+        getCategories();
+        getRegions();
+        //eslint-disable-next-line
     }, []);
 
     return (
