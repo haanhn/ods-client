@@ -12,6 +12,7 @@ export const routes = {
   getRouteCampaignComments (slug) { return `/campaigns/${slug}/comments`; },
   getRouteCampaignDetailDonations (slug) { return `/campaigns/${slug}/donations`; },
   getRouteCampaignRatings (slug) { return `/campaigns/${slug}/ratings`; },
+  getRouteCampaignExpenses (slug) { return `/campaigns/${slug}/expenses`; },
   //-----Routes: Donate to campaign-----
   CAMPAIGN_DONATE: '/campaign/:slug/donate',
   getRouteDonateCampaign (slug) { return `/campaign/${slug}/donate`; },
@@ -74,6 +75,7 @@ export const odsAPIOpenRoutes = {
   getCampaignRatingsStats: (slug) => `/api/campaignReviews/overall/${slug}`,
   postCampaignRating: '/api/campaignReviews',
   donateCampaignPaypal: '/api/donations/paypal',
+  getCampaignExpenses(slug) { return `/api/expenses/${slug}`; },
   uploadSingleImage: '/api/uploads'
 }
 

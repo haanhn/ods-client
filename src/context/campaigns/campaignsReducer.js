@@ -67,6 +67,13 @@ const campaignReducer = (state, action) => {
         //             campaignRatingPoint: data
         //         }
         //     });
+
+        //Campaign Expenses
+        case actionTypes.SET_EXPENSES:
+            return ({
+                ...state,
+                campaignExpenses: data
+            });
         case actionTypes.SET_LOADING:
             return ({
                 ...state,

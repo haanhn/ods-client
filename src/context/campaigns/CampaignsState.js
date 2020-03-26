@@ -15,6 +15,7 @@ const CampaignsState = (props) => {
         campaignComments: [],
         campaignDonations: [],
         campaignRatings: [],
+        campaignExpenses: [],
         myCampaignRating: {},
         loading: false
     }
@@ -212,6 +213,21 @@ const CampaignsState = (props) => {
         }
     };
 
+    const getCampaignExpenses = async (slug) => {
+        const api = odsAPIOpenRoutes.getCampaignExpenses(slug);
+        try {
+            const res = await axios.get(`${odsBase}${api}`);
+            dispatch({
+                type: actionTypes.SET_EXPENSES,
+                payload: res.data.result
+            });
+            // setTotalExpense(res.data.result);
+        } catch (error) {
+            console.error('Error when host get expenses');
+            console.error(error);
+        }
+    }
+
     const setCampaignToEmpty = () => dispatch({ type: actionTypes.SET_VIEWING_CAMPAIGN, payload: {} });
 
     const setLoading = (isLoading) => dispatch({ type: actionTypes.SET_LOADING, payload: isLoading });
@@ -227,6 +243,7 @@ const CampaignsState = (props) => {
             campaignDonations: state.campaignDonations,
             campaignRatings: state.campaignRatings,
             myCampaignRating: state.myCampaignRating,
+            campaignExpenses: state.campaignExpenses,
             getCategories: getCategories,
             loading: state.loading,
             //-------------------------------
@@ -246,7 +263,9 @@ const CampaignsState = (props) => {
             //Campaign Ratings
             getCampaignRatings,
             getCampaignRatingsStats,
-            postCampaignRating
+            postCampaignRating,
+            //Expenses
+            getCampaignExpenses
         }}>
             {props.children}
         </CampaignsContext.Provider>

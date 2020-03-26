@@ -148,3 +148,42 @@ h2 {
         padding: 20px 0px;
     }
 }
+
+/******* Campaign Tab Expenses *******/
+.campaign-tab-expenses {
+    padding: 20px 30px 30px;
+}
+.table-expenses {
+    border-collapse: separate;
+    border-spacing:0 10px;
+    color: #000;
+}
+.table-expenses tr {
+    border-radius: 3px;
+}
+.table-expenses td {
+    padding: .5rem .7rem;
+    border: 1px solid #dee2e6;
+}
+.table-expenses td:first-of-type {
+    border-radius: 5px 0 0 5px;
+    border-right: none;
+}
+.table-expenses td:last-of-type {
+    border-radius: 0 5px 5px 0;
+    border-left: none;
+}
+.table-expenses .expense-description {
+    color: #5c5d5e;
+    font-size: 95%;
+}
+.table-expenses .expense-cost {
+    font-weight: bold;
+    font-size: 96%;
+    color: #212529;
+}
+@media (max-width: 950px)  {
+    .campaign-tab-expenses {
+        padding: 20px 0px;
+    }
+}

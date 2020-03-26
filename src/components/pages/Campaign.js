@@ -20,6 +20,7 @@ import '../css/campaign-detail.css';
 import '../css/social-css.css';
 import axios from 'axios';
 import Spinner from '../common/Spinner';
+import CampaignTabExpenses from '../campaigns/campaign-detail/CampaignTabExpenses';
 // import { FacebookShareButton, FacebookIcon, FacebookShareCount } from 'react-share';
 
 const Campaign = (props) => {
@@ -72,6 +73,7 @@ const Campaign = (props) => {
             campaignsContext.getCampaignDonations(slug);
             // console.log(`get donations`);
             campaignsContext.getCampaignRatings(slug);
+            campaignsContext.getCampaignExpenses(slug);    
             const stats = await campaignsContext.getCampaignRatingsStats(slug);
             const myCampRating = campaignsContext.myCampaignRating;
             const allowed = await getCampaignRatingAllow(slug);
@@ -92,6 +94,7 @@ const Campaign = (props) => {
     const routeComments = routes.getRouteCampaignComments(slug);
     const routeDonations = routes.getRouteCampaignDetailDonations(slug);
     const routeRatings = routes.getRouteCampaignRatings(slug);
+    const routeExpenses = routes.getRouteCampaignExpenses(slug);
 
     if (resStatus === 404) {
         return <NotFound />;
@@ -156,6 +159,7 @@ const Campaign = (props) => {
                                 ratingStats={ratingStats}
                                 allowedRating={allowedRating} myRating={myRating} />
                         </Route>
+                        <Route exact path={routeExpenses} component={CampaignTabExpenses} />
                     </Switch>
                 </div>
             </div>
