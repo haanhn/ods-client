@@ -149,7 +149,7 @@ const MyCampaignTabStory = () => {
                     <div className="col-sm-12" style={{ textAlign: 'center', paddingTop: '10px' }}>
                         <button className="btn btn-sm btn-success"
                             onClick={saveStory}
-                        >Lưu và tiếp tục</button>
+                        >Cập nhật</button>
                     </div>
                 </div>
             </form>

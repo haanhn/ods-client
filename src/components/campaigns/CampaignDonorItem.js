@@ -4,11 +4,11 @@ import './campaign2.css';
 import { getDateFormatDD_MM_YYYY } from '../../utils/commonUtils';
 
 function CampaignDonorItem(props) {
-    const { donationAmount, anonymous, createdAt, User } = props.donation;
+    const { donationAmount, donationMethod, outsideDonor, anonymous, createdAt, User } = props.donation;
     const date = getDateFormatDD_MM_YYYY(createdAt);
 
     let avatarJsx = <img src='/images/default-data-images/default-user-avatar.png' className='col' alt='' />;
-    let fullname = 'Tên của người donor';
+    let fullname = 'Ẩn danh';
     
     if (!anonymous) {
         if (User && User.avatar) {
@@ -17,7 +17,11 @@ function CampaignDonorItem(props) {
     }
 
     if (User) {
-        fullname = anonymous ? 'Ẩn danh' : User.fullname;
+        if (!anonymous && donationMethod === 'outside') {
+            fullname = outsideDonor ? outsideDonor : 'Ẩn danh';
+        } else if (!anonymous && donationMethod !== 'outside') {
+            fullname = User.fullname;
+        }
     }
 
     return (

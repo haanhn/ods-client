@@ -44,6 +44,8 @@ export const routes = {
   getRouteMyCampaignDonations(slug) { return `/my-campaigns/${slug}/donations`; },
   MY_CAMPAIGN_DONATION_DETAIL: '/my-campaigns/:slug/donations/:code',
   getRouteMyCampaignDonationDetail(slug, code) { return `/my-campaigns/${slug}/donations/${code}`; },
+  MY_CAMPAIGN_CREATE_DONATION: '/my-campaigns/:slug/create-donation',
+  getRouteMyCampaignCreateDonation: (slug) => `/my-campaigns/${slug}/create-donation`,
   //Route: Host campaign expenses
   MY_CAMPAIGN_EXPENSES: '/my-campaigns/:slug/expenses',
   getRouteMyCampaignExpenses(slug) { return `/my-campaigns/${slug}/expenses`; },
@@ -76,6 +78,9 @@ export const odsAPIOpenRoutes = {
   postCampaignRating: '/api/campaignReviews',
   donateCampaignPaypal: '/api/donations/paypal',
   getCampaignExpenses(slug) { return `/api/expenses/${slug}`; },
+  //Follow Campaign
+  followCampaign: '/api/follows',
+  checkFollowCampaign: (campaignId) => `/api/follows/check/${campaignId}`,
   uploadSingleImage: '/api/uploads'
 }
 
@@ -98,6 +103,7 @@ export const odsAPIHost = {
   createCampaignPost: '/api/posts/host/create',
   updateCampaignPost: '/api/posts/host/update',
   getCampaignDonations(slug) { return `/api/donations/host/get-by-campaign/${slug}`; },
+  createOutsideDonation: '/api/donations/host/create',
   updateCampaignDonationStatus(action) { return `/api/donations/host/update-donation-status/${action}`; },
   getCampaignExpenses(slug) { return `/api/expenses/${slug}`; },
   createCampaignExpense: '/api/expenses',

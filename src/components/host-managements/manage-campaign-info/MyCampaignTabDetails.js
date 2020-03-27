@@ -234,7 +234,7 @@ const MyCampaignTabDetails = () => {
                     <div className="col-sm-12" style={{ textAlign: 'center', paddingTop: '7px' }}>
                         <button className="btn btn-sm btn-success"
                             onClick={saveCampaignDetails}
-                        >Lưu và tiếp tục</button>
+                        >Cập nhật</button>
                     </div>
                 </div>
             </form>

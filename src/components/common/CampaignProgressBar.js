@@ -4,7 +4,7 @@ import './campaign.css';
 import { calculateDaysBetweenDates } from '../../utils/commonUtils';
 
 const CampaignProgressBar = (props) => {
-    const { raised, goal, campaignEndDate } = props;
+    const { raised, goal, campaignEndDate, campaignStatus } = props;
     const raisedValue = raised ? raised : 0;
     const goalValue = goal ? goal : 0;
     const raisedJsx = <CurrencyFormat value={raisedValue} displayType={'text'} thousandSeparator={true} />;
@@ -28,7 +28,11 @@ const CampaignProgressBar = (props) => {
                 <div>
                     <strong> {raisedJsx} / {goalJsx} vnđ </strong>
                 </div>
-                <div>Còn <strong>{leftTime}</strong> </div>
+                {campaignStatus === 'public' ? (
+                    <div>Còn <strong>{leftTime}</strong> </div>
+                ) : (
+                    <div><strong>Đã kết thúc</strong></div>
+                )}
             </div>
             <div class="progress">
                 <div class="progress-bar bg-success"

@@ -56,28 +56,20 @@ export const calculateDaysBetweenDates = (fromDateStr, toDateStr) => {
         return -1;
     }
     try {
-        console.log('from ' +fromDateStr)
         const date1 = new Date(fromDateStr);
         const date2 = new Date(toDateStr);
-        console.log('from ' +date1)
-        console.log('to ' +date2)
         const time1 = date1.getTime();
         const time2 = date2.getTime();
         const timeRange = time2 - time1;
         let days = timeRange / (1000 * 60 * 60 * 24);
-        console.log('range ' +timeRange)
-        console.log('days ' +days)
         if (days < 1) {
-            //hours
             let hours = days * 24;
             if (hours < 1) {
                 let minutes = hours * 60;
                 minutes = Math.floor(minutes);
-                console.log('m ' +minutes)
                 return minutes + ' phút';
             } else {
                 hours = Math.floor(hours);
-                console.log('hours ' +hours)
                 return hours + ' giờ';
             }
         }

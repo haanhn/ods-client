@@ -222,6 +222,25 @@ const MycampaignsState = props => {
     }
   }
 
+  //Host Create Outside Donation
+  const createOutsideDonation = async (name, amount, anonymous) => {
+    const token = localStorage.getItem(localStoreKeys.token);
+    const campaignId = state.hostViewingCampaign.id;
+    const api = odsAPIHost.createOutsideDonation;
+    try {
+      const res = await axios.post(`${odsBase}${api}`, {
+        token: token,
+        campaignId: campaignId,
+        donation: { name, amount, anonymous }
+      });
+      return res.data.result;
+    } catch (error) {
+      console.error('Error when host update donation status');
+      console.error(error);
+      return false;
+    }
+  }
+
   //Host Update Donation Status
   const updateDonationStatus = async (donationId, action) => {
     const token = localStorage.getItem(localStoreKeys.token);
@@ -351,6 +370,7 @@ const MycampaignsState = props => {
         updateCampaignPosts,
         //Methods for donations
         getCampaignDonations,
+        createOutsideDonation,
         updateDonationStatus,
         //Methods for expenses
         getCampaignExpenses,

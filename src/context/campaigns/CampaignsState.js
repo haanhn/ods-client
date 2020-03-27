@@ -64,12 +64,15 @@ const CampaignsState = (props) => {
             const campaign = res.data.campaign;
             campaign.raised = res.data.raised;
             campaign.countDonations = res.data.countDonations;
+            campaign.countFollowers = res.data.countFollowers;
             dispatch({
                 type: actionTypes.SET_VIEWING_CAMPAIGN,
                 payload: campaign
             });
             console.log('get Campaign success');
             setLoading(false);
+            //ADD return campaign here
+            return  campaign;
         } catch (error) {
             setLoading(false);
             console.log(error);
@@ -228,6 +231,43 @@ const CampaignsState = (props) => {
         }
     }
 
+    const followCampaign = async (userId, email, name) => {
+        const route = odsAPIOpenRoutes.followCampaign;
+        const campaignId = state.viewingCampaign.id;
+        try {
+            const res = await axios.post(`${odsBase}${route}`, { 
+                campaignId, userId, 
+                email: email, 
+                name: name
+            });
+            const success = res.data.success;
+            if (success === 'true') {
+                return true;
+            }
+        } catch (error) {
+            console.error(`Error when follow campaign: ${error}`);
+            return false; //fail
+        }
+    };
+
+    const checkFollowCampaign = async (campaignId) => {
+        const token = localStorage.getItem(localStoreKeys.token);
+        const route = odsAPIOpenRoutes.checkFollowCampaign(campaignId);
+        const config = {
+            headers: {
+              'x-access-token': token
+            }
+          };
+        try {
+            const res = await axios.get(`${odsBase}${route}`, config);
+            const following = res.data.follow;
+            return following ? 1 : 0;
+        } catch (error) {
+            console.error(`Error when follow campaign: ${error}`);
+            return -2; //fail
+        }
+    };
+
     const setCampaignToEmpty = () => dispatch({ type: actionTypes.SET_VIEWING_CAMPAIGN, payload: {} });
 
     const setLoading = (isLoading) => dispatch({ type: actionTypes.SET_LOADING, payload: isLoading });
@@ -265,7 +305,10 @@ const CampaignsState = (props) => {
             getCampaignRatingsStats,
             postCampaignRating,
             //Expenses
-            getCampaignExpenses
+            getCampaignExpenses,
+            //Follow Campaign
+            followCampaign,
+            checkFollowCampaign
         }}>
             {props.children}
         </CampaignsContext.Provider>

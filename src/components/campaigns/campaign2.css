@@ -181,6 +181,7 @@ h2 {
     font-weight: bold;
     font-size: 96%;
     color: #212529;
+    text-align: right;
 }
 @media (max-width: 950px)  {
     .campaign-tab-expenses {

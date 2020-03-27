@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import NotFound from '../../pages/NotFound';
 import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
-import { getDonationStatus, getMethod } from './donationUtils';
+import { getDonationStatus, getMethod  } from '../../../utils/donationUtils';
 import { getDateFormatDD_MM_YYYY } from '../../../utils/commonUtils';
 import '../../css/host-manage-donations.css';
 
@@ -31,11 +31,19 @@ const HostViewDonationDetail = (props) => {
     }
 
     if (!donation) {
-        return <NotFound />
+        return <NotFound />;
     }
 
     const date = getDateFormatDD_MM_YYYY(donation.createdAt);
     const method = getMethod(donation.donationMethod);
+    let donorName = '';
+    if (donation && donation.donationMethod) {
+        if (donation.donationMethod !== 'outside') {
+            donorName = donation.User.fullname;
+        } else {
+            donorName = donation.outsideDonor;
+        }
+    }
 
     return (
         <div className='host-donation-detail' >
@@ -51,12 +59,16 @@ const HostViewDonationDetail = (props) => {
                     </tr>
                     <tr>
                         <td>Người quyên góp</td>
-                        <td> {donation.User ? donation.User.fullname : ''} </td>
+                        <td> {donorName} </td>
                     </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td> {donation.User ? donation.User.email : ''} </td>
-                    </tr>
+                    
+                    { donation && donation.donationMethod !== 'outside' ? (
+                        <tr>
+                            <td>Email</td>
+                            <td> {donation.User ? donation.User.email : ''} </td>
+                        </tr>
+                    ) : null }
+                    
                     <tr>
                         <td>Số tiền</td>
                         <td>

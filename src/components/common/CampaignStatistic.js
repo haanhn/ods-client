@@ -2,13 +2,13 @@ import React from 'react';
 import './campaign.css';
 
 const CampaignStatistic = (props) => {
-    const { countDonations } = props;
+    const { countDonations, countFollowers } = props;
     return (
         <div className="campaign-stats">
             <ul className="list-inline">
                 <li className="list-inline-item">
                     <strong>
-                        150k
+                        {countFollowers ? countFollowers : 0}
                     </strong>
                     <span>Người theo dõi</span>
                 </li>

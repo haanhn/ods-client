@@ -92,7 +92,8 @@ export default (state, action) => {
                     campaignRegion: data.campaignRegion,
                     address: data.campaignAddress,
                     goal: data.campaignGoal,
-                    endDate: new Date(data.campaignEndDate)
+                    endDate: new Date(data.campaignEndDate),
+                    autoClose: data.autoClose
                 }
             };
         default:

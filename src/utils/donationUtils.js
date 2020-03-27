@@ -10,7 +10,9 @@ export const getDonationStatus = (status) => {
 
 export const getMethod = (method) => {
     let type = 'Tiền mặt';
-    if (method === 'banking') {
+    if (method === 'outside') {
+        type = 'Nhận bên ngoài';
+    } else if (method === 'banking') {
         type = 'Ngân hàng';
     } else if (method === 'paypal') {
         type = 'Paypal';

@@ -61,7 +61,8 @@ const CreateCampaign = (props) => {
             image: null,
             description: '',
             campaignRegion: null,
-            address: ''
+            address: '',
+            autoClose: true
         },
         user: {},
         bankAccount: {}
@@ -183,7 +184,7 @@ const CreateCampaign = (props) => {
         }
     }
 
-    const createCampaignStep3 = async (address, region, goal, endDate) => {
+    const createCampaignStep3 = async (address, region, goal, endDate, autoClose) => {
         try {
             setLoading(true);
             const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.createCampaignStep3}`, {
@@ -193,7 +194,8 @@ const CreateCampaign = (props) => {
                     campaignAddress: address,
                     campaignRegion: region,
                     campaignGoal: goal,
-                    campaignEndDate: endDate
+                    campaignEndDate: endDate,
+                    autoClose
                 }
             });
             dispatch({

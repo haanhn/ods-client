@@ -11,6 +11,7 @@ import HostViewDonationDetail from '../host-managements/manage-campaign-donation
 import HostHeader from '../host-managements/HostHeader';
 import MyCampaignExpenses from '../host-managements/manage-campaign-expense/MyCampaignExpenses';
 import MyCampaignInfo from '../host-managements/manage-campaign-info/MyCampaignInfo';
+import HostCreateOutsideDonation from '../host-managements/manage-campaign-donation/HostCreateOutsideDonation';
 
 const MyCampaign = (props) => {
     const campaignsContext = useContext(CampaignsContext);
@@ -38,6 +39,7 @@ const MyCampaign = (props) => {
                 <Route exact path={routes.MY_CAMPAIGN_POST_DETAIL} component={FormCreateCampaignPost} />
                 <Route exact path={routes.MY_CAMPAIGN_EXPENSES} component={MyCampaignExpenses} />
                 <Route exact path={routes.MY_CAMPAIGN_DONATIONS} component={MyCampaignDonations} />
+                <Route exact path={routes.MY_CAMPAIGN_CREATE_DONATION} component={HostCreateOutsideDonation} />
                 <Route exact path={routes.MY_CAMPAIGN_DONATION_DETAIL} component={HostViewDonationDetail} />
             </Switch>
         </div>

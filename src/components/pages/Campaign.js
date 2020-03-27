@@ -29,9 +29,10 @@ const Campaign = (props) => {
     const { slug } = props.match.params;
     const { id,
         campaignTitle,
-        raised, campaignGoal, countDonations,
+        raised, campaignGoal, countDonations, countFollowers,
         campaignEndDate, campaignRatingPoint,
         campaignShortDescription, campaignDescription,
+        campaignStatus,
         Category
     } = campaignsContext.viewingCampaign;
     const campaign = campaignsContext.viewingCampaign;
@@ -50,6 +51,8 @@ const Campaign = (props) => {
     const [ratingStats, setRatingStats] = useState({});
     const [myRating, setMyRating] = useState({});
     const [allowedRating, setAllowedRating] = useState(false);
+    const [owning, setOwning] = useState(false);
+    const [following, setFollowing] = useState(false);
     const [resStatus, setResStatus] = useState(200);
 
     useEffect(() => {
@@ -63,7 +66,7 @@ const Campaign = (props) => {
 
     const fetchCampaign = async () => {
         try {
-            await campaignsContext.getCampaignBySlug(slug);
+            const returnedCampaign = await campaignsContext.getCampaignBySlug(slug);
             console.log(`get campaign done`);
             //After get campaign success, do not need to await to get comments, donations 
             // console.log(`start get comments`);
@@ -73,7 +76,19 @@ const Campaign = (props) => {
             campaignsContext.getCampaignDonations(slug);
             // console.log(`get donations`);
             campaignsContext.getCampaignRatings(slug);
-            campaignsContext.getCampaignExpenses(slug);    
+            campaignsContext.getCampaignExpenses(slug);
+            // const checkFollow = await campaignsContext.checkFollowCampaign(campaignsContext.checkFollowCampaign);
+            const checkOwner = checkCampaignOwner(returnedCampaign);
+            if (checkOwner === true) {
+                setOwning(true);
+            }
+            const checkFollow = await checkFollowCampaign(
+                campaignsContext.checkFollowCampaign,
+                returnedCampaign.id
+            );
+            if (checkFollow === 1) {
+                setFollowing(true);
+            }
             const stats = await campaignsContext.getCampaignRatingsStats(slug);
             const myCampRating = campaignsContext.myCampaignRating;
             const allowed = await getCampaignRatingAllow(slug);
@@ -101,7 +116,7 @@ const Campaign = (props) => {
     }
 
     if (loading) {
-        return <Spinner/>;
+        return <Spinner />;
     } else {
         return (
             // <div className="sidebar-page-container">
@@ -135,10 +150,14 @@ const Campaign = (props) => {
                         </div>
                         <aside className="sidebar col-lg-12 col-md-12 col-sm-12">
                             <CampaignProgressBar raised={raised} goal={campaignGoal}
-                                campaignEndDate={campaignEndDate} />
-                            <CampaignStatistic countDonations={countDonations} />
-                            <ButtonDonate slug={slug} />
-                            <ButtonSubscribeCampaign />
+                                campaignEndDate={campaignEndDate} campaignStatus={campaignStatus} />
+                            <CampaignStatistic countDonations={countDonations} countFollowers={countFollowers} />
+                            {campaignStatus === 'public' ? (
+                                <ButtonDonate slug={slug} />
+                            ) : null}
+                            { !owning ? (
+                                <ButtonSubscribeCampaign following={following} setFollowing={setFollowing} />
+                            ) : null }
                         </aside>
                     </div>
                 </div>
@@ -196,6 +215,36 @@ const getCampaignRatingAllow = async (slug) => {
         return false; //fail
     }
 };
+
+const checkFollowCampaign = async (checkFollowFn, campaignId) => {
+    const token = localStorage.getItem(localStoreKeys.token);
+    if (!token) {
+        return -1;
+    }
+    try {
+        const result = await checkFollowFn(campaignId);
+        console.log('result follow' + result);
+        return result;
+    } catch (error) {
+        console.error(`Error when check follow campaign: ${error}`);
+        return -2; //fail
+    }
+}
+
+const checkCampaignOwner = (campaign) => {
+    const userId = localStorage.getItem(localStoreKeys.userId);
+    if (userId) {
+        if (campaign && campaign.Users) {
+            if (campaign.Users.length > 0) {
+                const owner = campaign.Users[0];
+                if (owner.id === userId) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
 
 /* <div className="Demo__some-network">
     <FacebookShareButton

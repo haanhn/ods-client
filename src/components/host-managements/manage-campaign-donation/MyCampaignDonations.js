@@ -2,8 +2,8 @@ import React, { useContext, useEffect, Fragment } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import mycampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
 import { routes } from '../../../odsApi';
-import { getDonationStatus, getMethod } from './donationUtils';
 import { getDateFormatDD_MM_YYYY } from '../../../utils/commonUtils';
+import { getDonationStatus, getMethod } from '../../../utils/donationUtils';
 import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import Alert from '../../common/Alert';
@@ -28,7 +28,8 @@ const MyCampaignDonations = (props) => {
         },
         {
             name: 'Người quyên góp',
-            selector: 'User.fullname',
+            // selector: 'User.fullname',
+            selector: 'donorName',
             sortable: true,
         },
         {
@@ -77,12 +78,19 @@ const MyCampaignDonations = (props) => {
         data = getDonationsData(donations);
     }
 
+    const createRoute = routes.getRouteMyCampaignCreateDonation(slug);
+
     return (
         <div className='host-list-donations'>
+            <h4>Các quyên góp
+                <button className='btn btn-sm btn-success' style={{float: 'right'}}>
+                    <i class="fas fa-plus-circle" style={{marginRight: '3px'}}></i>
+                        <Link to={createRoute} style={{ color: 'white' }} >Tạo quyên góp ở ngoài</Link>
+                </button>
+            </h4>
             {
                 data && data.length > 0 ? (
                     <DataTable
-                        title="Các quyên góp"
                         columns={columns}
                         data={data}
                         pagination={true}
@@ -126,6 +134,12 @@ const getDonationsData = (donations) => {
         //methodJsx, dateJsx
         donations[i].method = getMethod(donations[i].donationMethod);
         donations[i].dateJsx = getDateFormatDD_MM_YYYY(donations[i].createdAt);
+        //donorName (system donor or outside donor)
+        if (donations[i].donationMethod === 'outside') {
+            donations[i].donorName = donations[i].outsideDonor;
+        } else {
+            donations[i].donorName = donations[i].User.fullname;
+        }
     }
     return donations;
 }

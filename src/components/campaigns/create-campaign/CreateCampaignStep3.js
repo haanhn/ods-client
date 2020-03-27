@@ -15,6 +15,7 @@ const CreateCampaignStep3 = (props) => {
 
     let inputAddress = React.createRef();
     let inputRegion = React.createRef();
+    const inputAutoClose = React.createRef();
 
     //State
     const [goal, setGoal] = useState(campaign.goal);
@@ -41,6 +42,7 @@ const CreateCampaignStep3 = (props) => {
         event.preventDefault();
         const address = inputAddress.current.value.trim();
         let region = inputRegion.current.value;
+        const autoClose = inputAutoClose.current.checked;
 
         setAlertAddress(null);
         setAlertGoal(null);
@@ -63,7 +65,7 @@ const CreateCampaignStep3 = (props) => {
             if (!region) {
                 region = regions[0].name;
             }
-            createCampaignStep3(address, region, goal, endDate);
+            createCampaignStep3(address, region, goal, endDate, autoClose);
         }
 
     }
@@ -153,6 +155,16 @@ const CreateCampaignStep3 = (props) => {
                         </div>
                         <Alert alert={alertEndDate} />
                     </div>
+                </div>
+
+                <div className="form-check" style={{ paddingTop: '7px' }}>
+                    <label className="form-check-label">
+                        <input type="checkbox" className="form-check-input"
+                            ref={inputAutoClose}
+                            defaultChecked={campaign ? campaign.autoClose : true}
+                        />
+                        Tự đóng khi đạt được mục tiêu
+                    </label>
                 </div>
 
                 <div className="row justify-content-end">
