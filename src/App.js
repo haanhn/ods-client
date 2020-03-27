@@ -21,6 +21,7 @@ import Register from './components/auth/Register';
 import { clearLocalStorage } from './context/auth/AuthState';
 import MyCampaign from './components/pages/MyCampaign';
 import MyDonations from './components/donor-managements/MyDonations';
+import UserProfile from './components/pages/UserProfile';
 const App = () => {
 
   return (
@@ -54,6 +55,9 @@ const App = () => {
 
                     {/* Donor Routes */}
                     <Route exact path={routes.MY_DONATIONS} component={MyDonations} />
+                    
+                    {/* User Profile Routes */}
+                    <Route path={routes.USER_PROFILE} component={UserProfile} />
 
                     <Route path={routes.NOT_FOUND} component={NotFound} />
 

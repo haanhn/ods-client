@@ -59,3 +59,15 @@
         padding-top: 15px;
     }
 }
+
+/* For Host Rating */
+.user-profile .rating-point-overview {
+    padding-left: 90px;
+}
+.user-profile .rating-point-overview .point {
+    font-size: 190%;
+    font-weight: bold;
+}
+.user-profile .rating-point-overview .fas {
+    font-size: 18px;
+}

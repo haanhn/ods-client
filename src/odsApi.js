@@ -49,6 +49,17 @@ export const routes = {
   //Route: Host campaign expenses
   MY_CAMPAIGN_EXPENSES: '/my-campaigns/:slug/expenses',
   getRouteMyCampaignExpenses(slug) { return `/my-campaigns/${slug}/expenses`; },
+  
+  //Route: User Profile
+  USER_PROFILE: '/users/:userCode',
+  USER_PROFILE_CAMPAIGNS: '/users/:userCode/campaigns',
+  USER_PROFILE_DONATIONS: '/users/:userCode/donations',
+  USER_PROFILE_RATINGS: '/users/:userCode/ratings',
+  getUserProfile: (userCode) => `/users/${userCode}`,
+  getUserProfileCampaigns: (userCode) => `/users/${userCode}/campaigns`,
+  getUserProfileDonations: (userCode) => `/users/${userCode}/donations`,
+  getUserProfileRatings: (userCode) => `/users/${userCode}/ratings`,
+  
   //--------------------------------------
   //----- Routes: for Campagin Donor -----
   //--------------------------------------
