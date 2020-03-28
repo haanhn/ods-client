@@ -5,19 +5,16 @@ import RatingStatisticsContainer from '../../common/rating-statistics/RatingStat
 
 const UserProfileStats = () => {
     const userProfileContext = useContext(UserProfileContext);
+
+    //Profile Stats
     const profileStats = userProfileContext.profileStats;
     const raised = profileStats && profileStats.countRaised ? profileStats.countRaised : 0;
     const donating = profileStats && profileStats.countDonating ? profileStats.countDonating : 0;
+    
+    //Profile Rating Stats
+    const ratingStats = userProfileContext.profileRatingStats;
+    const ratingPoint = ratingStats && ratingStats.hostRatingPoint ? ratingStats.hostRatingPoint : 0;
 
-    const ratingPoint = 4;
-    const ratingStats = {
-        "totalReviews": 1,
-        "count1": 0,
-        "count2": 0,
-        "count3": 0,
-        "count4": 1,
-        "count5": 0
-    };
     return (
         <div className='profile-stats'>
             {/* <div>

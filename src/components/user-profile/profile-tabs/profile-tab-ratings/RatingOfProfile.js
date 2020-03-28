@@ -1,19 +1,18 @@
 import React from 'react';
 import RatingStars from '../../../common/RatingStars';
+import { getDateFormatDD_MM_YYYY } from '../../../../utils/commonUtils';
 
-const RatingOfProfile = () => {
-    const User = {};
-    const point = 3;
-    const updatedAtFormated = '16/03/2020';
-    const content = 'ahihaihihihihih sfhisfho fdishfd';
-
+const RatingOfProfile = (props) => {
+    const { point, content, updatedAt, reviewer } = props.rating;
+    const updatedAtFormated = getDateFormatDD_MM_YYYY(updatedAt);
+    const image = reviewer && reviewer.avatar ? reviewer.avatar : '/images/default-data-images/default-user-avatar.png';
 
     return (
         <div className='campaign-comment campaign-rating'>
             <div className='grid-row'>
-                <img src='/images/default-data-images/default-user-avatar.png' className='grid-col' />
+                <img src={image} className='grid-col' />
                 <div className='grid-col'>
-                    <h6> {User && User.fullname ? User.fullname : 'Tên donor'} </h6>
+                    <h6> {reviewer && reviewer.fullname ? reviewer.fullname : 'Tên người đánh giá'} </h6>
                     <span style={{fontSize: '90%'}}>
                         {updatedAtFormated}
                     </span>
@@ -21,7 +20,6 @@ const RatingOfProfile = () => {
                         <RatingStars points={point} />
                     </div>
                 </div>
-
             </div>
             <div>
                 {content}

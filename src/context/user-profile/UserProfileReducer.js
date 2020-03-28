@@ -23,6 +23,16 @@ export default (state, action) => {
         ...state,
         profileDonations: data
       };
+    case profileActionTypes.SET_PROFILE_RATINGS_STATS:
+      return {
+        ...state,
+        profileRatingStats: data
+      };
+    case profileActionTypes.SET_PROFILE_RATINGS:
+      return {
+        ...state,
+        profileRatings: data
+      };
     default:
       return state;
   }

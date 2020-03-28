@@ -11,6 +11,8 @@ const UserProfileState = props => {
     profileStats: {},
     profileCampaigns: [],
     profileDonations: [],
+    profileRatingStats: {},
+    profileRatings: [],
   };
 
   const [state, dispatch] = useReducer(UserProfileReducer, initialState);
@@ -62,7 +64,7 @@ const UserProfileState = props => {
     }
   };
 
-  // API: Get Profile Campaigns
+  // API: Get Profile Donations
   const getProfileDonations = async (userId) => {
     const api = odsAPIProfile.getProfileDonations(userId);
     try {
@@ -77,6 +79,36 @@ const UserProfileState = props => {
     }
   };
 
+  // API: Get Profile Rating Stats
+  const getProfileRatingStats = async (userId) => {
+    const api = odsAPIProfile.getProfileRatingStats(userId);
+    try {
+      const res = await axios.get(`${odsBase}${api}`);
+      const stats = res.data.result;
+      dispatch({
+        type: profileActionTypes.SET_PROFILE_RATINGS_STATS,
+        payload: stats
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  // API: Get Profile Ratings
+  const getProfileRatings = async (userId) => {
+    const api = odsAPIProfile.getProfileRatings(userId);
+    try {
+      const res = await axios.get(`${odsBase}${api}`);
+      const ratings = res.data.result;
+      dispatch({
+        type: profileActionTypes.SET_PROFILE_RATINGS,
+        payload: ratings
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <UserProfileContext.Provider
       value={{
@@ -84,11 +116,15 @@ const UserProfileState = props => {
         profileStats: state.profileStats,
         profileCampaigns: state.profileCampaigns,
         profileDonations: state.profileDonations,
+        profileRatingStats: state.profileRatingStats,
+        profileRatings: state.profileRatings,
         //Methods
         getUserProfile,
         getProfileStats,
         getProfileCampaigns,
-        getProfileDonations
+        getProfileDonations,
+        getProfileRatingStats,
+        getProfileRatings,
       }}
     >
       {props.children}

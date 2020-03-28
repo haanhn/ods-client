@@ -16,6 +16,8 @@ const UserProfile = (props) => {
             userProfileContext.getProfileStats(userId);
             userProfileContext.getProfileCampaigns(userId);
             userProfileContext.getProfileDonations(userId);
+            userProfileContext.getProfileRatingStats(userId);
+            userProfileContext.getProfileRatings(userId);
         }
     }
 
