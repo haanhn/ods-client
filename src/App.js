@@ -22,59 +22,66 @@ import { clearLocalStorage } from './context/auth/AuthState';
 import MyCampaign from './components/pages/MyCampaign';
 import MyDonations from './components/donor-managements/MyDonations';
 import UserProfile from './components/pages/UserProfile';
+import AccountSetting from './components/pages/AccountSetting';
+import UserProfileState from './context/user-profile/UserProfileState';
 const App = () => {
 
   return (
     <AuthState>
-      <CampaignsState>
-        <AlertState>
-          <MycampaignsState>
-            <MyDonationsState>
-              <Router>
-                <div>
-                  <Header />
-                  <Alerts />
-                  <Switch>
-                    <Route exact path={routes.HOME} component={Home} />
-                    <Route
-                      exact
-                      path={routes.CAMPAIGNS}
-                      component={ListCampaigns}
-                    />
-                    <Route path={routes.CAMPAIGN_DETAIL} component={Campaign} />
-                    <Route
-                      // exact
-                      path={routes.CAMPAIGN_DONATE}
-                      component={DonateCampaign}
-                    />
-                    <Route exact path={routes.CAMPAIGNS_CREATE} component={CreateCampaign} />
+      <UserProfileState>
+        <CampaignsState>
+          <AlertState>
+            <MycampaignsState>
+              <MyDonationsState>
+                <Router>
+                  <div>
+                    <Header />
+                    <Alerts />
+                    <Switch>
+                      <Route exact path={routes.HOME} component={Home} />
+                      <Route
+                        exact
+                        path={routes.CAMPAIGNS}
+                        component={ListCampaigns}
+                      />
+                      <Route path={routes.CAMPAIGN_DETAIL} component={Campaign} />
+                      <Route
+                        // exact
+                        path={routes.CAMPAIGN_DONATE}
+                        component={DonateCampaign}
+                      />
+                      <Route exact path={routes.CAMPAIGNS_CREATE} component={CreateCampaign} />
 
-                    {/* Host Routes */}
-                    <Route exact path={routes.MY_CAMPAIGNS} component={Mycampaigns} />
-                    <Route path={routes.MY_CAMPAIGN_DETAIL} component={MyCampaign} />
+                      {/* Host Routes */}
+                      <Route exact path={routes.MY_CAMPAIGNS} component={Mycampaigns} />
+                      <Route path={routes.MY_CAMPAIGN_DETAIL} component={MyCampaign} />
 
-                    {/* Donor Routes */}
-                    <Route exact path={routes.MY_DONATIONS} component={MyDonations} />
-                    
-                    {/* User Profile Routes */}
-                    <Route path={routes.USER_PROFILE} component={UserProfile} />
+                      {/* Donor Routes */}
+                      <Route exact path={routes.MY_DONATIONS} component={MyDonations} />
 
-                    <Route path={routes.NOT_FOUND} component={NotFound} />
+                      {/* User Profile Routes */}
+                      <Route path={routes.USER_PROFILE} component={UserProfile} />
 
-                    <Route exact path={routes.PAGE_SIGN_IN} component={Login} />
-                    <Route
-                      exact
-                      path={routes.PAGE_REGISTER}
-                      component={Register}
-                    />
-                  </Switch>
-                  <Footer />
-                </div>
-              </Router>
-            </MyDonationsState>
-          </MycampaignsState>
-        </AlertState>
-      </CampaignsState>
+                      {/* Account Setting Routes */}
+                      <Route path={routes.MY_ACCOUNT} component={AccountSetting} />
+
+                      <Route path={routes.NOT_FOUND} component={NotFound} />
+
+                      <Route exact path={routes.PAGE_SIGN_IN} component={Login} />
+                      <Route
+                        exact
+                        path={routes.PAGE_REGISTER}
+                        component={Register}
+                      />
+                    </Switch>
+                    <Footer />
+                  </div>
+                </Router>
+              </MyDonationsState>
+            </MycampaignsState>
+          </AlertState>
+        </CampaignsState>
+      </UserProfileState>
     </AuthState>
   );
 };

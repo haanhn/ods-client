@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import CurrencyFormat from 'react-currency-format';
+import UserProfileContext from '../../../context/user-profile/UserProfileContext';
 import RatingStatisticsContainer from '../../common/rating-statistics/RatingStatisticsContainer';
 
 const UserProfileStats = () => {
+    const userProfileContext = useContext(UserProfileContext);
+    const profileStats = userProfileContext.profileStats;
+    const raised = profileStats && profileStats.countRaised ? profileStats.countRaised : 0;
+    const donating = profileStats && profileStats.countDonating ? profileStats.countDonating : 0;
+
     const ratingPoint = 4;
     const ratingStats = {
         "totalReviews": 1,
@@ -30,11 +37,17 @@ const UserProfileStats = () => {
                     <tr>
                         <td>
                             <div className='stats-name'>Quyên được</div>
-                            <div className='stats-number'>4,500,094đ</div>
+                            <div className='stats-number'>
+                                <CurrencyFormat value={raised} displayType={'text'} thousandSeparator={true} />
+                                đ
+                            </div>
                         </td>
                         <td>
-                            <div className='stats-name'>Quyên được</div>
-                            <div className='stats-number'>4,500,094đ</div>
+                            <div className='stats-name'>Đóng góp</div>
+                            <div className='stats-number'>
+                                <CurrencyFormat value={donating} displayType={'text'} thousandSeparator={true} />
+                                đ
+                            </div>
                         </td>
                     </tr>
                 </tbody>

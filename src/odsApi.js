@@ -51,15 +51,21 @@ export const routes = {
   getRouteMyCampaignExpenses(slug) { return `/my-campaigns/${slug}/expenses`; },
   
   //Route: User Profile
-  USER_PROFILE: '/users/:userCode',
-  USER_PROFILE_CAMPAIGNS: '/users/:userCode/campaigns',
-  USER_PROFILE_DONATIONS: '/users/:userCode/donations',
-  USER_PROFILE_RATINGS: '/users/:userCode/ratings',
-  getUserProfile: (userCode) => `/users/${userCode}`,
-  getUserProfileCampaigns: (userCode) => `/users/${userCode}/campaigns`,
-  getUserProfileDonations: (userCode) => `/users/${userCode}/donations`,
-  getUserProfileRatings: (userCode) => `/users/${userCode}/ratings`,
+  USER_PROFILE: '/users/:userId',
+  USER_PROFILE_CAMPAIGNS: '/users/:userId/campaigns',
+  USER_PROFILE_DONATIONS: '/users/:userId/donations',
+  USER_PROFILE_RATINGS: '/users/:userId/ratings',
+  getUserProfile: (userId) => `/users/${userId}`,
+  getUserProfileCampaigns: (userId) => `/users/${userId}/campaigns`,
+  getUserProfileDonations: (userId) => `/users/${userId}/donations`,
+  getUserProfileRatings: (userId) => `/users/${userId}/ratings`,
   
+  //Route: Account Setting
+  MY_ACCOUNT: '/my-account',
+  MY_ACCOUNT_AVATAR: '/my-account/avatar',
+  MY_ACCOUNT_BANK_ACCOUNT: '/my-account/bank-account',
+  MY_ACCOUNT_PAYPAL: '/my-account/paypal',
+
   //--------------------------------------
   //----- Routes: for Campagin Donor -----
   //--------------------------------------
@@ -124,6 +130,13 @@ export const odsAPIHost = {
 
 export const odsAPIDonor = {
   getMyDonations: '/api/donations'
+};
+
+export const odsAPIProfile = {
+  getUserProfile: (userId) => `/api/user/get-user/${userId}`,
+  getProfileStats: (userId) => `/api/user/get-stats/${userId}`,
+  getProfileCampaigns: (userId) => `/api/campaign/get-by-user/${userId}`,
+  getProfileDonations: (userId) => `/api/donations/get-by-user/${userId}`,
 };
 
 export const odsAPIRegions = '/api/regions';

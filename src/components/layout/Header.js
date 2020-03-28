@@ -45,7 +45,7 @@ function Header(props) {
   return (
     <Fragment>
       <div className='ods-header'>
-        <Navbar collapseOnSelect expand="lg" 
+        <Navbar collapseOnSelect expand="lg"
         // bg="dark" variant="dark"
         >
           <Navbar.Brand href="#home">ODS</Navbar.Brand>
@@ -67,7 +67,9 @@ function Header(props) {
                   <NavDropdown.Item>
                     <Link to='/my-donations'>Quyên góp của tôi</Link>
                   </NavDropdown.Item>
-                  <NavDropdown.Item>Tài khoản</NavDropdown.Item>
+                  <NavDropdown.Item>
+                  <Link to='/my-account'>Tài khoản</Link>
+                  </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={onLogout}><Link to='/'>Đăng xuất</Link></NavDropdown.Item>
                 </NavDropdown>
@@ -82,7 +84,7 @@ function Header(props) {
         </Navbar>
       </div>
 
-      </Fragment>
+    </Fragment>
   );
 }
 

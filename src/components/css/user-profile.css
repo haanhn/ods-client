@@ -17,13 +17,14 @@
 .profile-info {
     text-align: center;  
 }
+.profile-info .profile-avatar-box {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    margin: 0 auto 7px;
+}
 .profile-info .other-info {
     font-size: 95%;
-}
-.profile-info img {
-    border-radius: 50%;
-    width: 95px;
-    margin: 0 auto 7px;
 }
 .profile-stats {
     /* background-color: blue; */

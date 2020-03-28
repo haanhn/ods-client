@@ -57,3 +57,11 @@ export const hostActionTypes = {
 export const donorActionTypes = {
     GET_MY_DONATIONS: 'GET_MY_DONATIONS'
 };
+
+//User Profile
+export const profileActionTypes = {
+    SET_USER_PROFILE: 'SET_USER_PROFILE',
+    SET_PROFILE_STATS: 'SET_PROFILE_STATS',
+    SET_PROFILE_CAMPAIGNS: 'SET_PROFILE_CAMPAIGNS',
+    SET_PROFILE_DONATIONS: 'SET_PROFILE_DONATIONS'
+};

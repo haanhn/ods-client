@@ -1,0 +1,33 @@
+.account-setting {
+    padding: 35px 12px 30px;
+    min-height: 90vh;
+}
+.account-setting > div,
+.account-setting > h4 {
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+/* Account Setting: Tab Image */
+.account-setting .account-setting-avatar {
+    display: block;
+    border: 2px dashed #ddd;
+    width: 190px;
+    height: 190px;   
+    position: relative;
+    padding: 3px;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+.account-setting-avatar .btn-choose-image {
+    width: 80px;
+    height: 20px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-40px,-10px);
+    -webkit-transform: translate(-40px,-10px);
+    -ms-transform: translate(-40px,-10px);
+}
