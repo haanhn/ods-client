@@ -6,6 +6,7 @@ import ProfileTabCampaigns from './profile-tabs/profile-tab-campaigns/ProfileTab
 import ProfileTabDonations from './profile-tabs/profile-tab-donations/ProfileTabDonations';
 import ProfileTabRatings from './profile-tabs/profile-tab-ratings/ProfileTabRatings';
 import { routes } from '../../odsApi';
+import './profile-details.css';
 
 const ProfileContainer = () => {
 

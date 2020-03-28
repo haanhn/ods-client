@@ -1,6 +1,5 @@
 import React from 'react';
 import CampaignOfProfile from './CampaignOfProfile';
-import '../../profile-details.css';
 
 const ProfileTabCampaigns = () => {
     return (

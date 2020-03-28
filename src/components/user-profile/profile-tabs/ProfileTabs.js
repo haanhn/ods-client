@@ -13,13 +13,13 @@ const ProfileTabs = () => {
         <div>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <Link className="nav-link" to={routeCampaigns}>Thông tin</Link>
+                    <Link className="nav-link" to={routeCampaigns}>Chiến dịch</Link>
                 </li>
                 <li class="nav-item">
-                    <Link className="nav-link" to={routeDonations}>Thông tin</Link>
+                    <Link className="nav-link" to={routeDonations}>Quyên góp</Link>
                 </li>
                 <li class="nav-item">
-                    <Link className="nav-link" to={routeRatings}>Thông tin</Link>
+                    <Link className="nav-link" to={routeRatings}>Đánh giá</Link>
                 </li>
             </ul>
         </div>

@@ -1,9 +1,8 @@
 .campaign-of-profile {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
-.campaign-of-profile > div:first-of-type img {
-    border-radius: 5px 5px 0 0;
-    width: 100%;
+.campaign-of-profile > div:first-of-type {
+    border-radius: 5px 5px 0 0 ;
 }
 .campaign-of-profile > div:last-of-type {
     padding: 12px 10px 10px;
