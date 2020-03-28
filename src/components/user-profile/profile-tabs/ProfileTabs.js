@@ -2,12 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from '../../../odsApi';
 
-const ProfileTabs = () => {
-
-    const userCode = 12345637;
-    const routeCampaigns = routes.getUserProfile(userCode);
-    const routeDonations = routes.getUserProfileDonations(userCode);
-    const routeRatings = routes.getUserProfileRatings(userCode);
+const ProfileTabs = (props) => {
+    const userId = props.userId;
+    const routeCampaigns = routes.getUserProfile(userId);
+    const routeDonations = routes.getUserProfileDonations(userId);
+    const routeRatings = routes.getUserProfileRatings(userId);
 
     return (
         <div>

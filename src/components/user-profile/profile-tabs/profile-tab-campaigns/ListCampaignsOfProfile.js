@@ -11,7 +11,7 @@ const ListCampaignsOfProfile = () => {
     if (campaigns && campaigns.length > 0) {
         campaignsJsx = campaigns.map((campaign) => {
             return (
-            <div className='col-lg-3 col-md-4 col-sm-6 col-12'>
+            <div key={campaign.id} className='col-lg-3 col-md-4 col-sm-6 col-12'>
                 <CampaignOfProfile campaign={campaign} />
             </div>);
         });

@@ -8,14 +8,15 @@ import ProfileTabRatings from './profile-tabs/profile-tab-ratings/ProfileTabRati
 import { routes } from '../../odsApi';
 import './profile-details.css';
 
-const ProfileContainer = () => {
+const ProfileContainer = (props) => {
+    const { userId } = props;
 
     return (
         <div className='profile-container'>
 
             <ProfileOverallContainer />
             <div className='profile-tabs-container'>
-                <ProfileTabs />
+                <ProfileTabs userId={userId} />
                 <div className='profile-tab-content'>
                     <Switch>
                         <Route exact path={routes.USER_PROFILE}>

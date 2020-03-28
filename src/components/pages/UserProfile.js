@@ -10,18 +10,22 @@ const UserProfile = (props) => {
     const { userId } = props.match.params;
     const profile = userProfileContext.profile;
 
-    useEffect( async () => {
+    const fetchProfileData = async () => {
         const result = await userProfileContext.getUserProfile(userId);
         if (result) {
             userProfileContext.getProfileStats(userId);
             userProfileContext.getProfileCampaigns(userId);
             userProfileContext.getProfileDonations(userId);
         }
+    }
+
+    useEffect(() => {
+        fetchProfileData();
     }, []);
 
     return (
         <div className='user-profile'>
-            <ProfileContainer />
+            <ProfileContainer userId={userId} />
         </div>
     );
 }
