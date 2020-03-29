@@ -5,10 +5,12 @@ import {
   LOG_OUT,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  authActionTypes
 } from '../types';
 
 export default (state, action) => {
+  const data = action.payload;
   switch (action.type) {
     case GET_OTP:
       return {
@@ -41,6 +43,11 @@ export default (state, action) => {
       return {
         ...state,
         isLoggedIn: false
+      };
+    case authActionTypes.SET_BANK_ACCOUNT:
+      return {
+        ...state,
+        bankAccount: data
       };
     default:
       return state;

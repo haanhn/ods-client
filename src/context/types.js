@@ -39,6 +39,11 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOG_OUT = 'LOG_OUT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
+//Authorized User
+export const authActionTypes = {
+    SET_BANK_ACCOUNT: 'SET_BANK_ACCOUNT'
+}
+
 //My Campaign
 export const GET_MYCAMPAIGNS = 'GET_MYCAMPAIGNS';
 export const CLEAR_MYCAMPAIGNS = 'CLEAR_MYCAMPAIGNS';

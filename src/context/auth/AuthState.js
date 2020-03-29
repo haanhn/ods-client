@@ -9,16 +9,18 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOG_OUT,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  authActionTypes
 } from '../types';
-import { odsBase, localStoreKeys } from '../../odsApi';
+import { odsBase, localStoreKeys, odsAPIAuthorizedUser } from '../../odsApi';
 
 const AuthState = props => {
   const initialState = {
     isOtp: false,
     error: null,
     isAuthenticated: false,
-    isLoggedIn: false
+    isLoggedIn: false,
+    bankAccount: {}
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -121,18 +123,59 @@ const AuthState = props => {
   //   }
   // }
 
+  const getUserBankAccount = async () => {
+    const token = localStorage.getItem(localStoreKeys.token);
+    try {
+        const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.getUserBankAccount}`, {
+            token: token
+        });
+        dispatch({
+            type: authActionTypes.SET_BANK_ACCOUNT,
+            payload: res.data.bankAccount
+        });
+    } catch (error) {
+        console.error(`Get User BankAccount Error: ${error}`);
+    }
+}
+
+  const updateBankAccount =  async (accountNumber, bankName, bankAgency) => {
+    const token = localStorage.getItem(localStoreKeys.token);
+    try {
+      const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.setBankAccount}`, {
+        token,
+        bankAccount: {
+          bankName: bankName,
+          bankAgency: bankAgency,
+          accountNumber: accountNumber
+        }
+      });
+      dispatch({
+        type: authActionTypes.SET_BANK_ACCOUNT,
+        payload: res.data.bankAccount
+      });
+      return true;
+    } catch (error) {
+      console.error(`Update bank account error: ${error}`);
+      return false;
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
+        bankAccount: state.bankAccount,
         isOtp: state.isOtp,
         error: state.error,
         isAuthenticated: state.isAuthenticated,
         isLoggedIn: state.isLoggedIn,
+        //Methods
         login,
         logout,
         getOtp,
         register,
-        clearErrors
+        clearErrors,
+        getUserBankAccount,
+        updateBankAccount
       }}
     >
       {props.children}

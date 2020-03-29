@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
+import AuthContext from '../../context/auth/authContext';
 import AccountSettingContainer from '../auth/account-setting/AccountSettingContainer';
 import '../host-managements/manage-campaign-info/my-campaign-tab-info.css';
 import '../css/account-setting.css';
 
 const AccountSetting = () => {
+    const authContext = useContext(AuthContext);
+
+    useEffect(() => {
+        authContext.getUserBankAccount();
+    }, []);
+
     return (
         <div className='account-setting' >
             <h4 style={{marginBottom: '15px'}}>Cài đặt tài khoản</h4>
