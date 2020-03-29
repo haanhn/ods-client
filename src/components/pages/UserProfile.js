@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import UserProfileContext from '../../context/user-profile/UserProfileContext';
 import ProfileContainer from '../user-profile/ProfileContainer';
 import '../css/user-profile.css';
@@ -10,6 +10,9 @@ const UserProfile = (props) => {
     const { userId } = props.match.params;
     const profile = userProfileContext.profile;
 
+    //State
+    const [allowedRating, setAllowedRating] = useState(false);
+
     const fetchProfileData = async () => {
         const result = await userProfileContext.getUserProfile(userId);
         if (result) {
@@ -18,6 +21,8 @@ const UserProfile = (props) => {
             userProfileContext.getProfileDonations(userId);
             userProfileContext.getProfileRatingStats(userId);
             userProfileContext.getProfileRatings(userId);
+            const allowed = await userProfileContext.checkAllowRatingUser(userId);
+            setAllowedRating(allowed);
         }
     }
 
@@ -27,7 +32,7 @@ const UserProfile = (props) => {
 
     return (
         <div className='user-profile'>
-            <ProfileContainer userId={userId} />
+            <ProfileContainer userId={userId} allowedRating={allowedRating} />
         </div>
     );
 }

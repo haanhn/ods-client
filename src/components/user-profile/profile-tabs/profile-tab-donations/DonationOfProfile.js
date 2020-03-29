@@ -2,17 +2,18 @@ import React from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { routes } from '../../../../odsApi';
 import { getDateFormatDD_MM_YYYY } from '../../../../utils/commonUtils';
+import { Link } from 'react-router-dom';
 
 const DonationOfProfile = (props) => {
     const { Campaign, donationAmount, createdAt } = props.donation;
     const slug = Campaign && Campaign.campaignSlug ? Campaign.campaignSlug : '';
-    
+
     const campaignTitle = Campaign && Campaign.campaignTitle ? Campaign.campaignTitle : '';
     const img = Campaign && Campaign.campaignThumbnail ? Campaign.campaignThumbnail : '/images/default-data-images/default-campaign-cover.jpg';
     const dateFormat = getDateFormatDD_MM_YYYY(createdAt);
 
     const routeCampaign = routes.getRouteCampaignDetail(slug);
-    
+
     return (
         <div className='campaign-of-profile'>
             <div style={{
@@ -24,7 +25,8 @@ const DonationOfProfile = (props) => {
             }}></div>
             <div>
                 <h5>
-                <a href={routeCampaign}> {campaignTitle} </a>
+                    <Link to={routeCampaign}> {campaignTitle} </Link>
+                    {/* <a href={routeCampaign}> {campaignTitle} </a> */}
                 </h5>
                 <div className='description-box'>
                     <div>
@@ -33,7 +35,7 @@ const DonationOfProfile = (props) => {
                         đ
                     </div>
                     <div style={{ color: '#555', fontStyle: 'italic' }}>
-                        { dateFormat }
+                        {dateFormat}
                     </div>
                 </div>
             </div>

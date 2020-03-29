@@ -2,10 +2,14 @@ import React from 'react'
 import FormCreateRatingHost from './FormCreateRatingHost';
 import ListRatingsOfProfile from './ListRatingsOfProfile';
 
-const ProfileTabRatings = () => {
+const ProfileTabRatings = (props) => {
+    const { userId, allowedRating } = props;
+
     return (
         <div>
-            <FormCreateRatingHost />
+            { allowedRating ? (
+                <FormCreateRatingHost userId={userId} />
+            ) : null }
             <ListRatingsOfProfile />
         </div>
     )

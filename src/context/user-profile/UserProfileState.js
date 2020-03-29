@@ -13,6 +13,7 @@ const UserProfileState = props => {
     profileDonations: [],
     profileRatingStats: {},
     profileRatings: [],
+    myProfileRating: {},
   };
 
   const [state, dispatch] = useReducer(UserProfileReducer, initialState);
@@ -100,12 +101,63 @@ const UserProfileState = props => {
     try {
       const res = await axios.get(`${odsBase}${api}`);
       const ratings = res.data.result;
+      const myRating = getMyHostRating(res.data.result);
       dispatch({
         type: profileActionTypes.SET_PROFILE_RATINGS,
         payload: ratings
       });
+      dispatch({
+        type: profileActionTypes.SET_MY_PROFILE_RATING,
+        payload: myRating
+      });
     } catch (error) {
       console.error(error.message);
+    }
+  };
+
+  // API: Check Allow Rating User
+  const checkAllowRatingUser = async (userId) => {
+    const api = odsAPIProfile.checkAllowRatingUser(userId);
+    const token = localStorage.getItem(localStoreKeys.token);
+    const config = {
+      headers: {
+        'x-access-token': token
+      }
+    };
+    if (!token) {
+      return false;
+    }
+    try {
+      const res = await axios.get(`${odsBase}${api}`, config);
+      const allowedResult = res.data.result;
+      let allowed = false;
+      if (allowedResult > 0) {
+        allowed = true;
+      }
+      return allowed;
+    } catch (error) {
+      console.error(error.message);
+      return false;
+    }
+  };
+
+   // API: Create Host Rating
+   const createProfileRating = async (point, content) => {
+    const api = odsAPIProfile.createProfileRating;
+    const token = localStorage.getItem(localStoreKeys.token);
+    const hostId = state.profile.id;
+    try {
+      const res = await axios.post(`${odsBase}${api}`, {
+        token,
+        hostId,
+        review: { point, content }
+      });
+      if (res.data.result) {
+        return true;
+      }
+    } catch (error) {
+      console.error(error.message);
+      return false;
     }
   };
 
@@ -118,6 +170,7 @@ const UserProfileState = props => {
         profileDonations: state.profileDonations,
         profileRatingStats: state.profileRatingStats,
         profileRatings: state.profileRatings,
+        myProfileRating: state.myProfileRating,
         //Methods
         getUserProfile,
         getProfileStats,
@@ -125,11 +178,36 @@ const UserProfileState = props => {
         getProfileDonations,
         getProfileRatingStats,
         getProfileRatings,
+        checkAllowRatingUser,
+        createProfileRating
       }}
     >
       {props.children}
     </UserProfileContext.Provider>
   );
 };
+
+const getMyHostRating = (reviews) => {
+  const userId = localStorage.getItem(localStoreKeys.userId);
+  //No reviews
+  if (!reviews || reviews.length === 0) {
+      return {};
+  }
+  //Guest
+  if (!userId) {
+    return {};
+  }
+  //Logged in & has reviews
+  let myReview = {};
+  let i = 0;
+  for (i = 0; i < reviews.length; i++) {
+      const review = reviews[i];
+      if (userId === review.reviewerId) {
+          myReview = review;
+          break;
+      }
+  }
+  return myReview;
+}
 
 export default UserProfileState;

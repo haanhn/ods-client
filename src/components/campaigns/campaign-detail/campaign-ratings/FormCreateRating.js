@@ -78,8 +78,8 @@ const FormCreateRating = (props) => {
 
 const validateData = (content) => {
     let msg = {};
-    if (content.length > 500) {
-        msg.content = 'Nhận xét không quá 500 kí tự';
+    if (content.length > 200) {
+        msg.content = 'Nhận xét không quá 200 kí tự';
     }
     if (Object.keys(msg).length === 0) {
         msg = null;

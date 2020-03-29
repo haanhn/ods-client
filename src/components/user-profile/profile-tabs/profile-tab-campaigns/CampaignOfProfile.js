@@ -1,6 +1,7 @@
 import React from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { routes } from '../../../../odsApi';
+import { Link } from 'react-router-dom';
 
 const CampaignOfProfile = (props) => {
     const { id, campaignTitle, campaignSlug, campaignThumbnail, Category,
@@ -29,7 +30,8 @@ const CampaignOfProfile = (props) => {
             
             <div>
                 <h5>
-                    <a href={routeCampaign} style={{color: 'inherit'}}> {campaignTitle} </a>
+                    <Link to={routeCampaign} style={{color: 'inherit'}}> {campaignTitle} </Link>
+                    {/* <a href={routeCampaign} style={{color: 'inherit'}}> {campaignTitle} </a> */}
                 </h5>
                 <div className='description-box'>
                     <div>

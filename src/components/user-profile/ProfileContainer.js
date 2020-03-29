@@ -9,7 +9,7 @@ import { routes } from '../../odsApi';
 import './profile-details.css';
 
 const ProfileContainer = (props) => {
-    const { userId } = props;
+    const { userId, allowedRating } = props;
 
     return (
         <div className='profile-container'>
@@ -23,7 +23,9 @@ const ProfileContainer = (props) => {
                             <ProfileTabCampaigns />
                         </Route>
                         <Route exact path={routes.USER_PROFILE_DONATIONS}> <ProfileTabDonations /> </Route>
-                        <Route exact path={routes.USER_PROFILE_RATINGS}> <ProfileTabRatings /> </Route>
+                        <Route exact path={routes.USER_PROFILE_RATINGS}>
+                            <ProfileTabRatings userId={userId} allowedRating={allowedRating} />
+                        </Route>
                     </Switch>
                 </div>
             </div>

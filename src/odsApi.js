@@ -139,6 +139,8 @@ export const odsAPIProfile = {
   getProfileDonations: (userId) => `/api/donations/get-by-user/${userId}`,
   getProfileRatingStats: (userId) => `/api/hostReviews/overall/${userId}`,
   getProfileRatings: (userId) => `/api/hostReviews/${userId}`,
+  checkAllowRatingUser: (userId) => `/api/hostReviews/check-allow/${userId}`,
+  createProfileRating: '/api/hostReviews/',
 };
 
 export const odsAPIRegions = '/api/regions';

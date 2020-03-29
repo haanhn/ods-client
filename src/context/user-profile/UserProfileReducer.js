@@ -33,6 +33,11 @@ export default (state, action) => {
         ...state,
         profileRatings: data
       };
+    case profileActionTypes.SET_MY_PROFILE_RATING:
+      return {
+        ...state,
+        myProfileRating: data
+      };
     default:
       return state;
   }
