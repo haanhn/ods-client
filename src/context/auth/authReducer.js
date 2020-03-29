@@ -44,6 +44,11 @@ export default (state, action) => {
         ...state,
         isLoggedIn: false
       };
+    case authActionTypes.SET_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: data
+      };
     case authActionTypes.SET_BANK_ACCOUNT:
       return {
         ...state,

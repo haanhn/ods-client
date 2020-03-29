@@ -41,6 +41,7 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 //Authorized User
 export const authActionTypes = {
+    SET_CURRENT_USER: 'SET_CURRENT_USER',
     SET_BANK_ACCOUNT: 'SET_BANK_ACCOUNT'
 }
 

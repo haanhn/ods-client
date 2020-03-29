@@ -109,7 +109,9 @@ export const odsAPIAuthorizedUser = {
   uploadCampaignImageCover: (slug) => `/api/uploads/campaign/${slug}`,
   //Authorized Users API
   getAuthorizedUser: '/api/user',
+  updateUser: '/api/user/update',
   updateUserAddress: '/api/user/update-address',
+  updateUserAvatar: '/api/user/update-avatar',
   getUserBankAccount: '/api/bank-account',
   setBankAccount: '/api/bank-account/create'
 };

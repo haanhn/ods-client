@@ -195,7 +195,7 @@ const validateData = (address, accountNumber, bankName) => {
     if (bankName.length === 0) {
         msg.bankName = 'Xin nhập tên ngân hàng';
     } else if (bankName.length > 100) {
-        msg.address = 'Tên ngân hàng không quá 100 kí tự';
+        msg.bankName = 'Tên ngân hàng không quá 100 kí tự';
     }
     if (Object.keys(msg).length === 0) {
         msg = null;

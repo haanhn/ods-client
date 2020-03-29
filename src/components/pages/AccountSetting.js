@@ -1,14 +1,28 @@
 import React, { useEffect, useContext } from 'react';
 import AuthContext from '../../context/auth/authContext';
+import CampaignsContext from '../../context/campaigns/campaignsContext';
 import AccountSettingContainer from '../auth/account-setting/AccountSettingContainer';
+import { localStoreKeys } from '../../odsApi';
 import '../host-managements/manage-campaign-info/my-campaign-tab-info.css';
 import '../css/account-setting.css';
 
 const AccountSetting = () => {
     const authContext = useContext(AuthContext);
+    const campaignsContext = useContext(CampaignsContext);
+    // const token = localStorage.getItem(localStoreKeys.token);
+
+    // if (!token) {
+        // return;
+    // }
+    
+    const fetchUser = async () => {
+        await authContext.getCurrentUser();
+        authContext.getUserBankAccount();
+        campaignsContext.getRegions();
+    }
 
     useEffect(() => {
-        authContext.getUserBankAccount();
+        fetchUser();
     }, []);
 
     return (

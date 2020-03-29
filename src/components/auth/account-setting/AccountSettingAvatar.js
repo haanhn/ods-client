@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
-import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
+import AuthContext from '../../../context/auth/authContext';
 import Alert from '../../common/Alert';
-import { validateImageFile } from '../../../utils/imageUtils';
+import { validateImageFile, uploadSingleImage } from '../../../utils/imageUtils';
 
 const AccountSettingAvatar = () => {
-    const myCampaignsContext = useContext(MyCampaignsContext);
-    const viewingCampaign = myCampaignsContext.hostViewingCampaign;
+    const authContext = useContext(AuthContext);
+    const currentUser = authContext.currentUser;
 
-    const currentImageUrl = viewingCampaign ? viewingCampaign.campaignThumbnail : null;
+    const currentImageUrl = currentUser && currentUser.avatar ? currentUser.avatar : null;
     const [init, setInit] = useState(true);
     const [newImageUrl, setNewImageUrl] = useState(currentImageUrl);
     const [imageBinary, setImageBinary] = useState(null);
@@ -40,28 +40,25 @@ const AccountSettingAvatar = () => {
 
     const saveImage = async () => {
         if (currentImageUrl === newImageUrl) {
-            console.log('currentImageUrl = new url');
+            console.log('currentAvatarUrl = new url');
             return;
         }
         let result = false;
+        let resultUpload = true;
+        let url = newImageUrl;
         if (imageBinary) {
-            result = await myCampaignsContext.updateCampaignImage(imageBinary);
-        } else {
-            //Delete image -> update thumbnail = null
-            result = await myCampaignsContext.updateCampaign(
-                viewingCampaign.id,
-                viewingCampaign.campaignTitle,
-                viewingCampaign.categoryId,
-                viewingCampaign.campaignShortDescription,
-                viewingCampaign.campaignDescription,
-                null,
-                viewingCampaign.campaignAddress,
-                viewingCampaign.campaignRegion,
-                viewingCampaign.campaignEndDate,
-                viewingCampaign.campaignGoal,
-                viewingCampaign.autoClose
-            );
+            const successUrl = await uploadSingleImage(imageBinary);
+            if (successUrl !== false) {
+                resultUpload = true;
+                url = successUrl;   
+            } else {
+                resultUpload = false;
+            }
         }
+        if (resultUpload) {
+            result = await authContext.updateAvatar(url);
+        }
+
         if (result) {
             setAlertImage({ type: 'success', msg: 'Cập nhật thành công' });
         } else {
@@ -83,8 +80,8 @@ const AccountSettingAvatar = () => {
         </div>
     );
 
-    if (init && viewingCampaign) {
-        if (Object.keys(viewingCampaign).length > 0) {
+    if (init && currentUser) {
+        if (Object.keys(currentUser).length > 0) {
             setNewImageUrl(currentImageUrl);
             setInit(false);
         }
@@ -95,11 +92,11 @@ const AccountSettingAvatar = () => {
             <h5 className='child' style={{ textAlign: 'center', marginBottom: '12px' }}>
                 Ảnh đại diện của tôi
             </h5>
-            <input id='createCampaignImage' type='file' accept='image/png, image/jpeg'
+            <input id='createUserAvatar' type='file' accept='image/png, image/jpeg'
                 style={{ display: 'none' }}
                 onChange={chooseImage}
             />
-            <label htmlFor='createCampaignImage' className='child account-setting-avatar'>
+            <label htmlFor='createUserAvatar' className='child account-setting-avatar'>
                 {newImageUrl ?
                     <img src={newImageUrl} alt='' />
                     : <div className='btn-choose-image' > Chọn ảnh </div>
@@ -110,7 +107,6 @@ const AccountSettingAvatar = () => {
             <div className='box-btn-save-campaign-image'>
                 <button className='btn btn-sm btn-success' onClick={saveImage}>Cập nhật</button>
             </div>
-            {/* {imageGuide} */}
         </div>
 
     );

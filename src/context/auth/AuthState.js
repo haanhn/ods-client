@@ -12,7 +12,7 @@ import {
   CLEAR_ERRORS,
   authActionTypes
 } from '../types';
-import { odsBase, localStoreKeys, odsAPIAuthorizedUser } from '../../odsApi';
+import { odsBase, localStoreKeys, odsAPIAuthorizedUser, odsAPIProfile } from '../../odsApi';
 
 const AuthState = props => {
   const initialState = {
@@ -20,6 +20,7 @@ const AuthState = props => {
     error: null,
     isAuthenticated: false,
     isLoggedIn: false,
+    currentUser: {},
     bankAccount: {}
   };
 
@@ -123,22 +124,77 @@ const AuthState = props => {
   //   }
   // }
 
+  //Get User
+  // API: Get User
+  const getCurrentUser = async () => {
+    const userId = localStorage.getItem(localStoreKeys.userId);
+    const api = odsAPIProfile.getUserProfile(userId);
+    try {
+      const res = await axios.get(`${odsBase}${api}`);
+      const user = res.data.user;
+      dispatch({
+        type: authActionTypes.SET_CURRENT_USER,
+        payload: user
+      });
+      return true;
+    } catch (error) {
+      console.error(error.message);
+      return false;
+    }
+  };
+
+  const updateUser = async (fullname, address, region) => {
+    const token = localStorage.getItem(localStoreKeys.token);
+    try {
+      const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.updateUser}`, {
+        token,
+        user: { fullname, address, region }
+      });
+      dispatch({
+        type: authActionTypes.SET_CURRENT_USER,
+        payload: res.data.result
+      });
+      return true;
+    } catch (error) {
+      console.error(`Update bank account error: ${error}`);
+      return false;
+    }
+  }
+
+  const updateAvatar = async (avatarUrl) => {
+    const token = localStorage.getItem(localStoreKeys.token);
+    try {
+      const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.updateUserAvatar}`, {
+        token,
+        avatar: avatarUrl
+      });
+      dispatch({
+        type: authActionTypes.SET_CURRENT_USER,
+        payload: res.data.result
+      });
+      return true;
+    } catch (error) {
+      console.error(`Update bank account error: ${error}`);
+      return false;
+    }
+  }
+
   const getUserBankAccount = async () => {
     const token = localStorage.getItem(localStoreKeys.token);
     try {
-        const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.getUserBankAccount}`, {
-            token: token
-        });
-        dispatch({
-            type: authActionTypes.SET_BANK_ACCOUNT,
-            payload: res.data.bankAccount
-        });
+      const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.getUserBankAccount}`, {
+        token: token
+      });
+      dispatch({
+        type: authActionTypes.SET_BANK_ACCOUNT,
+        payload: res.data.bankAccount
+      });
     } catch (error) {
-        console.error(`Get User BankAccount Error: ${error}`);
+      console.error(`Get User BankAccount Error: ${error}`);
     }
-}
+  }
 
-  const updateBankAccount =  async (accountNumber, bankName, bankAgency) => {
+  const updateBankAccount = async (accountNumber, bankName, bankAgency) => {
     const token = localStorage.getItem(localStoreKeys.token);
     try {
       const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.setBankAccount}`, {
@@ -163,6 +219,7 @@ const AuthState = props => {
   return (
     <AuthContext.Provider
       value={{
+        currentUser: state.currentUser,
         bankAccount: state.bankAccount,
         isOtp: state.isOtp,
         error: state.error,
@@ -174,8 +231,11 @@ const AuthState = props => {
         getOtp,
         register,
         clearErrors,
+        getCurrentUser,
         getUserBankAccount,
-        updateBankAccount
+        updateUser,
+        updateAvatar,
+        updateBankAccount,
       }}
     >
       {props.children}
