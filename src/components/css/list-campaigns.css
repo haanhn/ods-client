@@ -1,4 +1,34 @@
-.list-campaigns figure{
-    height: 200px;
+/* For list campaigns item & campaign item */
+/* -----Section: Campaign item box----- */
+.campaign-item {
+    margin-bottom: 12px;
+}
+.campaign-item > div:first-of-type {
+    border-radius: 5px 5px 0 0 ;
+}
+.campaign-item > div:last-of-type {
+    padding: 12px 10px 10px;
+    border: 1px #ccc solid;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+}
+.campaign-item h5 {
+    font-size: 105%;
+    font-weight: bold;
+    height: 40px;
     overflow: hidden;
 }
+.campaign-item a {
+    color: inherit;
+}
+.campaign-item a:hover {
+    text-decoration: underline;
+}
+.campaign-item .description-box {
+    font-size: 90%;
+    color: #555;
+}
+.campaign-item .description-box > div:first-of-type {
+    margin-bottom: -8px;
+}
+/* -----End section: Campaign item box----- */

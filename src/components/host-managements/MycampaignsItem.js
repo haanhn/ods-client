@@ -17,36 +17,43 @@ const MycampaignsItem = props => {
     type = 'đang tạo';
   }
 
+  const image = campaignThumbnail ? campaignThumbnail : '/images/default-data-images/default-campaign-cover.jpg';
+
   return (
 
     <div className='col-md-4 col-sm-6 col-12 my-campaign-item'>
-      <Link to={route}>
-        <div className='card shadow'>
-          <div className='card-img-top my-card-img'>
 
-            <img src={campaignThumbnail ? campaignThumbnail : '/images/default-data-images/default-campaign-cover.jpg'} alt='Card image cap' />
-          </div>
-          <div className='card-body text-center'>
-            <h5 className='card-title'>{campaignTitle}</h5>
-            <p className='text-primary text-center' style={{ fontSize: 20 }}>
-              <span
-                className={
-                  'badge ' +
-                  (status === 'public'
-                    ? 'badge-success'
-                    : status === 'close'
-                      ? 'badge-secondary'
-                      : status === 'waiting'
-                        ? 'badge-warning'
-                        : 'badge-danger')
-                }
-              >
-                {type}
-              </span>
-            </p>
-          </div>
+      <div className='card shadow'>
+        <div className='card-img-top'
+          style={{
+            backgroundImage: `url('${image}')`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            height: '170px'
+          }} ></div>
+        <div style={{ textAlign: 'center', paddingTop: '7px' }}>
+          <Link to={route}>
+            <h5 style={{marginBottom: '7px', fontSize: '110%'}}>{campaignTitle}</h5>
+          </Link>
+          <p className='text-primary text-center' style={{ fontSize: 20 }}>
+            <span
+              className={
+                'badge ' +
+                (status === 'public'
+                  ? 'badge-success'
+                  : status === 'close'
+                    ? 'badge-secondary'
+                    : status === 'waiting'
+                      ? 'badge-warning'
+                      : 'badge-danger')
+              }
+            >
+              {type}
+            </span>
+          </p>
         </div>
-      </Link>
+      </div>
     </div>
   );
 };

@@ -6,11 +6,6 @@ function Categories() {
 
     const { categories } = campaignsContext;
 
-    // useEffect(() => {
-        // campaignsContext.getCategories();
-        // eslint-disable-next-line
-    // }, []);
-
     const categoriesJsx = categories.map(category => (
         <button key={category.id} className="list-group-item list-group-item-action" 
             style={{ padding: '10px' }}>
@@ -22,8 +17,8 @@ function Categories() {
         // <div className='auto-container'>
         // <div className='row clearfix'>
             // {/* <div className="list-group col-lg-2"> */}
-            <div className="list-group col">
-                <span className="list-group-item list-group-item-action"><b>All Categories</b></span>
+            <div className="list-group">
+                <span className="list-group-item list-group-item-action"><b>Thể loại</b></span>
                 {categoriesJsx}
                 {/* <a href="#" className="list-group-item list-group-item-action">Dapibus ac facilisis in</a> */}
             </div>

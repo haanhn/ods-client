@@ -17,11 +17,15 @@ function ListCampaigns(props) {
     }, []);
 
     return (
-        <div className='auto-container'>
+        <div className='auto-container' style={{paddingBottom: '30px', minHeight: '90vh'}}>
             <SearchCampaigns />
             <div className='row clearfix'>
-                <Categories />
-                <Campaigns cssClasses='col-10'/>
+                <div className='col-md-2 col-sm-12' style={{marginBottom: '12px'}}>
+                    <Categories />
+                </div>
+                <div className='col-md-10 col-sm-12'>
+                    <Campaigns />
+                </div>
             </div>
         </div>
     );

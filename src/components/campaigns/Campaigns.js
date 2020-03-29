@@ -6,21 +6,18 @@ import '../css/list-campaigns.css';
 function Campaigns(props) {
     const campaignsContext = useContext(CampaignsContext);
     const campaigns = campaignsContext.campaigns;
-    
+
     const campaignsJsx = campaigns.map(campaign => (
-        <CampaignItem key={campaign.id} campaign={campaign} />
+        <div key={campaign.id} className='col-md-4 col-sm-6 col-12'>
+            <CampaignItem campaign={campaign} />
+        </div>
     ));
 
-    const { cssClasses } = props;
-
     return (
-        <section className={`causes-section ${cssClasses} list-campaigns`}>
-            {/* <div class="auto-container"> */}
-                
-                <div className="row clearfix">
-                    {campaignsJsx}
-                </div>
-            {/* </div> */}
+        <section className='list-campaigns'>
+            <div className="row clearfix">
+                {campaignsJsx}
+            </div>
         </section>
 
     );

@@ -16,12 +16,11 @@ import { odsBase, routes, localStoreKeys } from '../../odsApi';
 import CampaignTabRatings from '../campaigns/CampaignTabRatings';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
 import NotFound from './NotFound';
-import '../css/campaign-detail.css';
 import '../css/social-css.css';
 import axios from 'axios';
 import Spinner from '../common/Spinner';
 import CampaignTabExpenses from '../campaigns/campaign-detail/CampaignTabExpenses';
-// import { FacebookShareButton, FacebookIcon, FacebookShareCount } from 'react-share';
+import { FacebookShareButton, FacebookIcon, FacebookShareCount } from 'react-share';
 
 const Campaign = (props) => {
     const campaignsContext = useContext(CampaignsContext);
@@ -155,15 +154,32 @@ const Campaign = (props) => {
                             {campaignStatus === 'public' ? (
                                 <ButtonDonate slug={slug} />
                             ) : null}
-                            { !owning ? (
+                            {!owning ? (
                                 <ButtonSubscribeCampaign following={following} setFollowing={setFollowing} />
-                            ) : null }
+                            ) : null}
                         </aside>
                     </div>
                 </div>
                 {/* End of section: basic info */}
 
                 <div style={{ width: '100%' }}>
+                    {/* <div className="Demo__some-network">
+                        <FacebookShareButton
+                            // url={'https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx'}
+                            url={window.location.href}
+                            quote={'title'}
+                            className="Demo__some-network__share-button"
+                        >
+                            <FacebookIcon size={52} round={false} />
+                        </FacebookShareButton>
+
+                        <div>
+                            <FacebookShareCount url={'https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx'} className="Demo__some-network__share-count">
+                                {count => <span style={{ fontWeight: 'bold', fontSize: '18px' }}>{count}</span>}
+                            </FacebookShareCount>
+                        </div>
+                    </div>
+                     */}
                     <CampaignTabs slug={slug} />
                     <Switch>
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}`}>
