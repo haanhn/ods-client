@@ -3,6 +3,8 @@ import HomeBigIntro from '../layout/HomeBigIntro';
 import HomeFeatures from '../layout/HomeFeatures';
 import Campaigns from '../campaigns/Campaigns';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
+import '../css/home.css';
+
 
 function Home() {
     const campaignsContext = useContext(CampaignsContext);
@@ -17,8 +19,8 @@ function Home() {
     return (
         <Fragment>
             <HomeBigIntro />
-            <div className='auto-container' style={{ padding: '60px 0 20px' }}>
-                <h2 style={{ textAlign: 'center', marginBottom: '40px' }}>Các chiến dịch nổi tiếng nhất</h2>
+            <div className='auto-container' style={{ padding: '0 0 25px' }}>
+                <h2 style={{ textAlign: 'center', marginBottom: '10px' }}>Các chiến dịch nổi tiếng nhất</h2>
                 <Campaigns />
             </div>
             <HomeFeatures />

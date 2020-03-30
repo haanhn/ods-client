@@ -12,7 +12,7 @@ const MyCampaignExpenseModal = (props) => {
     const initTitle = expense ? expense.title : '';
     const initCost = expense ? expense.cost : 100000;
     const initDescription = expense ? expense.description : '';
-    
+
     //init for showing init cost value because setCost(initCost) does not get the initCost value
     //also for id, setId(initId)
     const [init, setInit] = useState(true);
@@ -21,15 +21,14 @@ const MyCampaignExpenseModal = (props) => {
     const inputDescription = React.createRef();
     const [id, setId] = useState(initId);
     const [cost, setCost] = useState(initCost);
-    
+
     //State Alerts
     const [alertResult, setAlertResult] = useState(null);
     const [alertTitle, setAlertTitle] = useState(null);
     const [alertCost, setAlertCost] = useState(null);
     const [alertDescription, setAlertDescription] = useState(null);
 
-    const saveExpense = () => {
-        setId(initId);
+    const saveExpense = async () => {
         const title = inputTitle.current.value.trim();
         const description = inputDescription.current.value.trim();
 
@@ -51,13 +50,29 @@ const MyCampaignExpenseModal = (props) => {
                 setAlertDescription({ type: 'danger', msg: messages.description });
             }
         } else {
-            if (id) {
-                console.log('Update expense');
-                result = myCampaignsContext.updateCampaignExpense(id, title, cost, description);
+            let costVal = cost;
+            if (init) {
+                costVal = initCost;
+            }
 
+            //Choose when to create or update
+            if (initId) {
+                console.log('Update expense');
+                result = await myCampaignsContext.updateCampaignExpense(initId, title, costVal, description);
+                
             } else {
                 console.log('Create expense');
-                result = myCampaignsContext.createCampaignExpense(title, cost, description);
+                if (id) {
+                    result = await myCampaignsContext.updateCampaignExpense(id, title, costVal, description);
+                } else {
+                    const resultId = await myCampaignsContext.createCampaignExpense(title, costVal, description);
+                    if (resultId !== false) {
+                        result = true;
+                        setId(resultId);
+                    } else {
+                        result = false;
+                    }
+                }
             }
         }
         if (result) {
@@ -69,10 +84,13 @@ const MyCampaignExpenseModal = (props) => {
 
     const hideModal = () => {
         setInit(true);
-        setAlertResult(null);
+        setId(null);
+        setCost(100000);
+        //Set Alert
         setAlertTitle(null);
         setAlertCost(null);
         setAlertDescription(null);
+        setAlertResult(null);
         myCampaignsContext.getCampaignExpenses(slug);
         props.setShowingModal(false);
     }

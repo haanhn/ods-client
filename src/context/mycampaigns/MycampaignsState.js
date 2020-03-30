@@ -282,12 +282,12 @@ const MycampaignsState = props => {
     const api = odsAPIHost.createCampaignExpense;
 
     try {
-      await axios.post(`${odsBase}${api}`, {
+      const res = await axios.post(`${odsBase}${api}`, {
         token,
         campaignId,
         expense: { title, cost, description }
       });
-      return true;
+      return res.data.result.id;
     } catch (error) {
       console.error('Error when host create expense');
       console.error(error);

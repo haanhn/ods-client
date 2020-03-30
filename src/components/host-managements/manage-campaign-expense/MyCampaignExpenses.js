@@ -5,6 +5,7 @@ import Alert from '../../common/Alert';
 import '../../css/common.css';
 import '../../css/host-manage-campaign.css';
 import MyCampaignExpenseModal from './MyCampaignExpenseModal';
+import ConfirmDeleteExpense from './ConfirmDeleteExpense';
 
 const MyCampaignExpenses = (props) => {
     const { slug } = props.match.params;
@@ -13,24 +14,24 @@ const MyCampaignExpenses = (props) => {
     const totalExpense = myCampaignsContext.totalExpense;
 
     const [showingModal, setShowingModal] = useState(false);
+    const [showingDeleteModal, setShowingDeleteModal] = useState(false);
     const [currentExpense, setCurrentExpense] = useState(null);
+    const [deleteExpenseId, setDeleteExpenseId] = useState(null);
+    const [deleteExpenseName, setDeleteExpenseName] = useState(null);
 
     const viewExpense = (event, expense) => {
+        console.log('view expense')
+        console.log(expense)
         setCurrentExpense(expense);
         setShowingModal(true);
     }
 
-    const deleteExpense = async (expense) => {
-        // const isDeleting = confirm('Bạn có muốn xóa chi phí?\n' + expense.title);
-        // if (!isDeleting) {
-        // return;
-        // }
-        const result = await myCampaignsContext.deleteCampaignExpense(expense.id);
-        if (result) {
-            myCampaignsContext.getCampaignExpenses(slug);
-        } else {
-            alert('Xóa chi phí thất bại, xin thử lại');
-        }
+    const showDeleteExpense = (event, expense) => {
+        console.log('view expense id')
+        console.log(expense.id)
+        setDeleteExpenseId(expense.id);
+        setDeleteExpenseName(expense.title);
+        setShowingDeleteModal(true);
     }
 
     let expensesJsx = [];
@@ -57,7 +58,7 @@ const MyCampaignExpenses = (props) => {
                     </button>
                     <button className='btn btn-super-sm btn-danger' >
                         <i className="fas fa-trash-alt" style={styleIconBtn}
-                            onClick={() => deleteExpense(expense)}></i>
+                            onClick={(event) => showDeleteExpense(event, expense)}></i>
                     </button>
                 </td>
             </tr>
@@ -65,7 +66,7 @@ const MyCampaignExpenses = (props) => {
     }
 
     useEffect(() => {
-        myCampaignsContext.getCampaignExpenses(slug);        
+        myCampaignsContext.getCampaignExpenses(slug);
     }, []);
 
     return (
@@ -80,7 +81,7 @@ const MyCampaignExpenses = (props) => {
 
                 {expenses && expenses.length > 0 ? (
                     <Fragment>
-                        <table className='table table-hover'>
+                        <table className='table table-hover table-bordered'>
                             <thead>
                                 <tr>
                                     <td>STT</td>
@@ -105,6 +106,8 @@ const MyCampaignExpenses = (props) => {
                     )}
                 <MyCampaignExpenseModal showingModal={showingModal} setShowingModal={setShowingModal}
                     slug={slug} expense={currentExpense} />
+                <ConfirmDeleteExpense showingModal={showingDeleteModal} setShowingModal={setShowingDeleteModal}
+                    slug={slug} expenseName={deleteExpenseName} expenseId={deleteExpenseId} />
             </div>
         </div>
     );
