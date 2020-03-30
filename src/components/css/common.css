@@ -10,3 +10,20 @@
     line-height: 1.5;
     border-radius: .2rem;
 }
+/* Button Share FB */
+.box-btn-fb {
+    margin: 0 10px 10px;
+}
+.box-btn-fb button {
+    width: 100%;
+}
+.btn-share-fb {
+    color: #fff;
+    border-radius: 5px;
+    background-color: #395b98;
+    padding: .375rem .75rem;
+}
+.btn-share-fb:hover:not(:active) {
+    opacity: 0.75;
+}
+/*----- Button Share FB -----*/

@@ -16,19 +16,19 @@ import { odsBase, routes, localStoreKeys } from '../../odsApi';
 import CampaignTabRatings from '../campaigns/CampaignTabRatings';
 import CampaignsContext from '../../context/campaigns/campaignsContext';
 import NotFound from './NotFound';
-import '../css/social-css.css';
+import '../css/common.css';
+// import '../css/social-css.css';
 import axios from 'axios';
 import Spinner from '../common/Spinner';
 import CampaignTabExpenses from '../campaigns/campaign-detail/CampaignTabExpenses';
-import { FacebookShareButton, FacebookIcon, FacebookShareCount } from 'react-share';
+import { FacebookShareButton } from 'react-share';
 
 const Campaign = (props) => {
     const campaignsContext = useContext(CampaignsContext);
 
     const { slug } = props.match.params;
-    const { id,
-        campaignTitle,
-        raised, campaignGoal, countDonations, countFollowers,
+    const { id, campaignTitle,
+        raised, campaignGoal, countDonations,
         campaignEndDate, campaignRatingPoint,
         campaignShortDescription, campaignDescription,
         campaignStatus,
@@ -47,7 +47,7 @@ const Campaign = (props) => {
 
     const { loading } = campaignsContext;
 
-    const [ratingStats, setRatingStats] = useState({});
+    // const [ratingStats, setRatingStats] = useState({});
     const [myRating, setMyRating] = useState({});
     const [allowedRating, setAllowedRating] = useState(false);
     const [owning, setOwning] = useState(false);
@@ -88,10 +88,10 @@ const Campaign = (props) => {
             if (checkFollow === 1) {
                 setFollowing(true);
             }
-            const stats = await campaignsContext.getCampaignRatingsStats(slug);
+            campaignsContext.getCampaignRatingsStats(slug);
             const myCampRating = campaignsContext.myCampaignRating;
             const allowed = await getCampaignRatingAllow(slug);
-            setRatingStats(stats);
+            // setRatingStats(stats);
             setMyRating(myCampRating);
             setAllowedRating(allowed);
         } catch (error) {
@@ -140,9 +140,10 @@ const Campaign = (props) => {
                     {/* <!--Sidebar Side--> */}
                     <div className="sidebar-side col-lg-4 col-md-12 col-sm-12" >
                         <div className='rating-host-container row'>
-                            {/* <aside className="sidebar col-lg-12 col-md-6 col-sm-6"> */}
-                            <RatingOverviewBox campaignRatingPoint={campaignRatingPoint} ratingStats={ratingStats} />
-                            {/* </aside> */}
+                            <RatingOverviewBox 
+                            // campaignRatingPoint={campaignRatingPoint} 
+                            // ratingStats={ratingStats} 
+                            />
                             <aside className="sidebar col-lg-12 col-md-6 col-sm-6">
                                 <CampaignHostInfo host={getHost()} />
                             </aside>
@@ -150,36 +151,37 @@ const Campaign = (props) => {
                         <aside className="sidebar col-lg-12 col-md-12 col-sm-12">
                             <CampaignProgressBar raised={raised} goal={campaignGoal}
                                 campaignEndDate={campaignEndDate} campaignStatus={campaignStatus} />
-                            <CampaignStatistic countDonations={countDonations} countFollowers={countFollowers} />
+                            <CampaignStatistic countDonations={countDonations} />
                             {campaignStatus === 'public' ? (
                                 <ButtonDonate slug={slug} />
                             ) : null}
                             {!owning ? (
-                                <ButtonSubscribeCampaign following={following} setFollowing={setFollowing} />
+                                <ButtonSubscribeCampaign campaignId={id}
+                                    following={following} setFollowing={setFollowing} />
                             ) : null}
+
+                            {/* <div className="Demo__some-network"> */}
+                            <div className="box-btn-fb">
+                                <FacebookShareButton
+                                    // url={'https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx'}
+                                    url={window.location.href}
+                                    quote={'title'}
+                                    className="Demo__some-network__share-button"
+                                >
+                                    {/* <FacebookIcon size={22} round={true} /> */}
+                                    <div className='btn-share-fb'>
+                                        <i class="fab fa-facebook-f" style={{marginRight: '25px', fontSize: '110%'}}></i>
+                                        Chia sẻ lên Facebook
+                                    </div>
+                                </FacebookShareButton>
+                            </div>
+
                         </aside>
                     </div>
                 </div>
                 {/* End of section: basic info */}
 
                 <div style={{ width: '100%' }}>
-                    {/* <div className="Demo__some-network">
-                        <FacebookShareButton
-                            // url={'https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx'}
-                            url={window.location.href}
-                            quote={'title'}
-                            className="Demo__some-network__share-button"
-                        >
-                            <FacebookIcon size={52} round={false} />
-                        </FacebookShareButton>
-
-                        <div>
-                            <FacebookShareCount url={'https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx'} className="Demo__some-network__share-count">
-                                {count => <span style={{ fontWeight: 'bold', fontSize: '18px' }}>{count}</span>}
-                            </FacebookShareCount>
-                        </div>
-                    </div>
-                     */}
                     <CampaignTabs slug={slug} />
                     <Switch>
                         <Route exact path={`${routes.CAMPAIGN_DETAIL}`}>
@@ -190,18 +192,14 @@ const Campaign = (props) => {
                         <Route exact path={routeDonations}> <CampaignTabDonations /> </Route>
                         <Route exact path={routeRatings}>
                             <CampaignTabRatings slug={slug}
-                                ratingPoint={campaignRatingPoint}
-                                ratingStats={ratingStats}
+                                // ratingPoint={campaignRatingPoint}
+                                // ratingStats={ratingStats}
                                 allowedRating={allowedRating} myRating={myRating} />
                         </Route>
                         <Route exact path={routeExpenses} component={CampaignTabExpenses} />
                     </Switch>
                 </div>
             </div>
-
-            // </div>
-            // </div>
-            // {/* <!-- End Sidebar Page Container --> */}
 
         );
     }
@@ -239,7 +237,6 @@ const checkFollowCampaign = async (checkFollowFn, campaignId) => {
     }
     try {
         const result = await checkFollowFn(campaignId);
-        console.log('result follow' + result);
         return result;
     } catch (error) {
         console.error(`Error when check follow campaign: ${error}`);
@@ -254,6 +251,7 @@ const checkCampaignOwner = (campaign) => {
             if (campaign.Users.length > 0) {
                 const owner = campaign.Users[0];
                 if (owner.id === userId) {
+                    console.log('owner of this campaign')
                     return true;
                 }
             }

@@ -17,6 +17,8 @@ const CampaignsState = (props) => {
         campaignRatings: [],
         campaignExpenses: [],
         myCampaignRating: {},
+        ratingStats: {},
+        countFollowers: 0,
         loading: false
     }
 
@@ -68,6 +70,10 @@ const CampaignsState = (props) => {
             dispatch({
                 type: actionTypes.SET_VIEWING_CAMPAIGN,
                 payload: campaign
+            });
+            dispatch({
+                type: actionTypes.SET_COUNT_FOLLOWERS,
+                payload: campaign.countFollowers
             });
             console.log('get Campaign success');
             setLoading(false);
@@ -184,6 +190,10 @@ const CampaignsState = (props) => {
         try {
             const res = await axios.get(`${odsBase}${route}`);
             console.log(`get campaign ratings stats success`);
+            dispatch({
+                type: actionTypes.SET_CAMPAIGN_RATING_STATS,
+                payload: res.data.result
+            });
             return res.data.result;
         } catch (error) {
             console.error(`Error when get campaign ratings stats: ${error}`);
@@ -250,6 +260,23 @@ const CampaignsState = (props) => {
         }
     };
 
+    const unFollowCampaign = async (userId) => {
+        const route = odsAPIOpenRoutes.unFollowCampaign;
+        const campaignId = state.viewingCampaign.id;
+        try {
+            const res = await axios.post(`${odsBase}${route}`, { 
+                campaignId, userId
+            });
+            const success = res.data.success;
+            if (success === true) {
+                return true;
+            }
+        } catch (error) {
+            console.error(`Error when follow campaign: ${error}`);
+            return false; //fail
+        }
+    };
+
     const checkFollowCampaign = async (campaignId) => {
         const token = localStorage.getItem(localStoreKeys.token);
         const route = odsAPIOpenRoutes.checkFollowCampaign(campaignId);
@@ -265,6 +292,21 @@ const CampaignsState = (props) => {
         } catch (error) {
             console.error(`Error when follow campaign: ${error}`);
             return -2; //fail
+        }
+    };
+
+    const countCampaignFollowers = async (campaignId) => {
+        const route = odsAPIOpenRoutes.countFollowers(campaignId);
+        try {
+            const res = await axios.get(`${odsBase}${route}`);
+            const count = res.data.countFollowers;
+            console.log('checkFollowCampaign: ' + count);
+            dispatch({
+                type: actionTypes.SET_COUNT_FOLLOWERS,
+                payload: count
+            });
+        } catch (error) {
+            console.error(`Error when follow campaign: ${error}`);
         }
     };
 
@@ -284,6 +326,8 @@ const CampaignsState = (props) => {
             campaignRatings: state.campaignRatings,
             myCampaignRating: state.myCampaignRating,
             campaignExpenses: state.campaignExpenses,
+            countFollowers: state.countFollowers,
+            ratingStats: state.ratingStats,
             getCategories: getCategories,
             loading: state.loading,
             //-------------------------------
@@ -308,6 +352,8 @@ const CampaignsState = (props) => {
             getCampaignExpenses,
             //Follow Campaign
             followCampaign,
+            unFollowCampaign,
+            countCampaignFollowers,
             checkFollowCampaign
         }}>
             {props.children}

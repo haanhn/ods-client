@@ -74,6 +74,17 @@ const campaignReducer = (state, action) => {
                 ...state,
                 campaignExpenses: data
             });
+        //Stats
+        case actionTypes.SET_COUNT_FOLLOWERS:
+            return ({
+                ...state,
+                countFollowers: data
+            });
+        case actionTypes.SET_CAMPAIGN_RATING_STATS:
+            return ({
+                ...state,
+                ratingStats: data
+            });
         case actionTypes.SET_LOADING:
             return ({
                 ...state,

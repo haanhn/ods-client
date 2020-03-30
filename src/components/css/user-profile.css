@@ -1,6 +1,7 @@
 .user-profile {
     padding: 25px 15px;
     background-color: rgba(231,234,237,0.5);
+    min-height: 90vh;
 }
 .profile-container {
     background-color: #fff;

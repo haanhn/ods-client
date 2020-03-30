@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import CampaignsContext from '../../context/campaigns/campaignsContext';
 import RatingStars from './RatingStars';
 
 const RatingOverviewBox = (props) => {
-    const { boxPointGrid, boxStarsGrid, campaignRatingPoint, ratingStats } = props;
+    const campaignsContext = useContext(CampaignsContext);
+    const ratingStats = campaignsContext.ratingStats;
+    const campaignRatingPoint = ratingStats.campaignRatingPoint;
+
+    const { boxPointGrid, boxStarsGrid } = props;
     const point = (typeof campaignRatingPoint === 'number') ? campaignRatingPoint.toFixed(1) : campaignRatingPoint;
     let jsx = null;
     if (ratingStats && ratingStats.totalReviews) {

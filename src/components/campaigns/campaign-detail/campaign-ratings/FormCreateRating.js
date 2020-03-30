@@ -7,7 +7,7 @@ import CampaignsContext from '../../../../context/campaigns/campaignsContext';
 const FormCreateRating = (props) => {
     const campaignsContext = useContext(CampaignsContext);
     const myRating = campaignsContext.myCampaignRating;
-    const { ratingStats } =props;
+    const { slug, ratingStats } = props;
 
     //For rating content
     const initContent = myRating && myRating.content ? myRating.content : '';
@@ -34,8 +34,8 @@ const FormCreateRating = (props) => {
         } else {
             const result = await campaignsContext.postCampaignRating(ratingPoint, content);
             if (result > 0) {
-                // const stats = await campaignsContext.getCampaignRatingsStats(slug);
-                // props.setRatingStats(stats);
+                // campaignsContext.getCampaignRatings(slug);
+                await campaignsContext.getCampaignRatingsStats(slug);
                 setAlertContent({ type: 'success', msg: 'Đăng đánh giá thành công' });
             }
         }
@@ -67,9 +67,9 @@ const FormCreateRating = (props) => {
                     <button className="btn btn-sm btn-outline-success" style={{ maxidth: '100%', fontWeight: 'bold' }}
                         onClick={rateCampaign} >Đánh giá</button>
                 ) : (
-                    <button className="btn btn-sm btn-outline-success" style={{ maxidth: '100%', fontWeight: 'bold' }}
-                        onClick={rateCampaign} disabled >Đánh giá</button>
-                ) }
+                        <button className="btn btn-sm btn-outline-success" style={{ maxidth: '100%', fontWeight: 'bold' }}
+                            onClick={rateCampaign} disabled >Đánh giá</button>
+                    )}
             </div>
         </div>
 

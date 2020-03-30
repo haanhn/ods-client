@@ -25,7 +25,7 @@
     margin-top: -8px;
 }
 .list-inline-item:not(:last-child) {
-    margin-right: 0.9rem
+    margin-right: 0.75rem
 }
 /******* Campaign Progress *******/
 .campaign-progress {
@@ -84,6 +84,9 @@
 .host-info .child {
     /* fix col margin */
     padding: 0;
+}
+.host-info .host-name h6:hover {
+    color: #777;
 }
 .host-info .host-name {
     padding: 7px 0 7px 15px;

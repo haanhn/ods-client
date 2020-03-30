@@ -97,6 +97,8 @@ export const odsAPIOpenRoutes = {
   getCampaignExpenses(slug) { return `/api/expenses/${slug}`; },
   //Follow Campaign
   followCampaign: '/api/follows',
+  unFollowCampaign: '/api/follows/unfollow',
+  countFollowers: (campaignId) => `/api/follows/count/${campaignId}`,
   checkFollowCampaign: (campaignId) => `/api/follows/check/${campaignId}`,
   uploadSingleImage: '/api/uploads'
 }
