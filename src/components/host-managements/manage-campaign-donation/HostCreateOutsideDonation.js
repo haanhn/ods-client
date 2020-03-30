@@ -41,64 +41,64 @@ const HostCreateOutsideDonation = () => {
     }
 
     return (
-        <div>
-            <form>
-                <div className="row">
-                    <label className="col-sm-12 col-form-label">Tên người quyên góp</label>
-                    <div className="col-sm-12">
-                        <input type="text" className="form-control" placeholder="Tên người quyên góp"
-                            defaultValue={''} ref={inputName} />
-                        <Alert alert={alertName} />
+        <div className='host-create-outside-donation' >
+            <div className='host-create-outside-donation-content' >
+                <form>
+                    <div className="row">
+                        <label className="col-sm-12 col-form-label">Tên người quyên góp</label>
+                        <div className="col-sm-12">
+                            <input type="text" className="form-control" placeholder="Tên người quyên góp"
+                                defaultValue={''} ref={inputName} />
+                            <Alert alert={alertName} />
+                        </div>
                     </div>
-                </div>
-
-                <div className="row">
-                    <label className="col-sm-12 col-form-label">
-                        Số tiền
+                    <div className="row">
+                        <label className="col-sm-12 col-form-label">
+                            Số tiền
                     </label>
-                    <div className="col-sm-12">
-                        <div className="input-group"  >
-                            <div className="form-control input-currency-container">
-                                <CurrencyFormat value={money}
-                                    thousandSeparator={true}
-                                    allowNegative={false}
-                                    onValueChange={(values) => {
-                                        const { value } = values;
-                                        // formattedValue = $2,223
-                                        // value ie, 2223
-                                        setMoney(value);
-                                    }}
-                                />
-                            </div>
-                            <div className="input-group-append">
-                                <div className='btn btn-append-vnd'>
-                                    vnđ
+                        <div className="col-sm-12">
+                            <div className="input-group"  >
+                                <div className="form-control input-currency-container">
+                                    <CurrencyFormat value={money}
+                                        thousandSeparator={true}
+                                        allowNegative={false}
+                                        onValueChange={(values) => {
+                                            const { value } = values;
+                                            // formattedValue = $2,223
+                                            // value ie, 2223
+                                            setMoney(value);
+                                        }}
+                                    />
+                                </div>
+                                <div className="input-group-append">
+                                    <div className='btn btn-append-vnd'>
+                                        vnđ
+                                </div>
                                 </div>
                             </div>
+                            <Alert alert={alertMoney} />
                         </div>
-                        <Alert alert={alertMoney} />
                     </div>
-                </div>
 
-                <div className="form-check" style={{ paddingTop: '5px' }}>
-                    <label className="form-check-label">
-                        <input type="checkbox" className="form-check-input" ref={inputAnonymous} />
+                    <div className="form-check" style={{ paddingTop: '5px' }}>
+                        <label className="form-check-label">
+                            <input type="checkbox" className="form-check-input" ref={inputAnonymous} />
                         Ẩn danh
                     </label>
-                </div>
+                    </div>
 
-                <div className="row">
-                    <div className="col-sm-12" style={{ textAlign: 'center' }}>
-                        <Alert alert={alertResult} />
-                        {!result ? (
-                            <button class="btn btn-success" type="button" onClick={saveDonation}>
-                                Tạo quyên góp
-                            </button>
-                        ) : (
-                            null
-                        )}
+                    <div className="row">
+                        <div className="col-sm-12" style={{ textAlign: 'center' }}>
+                            <Alert alert={alertResult} />
+                            {!result ? (
+                                <button class="btn btn-success" type="button" onClick={saveDonation}>
+                                    Tạo quyên góp
+                                </button>
+                            ) : (
+                                    null
+                                )}
 
-                        {/* {loading ? (
+                            {/* {loading ? (
                             <button class="btn btn-success" type="button" disabled>
                                 <span class="spinner-border spinner-border-sm"></span>
                                 &nbsp; Đang gửi...
@@ -108,9 +108,10 @@ const HostCreateOutsideDonation = () => {
                                 // onClick={donate} 
                                 >Xác nhận</button>
                             )} */}
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     );
 }

@@ -1,10 +1,30 @@
 .host-list-donations {
     max-width: 1220px;
     margin: 0 auto;
-    padding: 0 12px;
+    padding: 30px 12px;
 }
-.host-donation-detail {
+.host-list-donations header {
+    display: none;
+}
+/* Host view donation detail */
+.host-donation-detail,
+.host-create-outside-donation {
+    padding: 30px 12px 20px;
+    background-color: rgba(231,234,237,0.5);
+}
+.host-donation-detail .host-donation-detail-content,
+.host-create-outside-donation .host-create-outside-donation-content {
     max-width: 720px;
     margin: 0 auto;
-    padding: 0 15px;
+    background-color: #fff;
+    border: 1px #dddddd solid;
+    border-radius: 5px;
+    padding: 30px 12px 10px;
+}
+.host-donation-detail .table {
+    margin-bottom: 0;
+}
+/* Host create outside donation */
+.host-create-outside-donation {
+    min-height: 82vh;
 }

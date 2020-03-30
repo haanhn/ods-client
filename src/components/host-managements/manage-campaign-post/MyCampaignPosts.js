@@ -63,7 +63,7 @@ const MyCampaignPosts = (props) => {
     const createRoute = routes.getRouteMyCampaignPostCreate(slug);
 
     return (
-        <div className='container host-list-posts'>
+        <div className='container host-list-posts' style={{maxWidth: '850px'}}>
             <h4>Các bài viết
                 <button className='btn btn-sm btn-success' style={{float: 'right'}}>
                 <i class="fas fa-plus-circle" style={{marginRight: '3px'}}></i><Link to={createRoute} style={{ color: 'white' }} > Tạo bài viết </Link>

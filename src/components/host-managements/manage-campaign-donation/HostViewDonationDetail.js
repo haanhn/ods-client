@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import NotFound from '../../pages/NotFound';
 import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
-import { getDonationStatus, getMethod  } from '../../../utils/donationUtils';
+import { getDonationStatus, getMethod } from '../../../utils/donationUtils';
 import { getDateFormatDD_MM_YYYY } from '../../../utils/commonUtils';
 import '../../css/host-manage-donations.css';
 
@@ -47,79 +47,81 @@ const HostViewDonationDetail = (props) => {
 
     return (
         <div className='host-donation-detail' >
-            <table className="table">
+            <div className='host-donation-detail-content' >
+                <table className="table">
 
-                <col style={{ width: '180px',  }} />
-                <col style={{  }} />
+                    <col style={{ width: '180px', }} />
+                    <col style={{}} />
 
-                <tbody>
-                    <tr>
-                        <td>Mã quyên góp</td>
-                        <td> {donation.trackingCode} </td>
-                    </tr>
-                    <tr>
-                        <td>Người quyên góp</td>
-                        <td> {donorName} </td>
-                    </tr>
-                    
-                    { donation && donation.donationMethod !== 'outside' ? (
+                    <tbody>
                         <tr>
-                            <td>Email</td>
-                            <td> {donation.User ? donation.User.email : ''} </td>
+                            <td>Mã quyên góp</td>
+                            <td> {donation.trackingCode} </td>
                         </tr>
-                    ) : null }
-                    
-                    <tr>
-                        <td>Số tiền</td>
-                        <td>
-                            <CurrencyFormat value={donation.donationAmount} displayType={'text'} thousandSeparator={true} />
-                            đ
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Thời gian</td>
-                        <td> {date} </td>
-                    </tr>
-                    <tr>
-                        <td>Phương thức</td>
-                        <td>
-                            {method}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Trạng thái</td>
-                        <td>
-                            <span
-                                className={
-                                    'badge ' +
-                                    (donationStatus === 'done'
-                                        ? 'badge-success'
-                                        : donationStatus === 'pending'
-                                            ? 'badge-warning'
-                                            : 'badge-danger')
-                                }
-                            >
-                                {status}
-                            </span>
-                        </td>
-                    </tr>
-                    {(donation && donation.donationMessage) ? (
                         <tr>
-                            <td>Lời nhắn gởi</td>
-                            <td> {donation.donationMessage} </td>
+                            <td>Người quyên góp</td>
+                            <td> {donorName} </td>
                         </tr>
-                    ) : null}
-                    {donation.donationMethod !== 'paypal' ? (<tr>
-                        <td colSpan='2' style={{ textAlign: 'center' }}>
-                            <button className='btn btn-success' style={{ marginRight: '15px' }}
-                                onClick={updateStatus}
-                            >Xác nhận</button>
-                            <button className='btn btn-danger' onClick={updateStatus}>Từ chối</button>
-                        </td>
-                    </tr>) : null}
 
-                </tbody>
-            </table>
+                        {donation && donation.donationMethod !== 'outside' ? (
+                            <tr>
+                                <td>Email</td>
+                                <td> {donation.User ? donation.User.email : ''} </td>
+                            </tr>
+                        ) : null}
+
+                        <tr>
+                            <td>Số tiền</td>
+                            <td>
+                                <CurrencyFormat value={donation.donationAmount} displayType={'text'} thousandSeparator={true} />
+            đ
+        </td>
+                        </tr>
+                        <tr>
+                            <td>Thời gian</td>
+                            <td> {date} </td>
+                        </tr>
+                        <tr>
+                            <td>Phương thức</td>
+                            <td>
+                                {method}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Trạng thái</td>
+                            <td>
+                                <span
+                                    className={
+                                        'badge ' +
+                                        (donationStatus === 'done'
+                                            ? 'badge-success'
+                                            : donationStatus === 'pending'
+                                                ? 'badge-warning'
+                                                : 'badge-danger')
+                                    }
+                                >
+                                    {status}
+                                </span>
+                            </td>
+                        </tr>
+                        {(donation && donation.donationMessage) ? (
+                            <tr>
+                                <td>Lời nhắn gởi</td>
+                                <td> {donation.donationMessage} </td>
+                            </tr>
+                        ) : null}
+                        {donation.donationMethod !== 'paypal' ? (<tr>
+                            <td colSpan='2' style={{ textAlign: 'center' }}>
+                                <button className='btn btn-success' style={{ marginRight: '15px' }}
+                                    onClick={updateStatus}
+                                >Xác nhận</button>
+                                <button className='btn btn-danger' onClick={updateStatus}>Từ chối</button>
+                            </td>
+                        </tr>) : null}
+
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }
