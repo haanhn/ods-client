@@ -8,10 +8,12 @@ const CampaignRating = (props) => {
 
     const updatedAtFormated = getDateFormatDD_MM_YYYY(updatedAt);
 
+    const avatar = User && User.avatar ? User.avatar : '/images/default-data-images/default-user-avatar.png';
+
     return (
         <div className='campaign-comment campaign-rating'>
             <div className='grid-row'>
-                <img src='/images/default-data-images/default-user-avatar.png' className='grid-col' />
+                <img src={avatar} className='grid-col' />
                 <div className='grid-col'>
                     <h6> {User && User.fullname ? User.fullname : 'Tên donor'} </h6>
                     <span style={{fontSize: '90%'}}>

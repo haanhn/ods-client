@@ -12,16 +12,17 @@ import './ods-header.css';
 function Header(props) {
   const token = localStorage.getItem(localStoreKeys.token);
 
-  const userStyles = {
-    float: 'right',
-    paddingTop: '50px'
-  };
-
   const authContext = useContext(AuthContext);
   const mycampaignsContext = useContext(MycampaignsContext);
 
   const { isLoggedIn, logout } = authContext;
   const { clearMycampaigns } = mycampaignsContext;
+
+  const myId = localStorage.getItem(localStoreKeys.userId);
+  let routeMyProfile = '';
+  if (myId) {
+    routeMyProfile = routes.getUserProfile(myId);
+  }
 
   const onLogout = () => {
     logout();
@@ -69,6 +70,9 @@ function Header(props) {
                   </NavDropdown.Item>
                   <NavDropdown.Item>
                   <Link to='/my-account'>Tài khoản</Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                  <Link to={routeMyProfile}>Profile</Link>
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={onLogout}><Link to='/'>Đăng xuất</Link></NavDropdown.Item>
