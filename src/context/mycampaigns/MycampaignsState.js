@@ -3,7 +3,7 @@ import MycampaignsContext from './mycampaignsContext';
 import mycampaingsReducer from './mycampaignsReducer';
 import axios from 'axios';
 import { GET_MYCAMPAIGNS, CLEAR_MYCAMPAIGNS, hostActionTypes } from '../types';
-import { odsBase, odsAPIOpenRoutes, odsAPIHost, localStoreKeys, odsAPIAuthorizedUser } from '../../odsApi';
+import { odsBase, odsAPIHost, localStoreKeys, odsAPIAuthorizedUser } from '../../odsApi';
 
 const MycampaignsState = props => {
   const initialState = {
@@ -14,12 +14,13 @@ const MycampaignsState = props => {
     myCampaignDonations: [],
     myCampaignExpenses: [],
     totalExpense: 0,
+    loading: false
   };
 
   const [state, dispatch] = useReducer(mycampaingsReducer, initialState);
 
-  // Load My Campaign
-  const getMyCampaign = async () => {
+  // Load My Campaigns
+  const getMyCampaigns = async () => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -40,11 +41,19 @@ const MycampaignsState = props => {
     }
   };
 
-  //HOST GET CAMPAIGN BY SLUG
-  const getCampaignBySlug = async (slug) => {
+  //HOST GET CAMPAIGN BY ID
+  const getMyCampaignBySlug = async (slug) => {
+    const route = odsAPIHost.getMyCampaignBySlug(slug);
+    const token =localStorage.getItem(localStoreKeys.token);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token
+      }
+    };
     try {
-      // setLoading(true);
-      const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getCampaignDetailBySlug}${slug}`);
+      setLoading(true);
+      const res = await axios.get(`${odsBase}${route}`, config);
       const stats = {
         raised: res.data.raised,
         countDonations: res.data.countDonations
@@ -57,10 +66,12 @@ const MycampaignsState = props => {
         type: hostActionTypes.SET_CAMPAIGN_STATS,
         payload: stats
       });
-      // setLoading(false);
+      setLoading(false);
+      return true;
     } catch (error) {
+      setLoading(false);
       console.log(error);
-      throw error;
+      return false;
     }
   };
 
@@ -348,6 +359,8 @@ const MycampaignsState = props => {
     });
   }
 
+  const setLoading = (isLoading) => dispatch({ type: hostActionTypes.SET_LOADING, payload: isLoading });
+
   return (
     <MycampaignsContext.Provider
       value={{
@@ -358,9 +371,10 @@ const MycampaignsState = props => {
         myCampaignDonations: state.myCampaignDonations,
         myCampaignExpenses: state.myCampaignExpenses,
         totalExpense: state.totalExpense,
+        loading: state.loading,
         //Methods
-        getMyCampaign,
-        getCampaignBySlug,
+        getMyCampaigns,
+        getMyCampaignBySlug,
         updateCampaignImage,
         updateCampaign,
         clearMycampaigns,

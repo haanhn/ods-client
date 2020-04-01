@@ -60,6 +60,7 @@ export const hostActionTypes = {
     //Expenses
     GET_EXPENSES: 'GET_EXPENSES',
     SET_TOTAL_EXPENSE: 'SET_TOTAL_EXPENSE',
+    SET_LOADING: 'SET_LOADING',
 };
 
 //My Donations

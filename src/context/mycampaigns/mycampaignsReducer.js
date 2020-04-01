@@ -51,6 +51,11 @@ export default (state, action) => {
         ...state,
         totalExpense: data
       };
+    case hostActionTypes.SET_LOADING:
+      return {
+        ...state,
+        loading: data
+      };
     default:
       return state;
   }

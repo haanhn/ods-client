@@ -8,6 +8,8 @@ const MyCampaignTabImage = () => {
     const viewingCampaign = myCampaignsContext.hostViewingCampaign;
 
     const currentImageUrl = viewingCampaign ? viewingCampaign.campaignThumbnail : null;
+    const status = viewingCampaign && viewingCampaign.campaignStatus ? viewingCampaign.campaignStatus : '';
+
     const [init, setInit] = useState(true);
     const [newImageUrl, setNewImageUrl] = useState(currentImageUrl);
     const [imageBinary, setImageBinary] = useState(null);
@@ -103,10 +105,12 @@ const MyCampaignTabImage = () => {
                 }
             </label>
             <Alert alert={alertImage} />
-            {newImageUrl ? btnsUpdateImg : null}
-            <div className='box-btn-save-campaign-image'>
-                <button className='btn btn-sm btn-success' onClick={saveImage}>Cập nhật</button>
-            </div>
+            {newImageUrl && status !== 'close' ? btnsUpdateImg : null}
+            {status !== 'close' ? (
+                <div className='box-btn-save-campaign-image'>
+                    <button className='btn btn-sm btn-success' onClick={saveImage}>Cập nhật</button>
+                </div>
+            ) : null}
             {/* {imageGuide} */}
         </div>
 

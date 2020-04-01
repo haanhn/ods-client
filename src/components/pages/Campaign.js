@@ -165,8 +165,7 @@ const Campaign = (props) => {
                                 <FacebookShareButton
                                     // url={'https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx'}
                                     url={window.location.href}
-                                    quote={'title'}
-                                    className="Demo__some-network__share-button"
+                                    quote={`Ủng hộ chiến dịch: ${campaignTitle}`}
                                 >
                                     {/* <FacebookIcon size={22} round={true} /> */}
                                     <div className='btn-share-fb'>

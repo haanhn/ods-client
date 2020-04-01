@@ -9,6 +9,7 @@ const MyCampaignTabStory = () => {
     const campaign = myCampaignsContext.hostViewingCampaign;
     const initShortDescription = campaign ? campaign.campaignShortDescription : '';
     const initDescription = campaign ? campaign.campaignDescription : '';
+    const status = campaign && campaign.campaignStatus ? campaign.campaignStatus : '';
 
     const [description, setDescription] = useState(initDescription);
     const inputShortDescription = React.createRef();
@@ -145,13 +146,15 @@ const MyCampaignTabStory = () => {
                         {editor}
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-sm-12" style={{ textAlign: 'center', paddingTop: '10px' }}>
-                        <button className="btn btn-sm btn-success"
-                            onClick={saveStory}
-                        >Cập nhật</button>
+                {status !== 'close' ? (
+                    <div className="row">
+                        <div className="col-sm-12" style={{ textAlign: 'center', paddingTop: '10px' }}>
+                            <button className="btn btn-sm btn-success"
+                                onClick={saveStory}
+                            >Cập nhật</button>
+                        </div>
                     </div>
-                </div>
+                ) : null}
             </form>
         </div>
     );

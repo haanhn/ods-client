@@ -8,7 +8,7 @@ import Alert from '../common/Alert';
 const MyCampaigns = (props) => {
   const mycampaignsContext = useContext(MycampaignsContext);
 
-  const { mycampaigns, getMyCampaign } = mycampaignsContext;
+  const { mycampaigns, getMyCampaigns } = mycampaignsContext;
 
   const token = localStorage.getItem(localStoreKeys.token);
   if (!token) {
@@ -19,7 +19,7 @@ const MyCampaigns = (props) => {
   const emptyMsg = { type: 'secondary', msg: 'Bạn chưa tạo chiến dịch nào' };
 
   useEffect(() => {
-    getMyCampaign();
+    getMyCampaigns();
     // eslint-disable-next-line
   }, []);
 

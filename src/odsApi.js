@@ -20,37 +20,37 @@ export const routes = {
   getRouteDonateCampaignDetails (slug) { return `/campaign/${slug}/donate/details`; },
   CAMPAIGN_DONATE_COMPLETE: '/campaign/:slug/donate/complete',
   getRouteDonateCampaignComplete (slug) { return `/campaign/${slug}/donate/complete`; },
+
+  //-------------------------------------
   //----- Routes: for Campagin Host -----
+  //-------------------------------------  
   MY_CAMPAIGNS: '/my-campaigns',
   MY_CAMPAIGN_DETAIL: '/my-campaigns/:slug',
-  getRouteMyCampaignDetail(slug) { return `/my-campaigns/${slug}`; },
-  //Route: Host campaign posts
   MY_CAMPAIGN_INFO: '/my-campaigns/:slug/info',
-  getRouteMyCampaignInfo(slug) { return `/my-campaigns/${slug}/info`; },
-  // MY_CAMPAIGN_INFO_IMAGE: '/my-campaigns/:slug/info/image',
-  // getRouteMyCampaignInfoImage(slug) { return `/my-campaigns/${slug}/info/image`; },
   MY_CAMPAIGN_INFO_DETAILS: '/my-campaigns/:slug/info/details',
-  getRouteMyCampaignInfoDetails(slug) { return `/my-campaigns/${slug}/info/details`; },
   MY_CAMPAIGN_INFO_STORY: '/my-campaigns/:slug/info/story',
-  getRouteMyCampaignInfoStory(slug) { return `/my-campaigns/${slug}/info/story`; },
   MY_CAMPAIGN_POSTS: '/my-campaigns/:slug/posts',
-  getRouteMyCampaignPosts(slug) { return `/my-campaigns/${slug}/posts`; },
   MY_CAMPAIGN_POST_CREATE: '/my-campaigns/:slug/posts/create',
-  getRouteMyCampaignPostCreate(slug) { return `/my-campaigns/${slug}/posts/create`; },
   MY_CAMPAIGN_POST_DETAIL: '/my-campaigns/:slug/posts/:id',
-  getRouteMyCampaignPostDetail(slug, postId) { return `/my-campaigns/${slug}/posts/${postId}`; },
-  //Route: Host campaign donations
   MY_CAMPAIGN_DONATIONS: '/my-campaigns/:slug/donations',
-  getRouteMyCampaignDonations(slug) { return `/my-campaigns/${slug}/donations`; },
-  MY_CAMPAIGN_DONATION_DETAIL: '/my-campaigns/:slug/donations/:code',
-  getRouteMyCampaignDonationDetail(slug, code) { return `/my-campaigns/${slug}/donations/${code}`; },
   MY_CAMPAIGN_CREATE_DONATION: '/my-campaigns/:slug/create-donation',
-  getRouteMyCampaignCreateDonation: (slug) => `/my-campaigns/${slug}/create-donation`,
-  //Route: Host campaign expenses
+  MY_CAMPAIGN_DONATION_DETAIL: '/my-campaigns/:slug/donations/:code',
   MY_CAMPAIGN_EXPENSES: '/my-campaigns/:slug/expenses',
-  getRouteMyCampaignExpenses(slug) { return `/my-campaigns/${slug}/expenses`; },
+  getRouteMyCampaignDetail: (slug) => `/my-campaigns/${slug}`,
+  getRouteMyCampaignInfo: (slug) => `/my-campaigns/${slug}/info`,
+  getRouteMyCampaignInfoDetails(slug) { return `/my-campaigns/${slug}/info/details`; },
+  getRouteMyCampaignInfoStory(slug) { return `/my-campaigns/${slug}/info/story`; },
+  getRouteMyCampaignPosts: (slug) => `/my-campaigns/${slug}/posts`,
+  getRouteMyCampaignPostCreate: (slug) => `/my-campaigns/${slug}/posts/create`,
+  getRouteMyCampaignPostDetail(slug, postId) { return `/my-campaigns/${slug}/posts/${postId}`; },
+  getRouteMyCampaignDonations: (slug) => `/my-campaigns/${slug}/donations`,
+  getRouteMyCampaignCreateDonation: (slug) => `/my-campaigns/${slug}/create-donation`,
+  getRouteMyCampaignDonationDetail: (slug, code) => `/my-campaigns/${slug}/donations/${code}`,
+  getRouteMyCampaignExpenses: (slug) => `/my-campaigns/${slug}/expenses`,
   
-  //Route: User Profile
+  //-----------------------------
+  //-----Route: User Profile-----
+  //-----------------------------
   USER_PROFILE: '/users/:userId',
   USER_PROFILE_CAMPAIGNS: '/users/:userId/campaigns',
   USER_PROFILE_DONATIONS: '/users/:userId/donations',
@@ -119,6 +119,7 @@ export const odsAPIAuthorizedUser = {
 };
 
 export const odsAPIHost = {
+  getMyCampaignBySlug: (slug) => `/api/campaign/${slug}`,
   getCampaignPosts(slug) { return `/api/posts/host/get-all-post/${slug}`; },
   updateCampaignInfo: '/api/campaign/update',
   createCampaignPost: '/api/posts/host/create',

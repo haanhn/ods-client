@@ -18,6 +18,7 @@ const MyCampaignTabDetails = () => {
     const campaignRegion = campaign ? campaign.campaignRegion : null;
     const initGoalValue = campaign ? campaign.campaignGoal : 0;
     const initEndDateValue = campaign && campaign.campaignEndDate ? new Date(campaign.campaignEndDate) : null;
+    const initStatus = campaign && campaign.campaignStatus ? campaign.campaignStatus : '';
 
     const inputTitle = React.createRef();
     const inputCategory = React.createRef();
@@ -53,7 +54,7 @@ const MyCampaignTabDetails = () => {
         setAlertEndDate(null);
         setAlertResult(null);
 
-        const minGoal = campaignStats && campaignStats.raised ? campaignStats.raised : 0; 
+        const minGoal = campaignStats && campaignStats.raised ? campaignStats.raised : 0;
         const messages = validateData(title, address, goalValue, minGoal, endValue);
         if (messages) {
             if (messages.title) {
@@ -106,15 +107,11 @@ const MyCampaignTabDetails = () => {
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
                         Tên chiến dịch
-                        {/* <i class="fas fa-info-circle icon-small theme_color"
-                            data-toggle="modal" data-target="#modalTipsName"
-                            style={{ padding: '0 7px' }} ></i> */}
-                        {/* <button data-toggle="modal" data-target="#modalTipsName">k</button> */}
                     </label>
                     <div className="col-sm-12">
                         <input type="text" className="form-control" placeholder="Tên chiến dịch"
                             defaultValue={campaign ? campaign.campaignTitle : ''}
-                            ref={inputTitle}
+                            ref={inputTitle} disabled
                         />
                         <Alert alert={alertTitle} />
                     </div>
@@ -229,14 +226,19 @@ const MyCampaignTabDetails = () => {
                 </div>
 
                 <Alert alert={alertResult} />
-
-                <div className="row">
-                    <div className="col-sm-12" style={{ textAlign: 'center', paddingTop: '7px' }}>
-                        <button className="btn btn-sm btn-success"
-                            onClick={saveCampaignDetails}
-                        >Cập nhật</button>
+                {(initStatus !== 'close') ? (
+                    <div className="row">
+                        <div className="col-sm-12" style={{ textAlign: 'center', paddingTop: '7px' }}>
+                            <button className="btn btn-sm btn-success"
+                                onClick={saveCampaignDetails}
+                            >Cập nhật</button>
+                        </div>
                     </div>
-                </div>
+                ) : (
+                        <div style={{ textAlign: 'center' }}>
+                            <Alert alert={{ type: 'secondary', msg: 'Chiến dịch đã kết thúc' }} />
+                        </div>
+                    )}
             </form>
         </div>
     );
@@ -298,7 +300,7 @@ const validateData = (title, address, goal, minGoal, endDate) => {
             msg.goal = 'Chúng tôi chỉ hỗ trợ mục tiêu dưới 10 tỷ đồng';
         } else if (goal < minGoal) {
             const goalFormat = new Intl.NumberFormat('ja-JP').format(minGoal);
-            msg.goal = 'Mục tiêu cần lớn hơn số tiền quyên góp được: ' +goalFormat+ ' đồng';
+            msg.goal = 'Mục tiêu cần lớn hơn số tiền quyên góp được: ' + goalFormat + ' đồng';
         }
     }
     //endDate
