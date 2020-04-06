@@ -6,8 +6,9 @@ import Alert from '../../common/Alert';
 const AccountSettingTabBankAccount = () => {
     const authContext = useContext(AuthContext);
 
+    const user = authContext.currentUser;
+
     const initBankAccount = authContext.bankAccount ? authContext.bankAccount : {};
-    const accountName = initBankAccount.accountName ? initBankAccount.accountName : '';
     const initAccountNumber = initBankAccount.accountNumber ? initBankAccount.accountNumber : '';
     const initBankName = initBankAccount.bankName ? initBankAccount.bankName : '';   
     const initBankAgency = initBankAccount.bankAgency ? initBankAccount.bankAgency : '';   
@@ -66,7 +67,7 @@ const AccountSettingTabBankAccount = () => {
                     </label>
                     <div className="col-sm-12">
                         <input type="text" className="form-control" placeholder="Tên tài khoản"
-                            defaultValue={accountName} disabled />
+                            defaultValue={user && user.fullname ? user.fullname : ''} disabled />
                     </div>
                 </div>
 

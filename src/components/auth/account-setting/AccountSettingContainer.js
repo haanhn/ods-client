@@ -29,10 +29,6 @@ const AccountSettingContainer = () => {
                                 <Route exact path={routes.MY_ACCOUNT_AVATAR}>
                                     <AccountSettingAvatar />
                                 </Route>
-                                {/* <Route exact path={`${routes.MY_CAMPAIGN_INFO_STORY}`}> */}
-                                {/* <CampaignTabMoreInfo description={campaign.campaignDescription} /> */}
-                                {/* <MyCampaignTabStory /> */}
-                                {/* </Route> */}
                             </Switch>
                         </div>
                     </div>

@@ -123,7 +123,7 @@ const validateData = (name, money) => {
     if (name.length === 0) {
         msg.name = 'Xin nhập tên người quyên góp';
     } else if (name.length > 30) {
-        msg.name = 'Tên người quyên góp bé hơn 30 kí tự';
+        msg.name = 'Tên người quyên góp không quá 30 kí tự';
     }
     //Money
     let moneyStr = money + '';

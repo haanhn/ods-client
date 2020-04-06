@@ -15,7 +15,6 @@ const AccountSettingTabInfo = () => {
     const inputAddress = React.createRef();
     const inputRegion = React.createRef();
 
-    //State Alert
     //State Alerts
     const [alertFullname, setAlertFullname] = useState(null);
     const [alertAddress, setAlertAddress] = useState(null);
@@ -40,7 +39,6 @@ const AccountSettingTabInfo = () => {
                 setAlertAddress({ type: 'danger', msg: messages.address });
             }
         } else {
-            console.log(`yayyyyyyyyyyyyyyyyyyyyyyy`);
             if (!region) {
                 region = regions[0].name;
             }
