@@ -81,6 +81,8 @@ export const odsAPIOpenRoutes = {
   getAllCampaigns: '/api/campaign/get-all',
   // get campaign detail url template: /api/campaign/get-detail/:slug
   getCampaignDetailBySlug: `/api/campaign/get-detail/`,
+  getSuggestedCampaigns1: (slug) => `/api/campaign/get-similar-by-campaign/${slug}`,
+  getSuggestedCampaigns2: (userId) => `/api/campaign/get-by-similar-users/${userId}`,
   //Comments
   createCampaignComment: `/api/comments`,
   // url: /api/comments/:campaignSlug

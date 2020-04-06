@@ -6,12 +6,15 @@ export const SEARCH_CAMPAIGNS ='SEARCH_CAMPAIGNS';
 export const actionTypes = {
     //common: categories, regions,...
     GET_REGIONS: 'GET_REGIONS',
-    //campaigns
+
+    //Campaigns
     GET_CAMPAIGNS: 'GET_CAMPAIGNS',
     SET_VIEWING_CAMPAIGN: 'SET_VIEWING_CAMPAIGN',
-    //posts
+    SET_SUGGESTED_CAMPAIGNS1: 'SET_SUGGESTED_CAMPAIGNS1',
+    SET_SUGGESTED_CAMPAIGNS2: 'SET_SUGGESTED_CAMPAIGNS2',
+
+    //Viewing campaign: posts, comments,...
     SET_POSTS: 'SET_POSTS',
-    //comments
     SET_COMMENTS: 'SET_COMMENTS',
     SET_DONATIONS: 'SET_DONATIONS',
     //campaign ratings

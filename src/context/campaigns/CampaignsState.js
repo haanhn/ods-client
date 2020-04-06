@@ -19,6 +19,8 @@ const CampaignsState = (props) => {
         myCampaignRating: {},
         ratingStats: {},
         countFollowers: 0,
+        suggestedCampaigns1: [], //similar campaigns
+        suggestedCampaigns2: [], //campaigns of similar users
         loading: false
     }
 
@@ -83,6 +85,33 @@ const CampaignsState = (props) => {
             setLoading(false);
             console.log(error);
             throw error;
+        }
+    };
+
+    const getSuggestedCampaigns1 = async (slug) => {
+        try {
+            const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getSuggestedCampaigns1(slug)}`);
+            const campaigns = res.data.campaigns;
+            dispatch({
+                type: actionTypes.SET_SUGGESTED_CAMPAIGNS1,
+                payload: campaigns
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const getSuggestedCampaigns2 = async (userId) => {
+        try {
+            // const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getSuggestedCampaigns2('c09161ee-03ed-4431-a729-730261c26504')}`);
+            const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getSuggestedCampaigns2(userId)}`);
+            const campaigns = res.data.campaigns;
+            dispatch({
+                type: actionTypes.SET_SUGGESTED_CAMPAIGNS2,
+                payload: campaigns
+            });
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -319,6 +348,8 @@ const CampaignsState = (props) => {
             categories: state.categories,
             campaigns: state.campaigns,
             viewingCampaign: state.viewingCampaign,
+            suggestedCampaigns1: state.suggestedCampaigns1,
+            suggestedCampaigns2: state.suggestedCampaigns2,
             regions: state.regions,
             campaignPosts: state.campaignPosts,
             campaignComments: state.campaignComments,
@@ -334,6 +365,8 @@ const CampaignsState = (props) => {
             setLoading,
             getAllAvailableCampaigns,
             getCampaignBySlug,
+            getSuggestedCampaigns1,
+            getSuggestedCampaigns2,
             setCampaignToEmpty,
             searchCampaigns,
             getRegions,

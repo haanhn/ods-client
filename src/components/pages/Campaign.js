@@ -22,6 +22,8 @@ import axios from 'axios';
 import Spinner from '../common/Spinner';
 import CampaignTabExpenses from '../campaigns/campaign-detail/CampaignTabExpenses';
 import { FacebookShareButton } from 'react-share';
+import SuggestedCampaigns1 from '../campaigns/list-campaigns/SuggestedCampaigns1';
+import SuggestedCampaigns2 from '../campaigns/list-campaigns/SuggestedCampaigns2';
 
 const Campaign = (props) => {
     const campaignsContext = useContext(CampaignsContext);
@@ -76,6 +78,11 @@ const Campaign = (props) => {
             // console.log(`get donations`);
             campaignsContext.getCampaignRatings(slug);
             campaignsContext.getCampaignExpenses(slug);
+            campaignsContext.getSuggestedCampaigns1(slug);
+            const userId = localStorage.getItem(localStoreKeys.userId);
+            if (userId) {
+                campaignsContext.getSuggestedCampaigns2(userId);
+            }
             // const checkFollow = await campaignsContext.checkFollowCampaign(campaignsContext.checkFollowCampaign);
             const checkOwner = checkCampaignOwner(returnedCampaign);
             if (checkOwner === true) {
@@ -198,6 +205,9 @@ const Campaign = (props) => {
                         <Route exact path={routeExpenses} component={CampaignTabExpenses} />
                     </Switch>
                 </div>
+
+                <SuggestedCampaigns1 />
+                <SuggestedCampaigns2 />
             </div>
 
         );

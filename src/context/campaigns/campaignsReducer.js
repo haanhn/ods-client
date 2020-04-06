@@ -30,6 +30,16 @@ const campaignReducer = (state, action) => {
                 ...state,
                 viewingCampaign: action.payload,
             });
+        case actionTypes.SET_SUGGESTED_CAMPAIGNS1:
+            return ({
+                ...state,
+                suggestedCampaigns1: data,
+            });
+        case actionTypes.SET_SUGGESTED_CAMPAIGNS2:
+            return ({
+                ...state,
+                suggestedCampaigns2: data,
+            });
         //Posts
         case actionTypes.SET_POSTS:
             return ({
