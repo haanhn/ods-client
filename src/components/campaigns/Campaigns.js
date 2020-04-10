@@ -13,10 +13,12 @@ function Campaigns(props) {
         </div>
     ));
 
+    const emptyJsx = <div>Không tìm thấy chiến dịch nào</div>;
+
     return (
         <section className='list-campaigns'>
             <div className="row clearfix">
-                {campaignsJsx}
+                {campaigns && campaigns.length > 0 ? campaignsJsx : emptyJsx}
             </div>
         </section>
 

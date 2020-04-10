@@ -81,7 +81,7 @@ const Campaign = (props) => {
             campaignsContext.getSuggestedCampaigns1(slug);
             const userId = localStorage.getItem(localStoreKeys.userId);
             if (userId) {
-                campaignsContext.getSuggestedCampaigns2(userId);
+                campaignsContext.getSuggestedCampaigns2(userId, returnedCampaign.id);
             }
             // const checkFollow = await campaignsContext.checkFollowCampaign(campaignsContext.checkFollowCampaign);
             const checkOwner = checkCampaignOwner(returnedCampaign);

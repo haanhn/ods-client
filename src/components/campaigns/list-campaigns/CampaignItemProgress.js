@@ -39,8 +39,8 @@ const CampaignItemProgress = (props) => {
                         <div><strong>Đã kết thúc</strong></div>
                     )}
             </div>
-            <div class="progress">
-                <div class="progress-bar bg-success"
+            <div className="progress">
+                <div className="progress-bar bg-success"
                     role="progressbar"
                     style={{ width: progress }}
                 ></div>

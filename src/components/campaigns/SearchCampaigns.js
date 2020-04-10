@@ -10,10 +10,7 @@ function SearchCampaigns() {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        console.log(`Search key ${searchedValue}`);
-        if (searchedValue !== "") {
-            campaignsContext.searchCampaigns(searchedValue);
-        }
+        campaignsContext.searchCampaigns(searchedValue);
     }
 
     return (

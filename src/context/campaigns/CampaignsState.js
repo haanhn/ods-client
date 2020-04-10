@@ -55,10 +55,34 @@ const CampaignsState = (props) => {
 
     //SEARCH CAMPAIGNS
     const searchCampaigns = async (searchedValue) => {
-        console.log(`campaign state search value ${searchedValue}`);
-        const res = await axios.get(`${odsBase}/campaigns?query=${searchedValue}`);
-        console.log(res);
+        try {
+            if (!searchedValue || searchedValue.trim().length === 0) {
+                console.log('Search value empty');
+                return;
+            }
+            const api = odsAPIOpenRoutes.searchCampaigns(searchedValue);
+            const res = await axios.get(`${odsBase}${api}`);
+            dispatch({
+                type: actionTypes.GET_CAMPAIGNS,
+                payload: res.data.campaigns
+            });
+        } catch (error) {
+            console.error(error);
+        }
     }
+
+    const getCampaignsByCategory = async (categorySlug) => {
+        try {
+            const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getCampaignsByCategory(categorySlug)}`);
+            const campaigns = res.data.campaigns;
+            dispatch({
+                type: actionTypes.GET_CAMPAIGNS,
+                payload: campaigns
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     //GET CAMPAIGN BY SLUG
     const getCampaignBySlug = async (slug) => {
@@ -88,6 +112,7 @@ const CampaignsState = (props) => {
         }
     };
 
+    //Get similar campaigns
     const getSuggestedCampaigns1 = async (slug) => {
         try {
             const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getSuggestedCampaigns1(slug)}`);
@@ -101,11 +126,24 @@ const CampaignsState = (props) => {
         }
     };
 
-    const getSuggestedCampaigns2 = async (userId) => {
+    //Get by similar users
+    const getSuggestedCampaigns2 = async (userId, viewingId) => {
         try {
-            // const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getSuggestedCampaigns2('c09161ee-03ed-4431-a729-730261c26504')}`);
             const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getSuggestedCampaigns2(userId)}`);
             const campaigns = res.data.campaigns;
+            if (campaigns && campaigns.length > 0) {
+                let i = 0;
+                let duplicate = -1;
+                for (i = 0; i < campaigns.length; i++) {
+                    if (campaigns[i].id === viewingId) {
+                        duplicate = i;
+                        break;
+                    }
+                }
+                if (duplicate >= 0) {
+                    campaigns.splice(duplicate, 1);
+                }
+            }
             dispatch({
                 type: actionTypes.SET_SUGGESTED_CAMPAIGNS2,
                 payload: campaigns
@@ -364,6 +402,7 @@ const CampaignsState = (props) => {
             //-------------------------------
             setLoading,
             getAllAvailableCampaigns,
+            getCampaignsByCategory,
             getCampaignBySlug,
             getSuggestedCampaigns1,
             getSuggestedCampaigns2,

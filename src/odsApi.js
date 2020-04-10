@@ -78,8 +78,10 @@ export const routes = {
 
 //ODS APIs
 export const odsAPIOpenRoutes = {
-  getAllCampaigns: '/api/campaign/get-all',
+  getAllCampaigns: '/api/campaign/get-public-campaigns',
   // get campaign detail url template: /api/campaign/get-detail/:slug
+  searchCampaigns: (searchedValue) => `/api/campaign/search-campaigns?searchedValue=${searchedValue}`,
+  getCampaignsByCategory: (categorySlug) => `/api/campaign/get-by-category/${categorySlug}`,
   getCampaignDetailBySlug: `/api/campaign/get-detail/`,
   getSuggestedCampaigns1: (slug) => `/api/campaign/get-similar-by-campaign/${slug}`,
   getSuggestedCampaigns2: (userId) => `/api/campaign/get-by-similar-users/${userId}`,
