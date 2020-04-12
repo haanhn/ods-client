@@ -41,7 +41,7 @@ const MycampaignsState = props => {
     }
   };
 
-  //HOST GET CAMPAIGN BY ID
+  //HOST GET CAMPAIGN BY SLUG
   const getMyCampaignBySlug = async (slug) => {
     const route = odsAPIHost.getMyCampaignBySlug(slug);
     const token =localStorage.getItem(localStoreKeys.token);
@@ -71,6 +71,29 @@ const MycampaignsState = props => {
     } catch (error) {
       setLoading(false);
       console.log(error);
+      return false;
+    }
+  };
+
+  //HOST GET CAMPAIGN DASHBOARD STATS
+  const getMyCampaignStats = async (slug) => {
+    const route = odsAPIHost.getMyCampaignStats(slug);
+    const token =localStorage.getItem(localStoreKeys.token);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token
+      }
+    };
+    try {
+      const res = await axios.get(`${odsBase}${route}`, config);
+      dispatch({
+        type: hostActionTypes.SET_CAMPAIGN_STATS,
+        payload: res.data.result
+      });
+      return true;
+    } catch (error) {
+      console.error(error);
       return false;
     }
   };
@@ -375,6 +398,7 @@ const MycampaignsState = props => {
         //Methods
         getMyCampaigns,
         getMyCampaignBySlug,
+        getMyCampaignStats,
         updateCampaignImage,
         updateCampaign,
         clearMycampaigns,

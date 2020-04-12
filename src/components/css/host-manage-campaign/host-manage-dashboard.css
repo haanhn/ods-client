@@ -1,0 +1,57 @@
+.host-manage-dashboard {
+    padding: 35px 12px 30px;
+    min-height: 87vh;
+}
+
+/****** group-of-stats ******/
+.group-of-stats {
+    margin-bottom: 35px;
+}
+.group-of-stats h5 {
+    font-weight: bold;
+    font-size: 110%;
+    margin-bottom: 12px;
+}
+
+/****** my-campaign-stats-item ******/
+.my-campaign-stats-item {
+    text-align: center;
+}
+.stats-number {
+    padding: 17px 12px;
+    border: 3px solid #b4e2f5;
+    border-radius: 3px;
+    margin-bottom: 2px;
+    font-size: 175%;
+    font-weight: bold;
+}
+.stats-name {
+    font-size: 95%;
+}
+
+/****** my-pie-chars ******/
+.my-pie-item {
+    margin: 0 auto;
+    max-width: 270px;
+}
+.my-pie {
+    margin-bottom: 15px;
+}
+.my-pie-item-explans {
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+.pie-chart-item-explan {
+    font-size: 97%;
+}
+.pie-chart-item-explan:not(:first-child) {
+    margin-top: -3px;
+}
+.pie-chart-item-explan .pie-color {
+    display: inline-block;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    margin-right: 7px;
+}

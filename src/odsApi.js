@@ -124,6 +124,7 @@ export const odsAPIAuthorizedUser = {
 
 export const odsAPIHost = {
   getMyCampaignBySlug: (slug) => `/api/campaign/${slug}`,
+  getMyCampaignStats: (slug) => `/api/campaign/host-get-stats/${slug}`,
   getCampaignPosts(slug) { return `/api/posts/host/get-all-post/${slug}`; },
   updateCampaignInfo: '/api/campaign/update',
   createCampaignPost: '/api/posts/host/create',

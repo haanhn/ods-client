@@ -15,6 +15,7 @@ import HostCreateOutsideDonation from '../host-managements/manage-campaign-donat
 import NotFound from './NotFound';
 import Spinner from '../common/Spinner';
 import Alert from '../common/Alert';
+import MyCampaignDashboard from '../host-managements/manage-campaign-dashboard/MyCampaignDashboard';
 
 const MyCampaign = (props) => {
     const campaignsContext = useContext(CampaignsContext);
@@ -60,6 +61,7 @@ const MyCampaign = (props) => {
         <div className='my-campaign-management' >
             <HostHeader slug={slug} />
             <Switch>
+                <Route exact path={routes.MY_CAMPAIGN_DETAIL} component={MyCampaignDashboard} />
                 <Route path={routes.MY_CAMPAIGN_INFO} >
                     <MyCampaignInfo slug={slug} />
                 </Route>

@@ -79,3 +79,22 @@ export const calculateDaysBetweenDates = (fromDateStr, toDateStr) => {
         return -1;
     }
 }
+
+export const getIntegerDaysBetweenDates = (fromDateStr, toDateStr) => {
+    if (!fromDateStr || !toDateStr) {
+        return -1;
+    }
+    try {
+        const date1 = new Date(fromDateStr);
+        const date2 = new Date(toDateStr);
+        const time1 = date1.getTime();
+        const time2 = date2.getTime();
+        const timeRange = time2 - time1;
+        let days = timeRange / (1000 * 60 * 60 * 24);
+        days = Math.floor(days);
+        return days;
+    } catch (error) {
+        console.error(error);
+        return -1;
+    }
+}
