@@ -20,6 +20,10 @@ const FormChooseMethodDonation = (props) => {
             key: 'paypal',
             value: 'Chuyển qua Paypal'    
         },
+        { 
+            key: 'vnpay',
+            value: 'Thanh toán VNPAY'    
+        },
     ];
 
     const methodsJsx = methods.map((m) => {
@@ -36,7 +40,11 @@ const FormChooseMethodDonation = (props) => {
         
         console.log(chosenMethod);
         
-        history.push(routes.getRouteDonateCampaignDetails(slug));
+        if (chosenMethod === 'vnpay') {
+            history.push(routes.getRouteDonateCampaignVnPay(slug));
+        } else {
+            history.push(routes.getRouteDonateCampaignDetails(slug));
+        }
     }
 
     return (

@@ -1,19 +1,22 @@
 import React, { useState, useContext } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { routes, localStoreKeys } from '../../../odsApi';
-import Alert from '../../common/Alert';
 import CampaignsContext from '../../../context/campaigns/campaignsContext';
+import Alert from '../../common/Alert';
+import { getDefaultData, validateMoney } from './FormDonateCashOrBanking';
+import { checkOnLyAsciiWordAndDigit } from '../../../utils/commonUtils';
 import '../../css/create-campaign.css';
 
-const FormDonateCashOrBanking = (props) => {
+const FormDonateVnPay = (props) => {
     const campaignsContext = useContext(CampaignsContext);
     const { slug } = props.match.params;
     const history = props.history;
 
-    const { method, sendDonate, donatePaypal } = props;
+    const { method, donateVnPay } = props;
     const defaultData = getDefaultData(method);
 
     const [money, setMoney] = useState(defaultData.money);
+    const inputBank = React.createRef();
     const inputName = React.createRef();
     const inputAnonymous = React.createRef();
     const inputEmail = React.createRef();
@@ -24,28 +27,28 @@ const FormDonateCashOrBanking = (props) => {
     const [alertMoney, setAlertMoney] = useState(null);
     const [alertName, setAlertName] = useState(null);
     const [alertEmail, setAlertEmail] = useState(null);
+    const [alertMessage, setAlertMessage] = useState(null);
     const [loading, setLoading] = useState(false);
 
     //Jsx
-    let nameJsx = <input type="text" className="form-control" placeholder="Tên"
-        ref={inputName} />;
     let emailJsx = <input type="email" className="form-control" placeholder="Email"
         ref={inputEmail} />
     if (localStorage.getItem(localStoreKeys.token)) {
-        nameJsx = <input type="text" className="form-control" placeholder="Tên"
-            value={defaultData.name} ref={inputName}
-            disabled />;
         emailJsx = <input type="text" className="form-control" placeholder="Email"
-            value={defaultData.email} ref={inputEmail}
+            defaultValue={defaultData.email} ref={inputEmail}
             disabled />
     }
-
-
-
+    let banksJsx = [];
+    banksJsx.push(
+        <option value='NCB' key='NCB' selected>
+            Ngân hàng Quốc dân NCB
+        </option>
+    );
 
     const donate = async (event) => {
         event.preventDefault();
 
+        const bankCode = inputBank.current.value;
         const name = inputName.current.value;
         const anonymous = inputAnonymous.current.checked;
         const email = inputEmail.current.value;
@@ -55,7 +58,8 @@ const FormDonateCashOrBanking = (props) => {
         setAlertMoney(null);
         setAlertName(null);
         setAlertEmail(null);
-        const messages = validateData(money, name, email, method);
+        setAlertMessage(null);
+        const messages = validateData(money, name, email, message, method);
         if (messages) {
             if (messages.money) {
                 setAlertMoney({ type: 'danger', msg: messages.money });
@@ -66,19 +70,15 @@ const FormDonateCashOrBanking = (props) => {
             if (messages.email) {
                 setAlertEmail({ type: 'danger', msg: messages.email });
             }
+            if (messages.message) {
+                setAlertMessage({ type: 'danger', msg: messages.message });
+            }
         } else {
             const campaignId = campaignsContext.viewingCampaign.id;
-            if (method === 'paypal') {
-                console.log(method + ' ' + money)
-                setLoading(true);
-                await donatePaypal(campaignId, money, name, anonymous, noti, message);
-                setLoading(false);
-            } else {
-                setLoading(true);
-                const res = await sendDonate(campaignId, method, money, name, email, anonymous, noti, message);
-                setLoading(false);
-            }
-
+            console.log(method + ' ' + money)
+            setLoading(true);
+            await donateVnPay(campaignId, money, bankCode, name, email, anonymous, noti, message);
+            setLoading(false);
         }
     }
 
@@ -117,11 +117,19 @@ const FormDonateCashOrBanking = (props) => {
                         <Alert alert={alertMoney} />
                     </div>
                 </div>
-
+                <div className="row">
+                    <label className="col-sm-12 col-form-label">Ngân hàng</label>
+                    <div className="col-sm-12">
+                        <select className="custom-select" ref={inputBank} >
+                            {banksJsx}
+                        </select>
+                    </div>
+                </div>
                 <div className="form-group row">
                     <label className="col-sm-12 col-form-label">Tên</label>
                     <div className="col-sm-12">
-                        {nameJsx}
+                        <input type="text" className="form-control" placeholder="Tên"
+                            ref={inputName} />
                         <Alert alert={alertName} />
                     </div>
                 </div>
@@ -151,6 +159,7 @@ const FormDonateCashOrBanking = (props) => {
                         <textarea className="form-control" rows="3" placeholder='Gửi lời nhắn'
                             ref={inputMessage}>
                         </textarea>
+                        <Alert alert={alertMessage} />
                     </div>
                 </div>
 
@@ -164,6 +173,7 @@ const FormDonateCashOrBanking = (props) => {
                         ) : (
                                 <button className="btn btn-success" style={{ minWidth: '120px' }} onClick={donate} >Xác nhận</button>
                             )}
+                        {/* <button className="btn btn-success" style={{ minWidth: '120px' }} onClick={donate} >Xác nhận</button> */}
                     </div>
                 </div>
             </form>
@@ -171,9 +181,9 @@ const FormDonateCashOrBanking = (props) => {
     );
 }
 
-export default FormDonateCashOrBanking;
+export default FormDonateVnPay;
 
-const validateData = (money, name, email, method) => {
+const validateData = (money, name, email, message, method) => {
     let msg = {};
     //Validate Money
     const msgMoney = validateMoney(money, method);
@@ -183,73 +193,32 @@ const validateData = (money, name, email, method) => {
     //Validate Name
     if (name.length === 0) {
         msg.name = 'Xin nhập tên';
+    } else {
+        const valid = checkOnLyAsciiWordAndDigit(name);
+        if (valid !== true) {
+            msg.name = 'Tên tiếng việt không dấu, không có kí tự đặc biệt';
+        }
     }
     //Validate Email
     if (email.length === 0) {
         msg.email = 'Xin nhập email';
     }
+
+    //Validate Message
+    if (method === 'vnpay') {
+        if (message.length > 50) {
+            msg.message = 'Lời nhắn không quá 50 kí tự';
+        } else if (message.length > 0) {
+            const valid = checkOnLyAsciiWordAndDigit(message);
+            if (valid !== true) {
+                msg.message = 'Lời nhắn tiếng việt không dấu, không có kí tự đặc biệt và không xuống hàng';
+            }
+        }
+    }
+
     //format.....
     if (Object.keys(msg).length === 0) {
         msg = null;
     }
     return msg;
-}
-
-export const validateMoney = (money, method) => {
-    const goal10M = 10000000000;
-    const min10K = 10000;
-    const minPaypal = 20000;
-    const minVnPay = 50000;
-    let minMoney = min10K;
-    let minMoneyFormat = '10,000';
-
-    if (method === 'paypal') {
-        minMoney = minPaypal;
-        minMoneyFormat = '20,000';
-    } else if (method === 'vnpay') {
-        minMoney = minVnPay;
-        minMoneyFormat = '50,000';
-    }
-
-    let msgMoney = null;
-    if (typeof money === 'number') {
-        if (money > goal10M) {
-            msgMoney = 'Hiện tại chúng tôi chỉ hỗ trợ quyên góp dưới 10 tỷ đồng';
-        } else if (money < minMoney) {
-            msgMoney = `Số tiền quyên góp tối thiểu là ${minMoneyFormat} vnđ`;
-        }
-    } else {
-        if (money.length === 0) {
-            msgMoney = 'Xin nhập số tiền quyên góp';
-        } else {
-            const moneyNumber = parseFloat(money);
-            if (moneyNumber > goal10M) {
-                msgMoney = 'Hiện tại chúng tôi chỉ hỗ trợ quyên góp dưới 10 tỷ đồng';
-            } else if (moneyNumber < minMoney) {
-                msgMoney = `Số tiền quyên góp tối thiểu là ${minMoneyFormat} vnđ`;
-            }
-        }
-    }
-    return msgMoney;
-}
-
-export const getDefaultData = (method) => {
-    let defaultData = {
-        name: '',
-        email: '',
-        money: 10000
-    };
-    if (method === 'paypal') {
-        defaultData.money = 20000;
-    } else if (method === 'vnpay') {
-        defaultData.money = 50000;
-    }
-    const token = localStorage.getItem(localStoreKeys.token);
-    if (token) {
-        if (method !== 'vnpay') {
-            defaultData.name = localStorage.getItem(localStoreKeys.userFullname);
-        }
-        defaultData.email = localStorage.getItem(localStoreKeys.userEmail);
-    }
-    return defaultData;
 }

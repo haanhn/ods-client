@@ -15,10 +15,12 @@ export const routes = {
   getRouteCampaignExpenses (slug) { return `/campaigns/${slug}/expenses`; },
   //-----Routes: Donate to campaign-----
   CAMPAIGN_DONATE: '/campaign/:slug/donate',
-  getRouteDonateCampaign (slug) { return `/campaign/${slug}/donate`; },
   CAMPAIGN_DONATE_DETAILS: '/campaign/:slug/donate/details',
-  getRouteDonateCampaignDetails (slug) { return `/campaign/${slug}/donate/details`; },
+  CAMPAIGN_DONATE_VNPAY: '/campaign/:slug/donate/vnpay',
   CAMPAIGN_DONATE_COMPLETE: '/campaign/:slug/donate/complete',
+  getRouteDonateCampaign (slug) { return `/campaign/${slug}/donate`; },
+  getRouteDonateCampaignDetails (slug) { return `/campaign/${slug}/donate/details`; },
+  getRouteDonateCampaignVnPay (slug) { return `/campaign/${slug}/donate/vnpay`; },
   getRouteDonateCampaignComplete (slug) { return `/campaign/${slug}/donate/complete`; },
 
   //-------------------------------------
@@ -93,11 +95,12 @@ export const odsAPIOpenRoutes = {
   //Donations
   getCampaignDonations: (slug) => `/api/donations/get-by-campaign/${slug}`,
   donateCampaignCashOrBanking: '/api/donations/create',
+  donateCampaignPaypal: '/api/donations/paypal',
+  donateCampaignVnPay: '/api/donations/create_payment_url',
   //Ratings
   getCampaignRatings: (slug) => `/api/campaignReviews/${slug}`,
   getCampaignRatingsStats: (slug) => `/api/campaignReviews/overall/${slug}`,
   postCampaignRating: '/api/campaignReviews',
-  donateCampaignPaypal: '/api/donations/paypal',
   getCampaignExpenses(slug) { return `/api/expenses/${slug}`; },
   //Follow Campaign
   followCampaign: '/api/follows',

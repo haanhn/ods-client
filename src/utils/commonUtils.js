@@ -98,3 +98,29 @@ export const getIntegerDaysBetweenDates = (fromDateStr, toDateStr) => {
         return -1;
     }
 }
+
+export const checkOnLyAsciiWordAndDigit = (str) => {
+    if (!str) {
+        return -1;
+    }
+    try {
+        const s = str.trim();
+        let valid = true;
+        let i = 0;
+        for (i = 0; i < s.length; i++) {
+            const code = s.charCodeAt(i);
+            if ((code >= 48 && code <= 57) || (code >= 97 && code <= 122) ||
+                (code >= 65 && code <= 90) || code === 32) {
+                //0-9a-zA-Z
+                continue;
+            } else {
+                valid = false;
+                break;
+            }
+        }
+        return valid;
+    } catch (error) {
+        console.error(error);
+        return -1;
+    }
+}

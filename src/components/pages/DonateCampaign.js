@@ -7,6 +7,7 @@ import { Switch, Route } from 'react-router-dom';
 import { odsBase, odsAPIOpenRoutes, routes, localStoreKeys } from '../../odsApi';
 import FormDonateCashOrBanking from '../campaigns/donate-campaign/FormDonateCashOrBanking';
 import DonateComplete from '../campaigns/donate-campaign/DonateComplete';
+import FormDonateVnPay from '../campaigns/donate-campaign/FormDonateVnPay';
 
 
 const DonateCampaign = (props) => {
@@ -81,6 +82,34 @@ const DonateCampaign = (props) => {
         }
     }
 
+    const donateVnPay = async (campaignId, money, bankCode,
+        fullname, email, anonymous, noti, message) => {
+        try {
+            const objectDonation = {
+                campaignId: campaignId,
+                amount: money,
+                bankCode: bankCode,
+                fullname: fullname,
+                email: email,
+                anonymous: anonymous,
+                message: message,
+                noti: noti,
+            };
+            if (localStorage.getItem(localStoreKeys.token) && localStorage.getItem(localStoreKeys.userId)) {
+                objectDonation.token = localStorage.getItem(localStoreKeys.token);
+            }
+            const res = await axios.post(`${odsBase}${odsAPIOpenRoutes.donateCampaignVnPay}`,
+                objectDonation
+            );
+            const url = res.data.url;
+            console.log(res)
+            window.location.assign(url);
+        } catch (error) {
+            console.error('Error when donate VnPay:');
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         campaignsContext.getCampaignBySlug(slug);
     }, []);
@@ -104,8 +133,14 @@ const DonateCampaign = (props) => {
                 <Route exact path={`${routes.CAMPAIGN_DONATE_DETAILS}`}
                     render={(props) => (<FormDonateCashOrBanking {...props}
                         method={method}
-                        sendDonate={sendDonate} 
+                        sendDonate={sendDonate}
                         donatePaypal={donatePaypal} />)} />
+
+                <Route exact path={routes.CAMPAIGN_DONATE_VNPAY}
+                    render={(props) => (<FormDonateVnPay {...props}
+                        method={method}
+                        donateVnPay={donateVnPay} />)} />
+
                 <Route exact path={`${routes.CAMPAIGN_DONATE_COMPLETE}`}
                     render={(props) => (<DonateComplete {...props}
                         completedDonation={completedDonation} />)} />
