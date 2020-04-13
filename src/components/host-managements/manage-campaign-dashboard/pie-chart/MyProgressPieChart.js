@@ -38,10 +38,10 @@ const MyProgressPieChart = (props) => {
         },
     ];
 
-    const itemsExplan = [
-        <PieChartItemExplan color={colors.raised} name={pieItemNames.raised} />,
-        <PieChartItemExplan color={colors.leftToRaise} name={pieItemNames.leftToRaise} />
-    ];
+    // const itemsExplan = [
+    //     <PieChartItemExplan color={colors.raised} name={pieItemNames.raised} />,
+    //     <PieChartItemExplan color={colors.leftToRaise} name={pieItemNames.leftToRaise} />
+    // ];
 
 
     let pieJsx = null;
@@ -75,58 +75,65 @@ const MyProgressPieChart = (props) => {
         />
     }
 
-    let pie = null;
-    useEffect(() => {
-        if (raised && goal && raised > 0 && goal > 0) {
-            const canvas = document.getElementById('pieProgress');
-            if (canvas) {
-                var myPieChart = new Chart(canvas, {
-                    type: 'pie',
-                    data: {
-                        datasets: [{
-                            data: [10, 20, 30]
-                        }],
+    // let pie = null;
+    // useEffect(() => {
+    //     if (raised && goal && raised > 0 && goal > 0) {
+    //         const canvas = document.getElementById('pieProgress');
+    //         if (canvas) {
+    //             var myPieChart = new Chart(canvas, {
+    //                 type: 'pie',
+    //                 data: {
+    //                     datasets: [{
+    //                         data: [10, 20, 30]
+    //                     }],
 
-                        // These labels appear in the legend and in the tooltips when hovering different arcs
-                        labels: [
-                            'Red',
-                            'Yellow',
-                            'Blue'
-                        ],
-                        backgroundColor: [
-                            "#3e95cd", "#8e5ea2", "#3cba9f"
-                            // 'rgba(75, 192, 192, 0.2)',
-                            // 'rgba(153, 102, 255, 0.2)',
-                            // 'rgba(255, 159, 64, 0.2)'
-                        ],
-                    },
-                    // options: options
-                });
-            }
-        }
-    }, []);
+    //                     // These labels appear in the legend and in the tooltips when hovering different arcs
+    //                     labels: [
+    //                         'Red',
+    //                         'Yellow',
+    //                         'Blue'
+    //                     ],
+    //                     backgroundColor: [
+    //                         "#3e95cd", "#8e5ea2", "#3cba9f"
+    //                         // 'rgba(75, 192, 192, 0.2)',
+    //                         // 'rgba(153, 102, 255, 0.2)',
+    //                         // 'rgba(255, 159, 64, 0.2)'
+    //                     ],
+    //                 },
+    //                 // options: options
+    //             });
+    //         }
+    //     }
+    // }, []);
 
     return (
-        <Pie data={{
-            labels: [
-                'Red',
-                'Blue',
-                'Yellow'
-            ],
-            datasets: [{
-                data: [300, 50, 100],
-                backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56'
+        <div>
+
+
+            <Pie data={{
+                labels: [
+                    'Đã quyên được',
+                    'Còn thiếu'
                 ],
-                hoverBackgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56'
-                ]
-            }]
-        }} />
+                datasets: [{
+                    data: [raised, amountLeftToRaise],
+                    backgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56'
+                    ],
+                    hoverBackgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56'
+                    ],
+                    borderWidth: 0
+                }]
+            }}
+                width={200} height={200}
+            />
+            <h5 style={{marginTop: '10px', fontSize: '97%', textAlign: 'center'}}>Tiến độ quyên góp của chiến dịch</h5>
+        </div>
     )
 
     // return (
