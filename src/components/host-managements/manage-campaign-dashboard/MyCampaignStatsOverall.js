@@ -24,16 +24,31 @@ const MyCampaignStatsOverall = () => {
     const avgDonationJsx = <MyCampaignStatsItem statsNumber={`${avgDonationStr}đ`} statsName='Trung bình mỗi quyên góp' />;
 
     return (
-        <div className='group-of-stats'>
-            <h5>Tổng quan</h5>
-            <div className='row clearfix' style={{marginBottom: '5px'}}>
-                <div className='col-sm-6 col-12'>
-                    {goalJsx}
+        <div>
+            <div className='group-of-stats'>
+                <h5>Tổng quan</h5>
+                <div className='row clearfix'>
+                    <div className='col-sm-6 col-12'>
+                        {goalJsx}
+                    </div>
+                    <div className='col-sm-6 col-12'>
+                        {raisedJsx}
+                    </div>
                 </div>
-                <div className='col-sm-6 col-12'>
-                    {raisedJsx}
-                </div>
+                {/* <div className='row clearfix'>
+                    <div className='col-md-4 col-sm-4 col-12'>
+                        {daysRunningJsx}
+                    </div>
+                    <div className='col-md-4 col-sm-4 col-12'>
+                        {countDonationsJsx}
+                    </div>
+                    <div className='col-md-4 col-sm-4 col-12'>
+                        {avgDonationJsx}
+                    </div>
+                </div> */}
             </div>
+            <div className='group-of-stats' style={{marginTop: '-12px'}}>
+            <h5>Quyên góp</h5>
             <div className='row clearfix'>
                 <div className='col-md-4 col-sm-4 col-12'>
                     {daysRunningJsx}
@@ -45,6 +60,7 @@ const MyCampaignStatsOverall = () => {
                     {avgDonationJsx}
                 </div>
             </div>
+        </div>
         </div>
     );
 }

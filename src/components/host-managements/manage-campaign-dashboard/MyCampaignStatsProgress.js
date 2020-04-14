@@ -37,11 +37,14 @@ const MyCampaignStatsProgress = () => {
     let progressJsx = null;
     if (campaign && campaign.campaignStatus === 'public' && progressStr) {
         if (progress >= 1) {
-            progressJsx = <span style={{ fontWeight: 'normal', fontSize: '93%' }}>Chiến dịch quyên được <span style={{ fontWeight: 'bold', color: '#10a44e' }}>{progressStr}</span> so với tiến độ dự kiến</span>;
+            progressJsx = (
+                <span style={{ fontWeight: 'normal', fontSize: '93%' }}>
+                    Chiến dịch quyên được <span style={{ fontWeight: 'bold', color: '#10a44e' }}>{progressStr}</span> so với tiến độ dự kiến
+                </span>);
         } else if (progress > 0 && progress < 1) {
             progressJsx = (
                 <span style={{ fontWeight: 'normal', fontSize: '93%' }}>
-                    Chiến dịch đang <b style={{color: '#a60f2f'}} >trễ tiến độ</b>, quyên được <span style={{ fontWeight: 'bold', color: '#a60f2f' }}>{progressStr}</span> so với tiến độ dự kiến
+                    Chiến dịch đang <b style={{ color: '#a60f2f' }} >trễ tiến độ</b>, quyên được <span style={{ fontWeight: 'bold', color: '#a60f2f' }}>{progressStr}</span> so với tiến độ dự kiến
                 </span>);
         }
     }
