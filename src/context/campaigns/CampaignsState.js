@@ -104,7 +104,7 @@ const CampaignsState = (props) => {
             console.log('get Campaign success');
             setLoading(false);
             //ADD return campaign here
-            return  campaign;
+            return campaign;
         } catch (error) {
             setLoading(false);
             console.log(error);
@@ -190,6 +190,23 @@ const CampaignsState = (props) => {
         } catch (error) {
             console.error(`Error when create comment: ${error}`);
             throw error;
+        }
+    };
+
+    //DELETE CAMPAIGN COMMENT
+    const deleteCampaignComment = async (commentId) => {
+        const api = odsAPIOpenRoutes.deleteCampaignComment(commentId);
+        const token = localStorage.getItem(localStoreKeys.token);
+        const config = {
+            headers: { 'x-access-token': token }
+        };
+        try {
+            await axios.delete(`${odsBase}${api}`, config);
+            await getCampaignComments(state.viewingCampaign.campaignSlug);
+            return true;
+        } catch (error) {
+            console.error(`Error when delete comment: ${error}`);
+            return false;
         }
     };
 
@@ -312,9 +329,9 @@ const CampaignsState = (props) => {
         const route = odsAPIOpenRoutes.followCampaign;
         const campaignId = state.viewingCampaign.id;
         try {
-            const res = await axios.post(`${odsBase}${route}`, { 
-                campaignId, userId, 
-                email: email, 
+            const res = await axios.post(`${odsBase}${route}`, {
+                campaignId, userId,
+                email: email,
                 name: name
             });
             const success = res.data.success;
@@ -331,7 +348,7 @@ const CampaignsState = (props) => {
         const route = odsAPIOpenRoutes.unFollowCampaign;
         const campaignId = state.viewingCampaign.id;
         try {
-            const res = await axios.post(`${odsBase}${route}`, { 
+            const res = await axios.post(`${odsBase}${route}`, {
                 campaignId, userId
             });
             const success = res.data.success;
@@ -349,9 +366,9 @@ const CampaignsState = (props) => {
         const route = odsAPIOpenRoutes.checkFollowCampaign(campaignId);
         const config = {
             headers: {
-              'x-access-token': token
+                'x-access-token': token
             }
-          };
+        };
         try {
             const res = await axios.get(`${odsBase}${route}`, config);
             const following = res.data.follow;
@@ -412,8 +429,9 @@ const CampaignsState = (props) => {
             //Posts methods
             getCampaignPosts,
             //Comments methods
-            createCampaignComment,
             getCampaignComments,
+            createCampaignComment,
+            deleteCampaignComment,
             //Donations
             getCampaignDonations,
             //Campaign Ratings

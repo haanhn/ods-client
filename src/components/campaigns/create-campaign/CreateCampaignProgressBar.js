@@ -1,54 +1,59 @@
 import React from 'react';
+import { getMaxStepsDone } from '../../../utils/createCampaignUtils';
 
 const CreateCampaignProgressBar = (props) => {
-    const { currentStep, stepsDone, setCurrentStep } = props;
+    const { currentStep, stepsDone, setCurrentStep, steps, campaignStatus } = props;
+    const maxStep = getMaxStepsDone(steps);
     const getclazz = (i) => {
         if (i === currentStep) {
             return 'active';
-        } else if (i < stepsDone) {
+        } else if (steps && steps[i] === 1) {
             return 'finished';
         }
+        // else if (i < stepsDone) {
+        //     return 'finished';
+        // }
     };
 
     const chooseStep0 = () => {
         const stepIndex = 0;
         console.log(`User choose stepIndex: ${stepIndex}`);
-        if (stepIndex < stepsDone) {
+        if (stepIndex < maxStep && campaignStatus !== 'waiting') {
             setCurrentStep(stepIndex)
         };
     }
     const chooseStep1 = () => {
         const stepIndex = 1;
         console.log(`User choose stepIndex: ${stepIndex}`);
-        if (stepIndex < stepsDone) {
+        if (stepIndex < maxStep && campaignStatus !== 'waiting') {
             setCurrentStep(stepIndex)
         };
     }
     const chooseStep2 = () => {
         const stepIndex = 2;
         console.log(`User choose stepIndex: ${stepIndex}`);
-        if (stepIndex < stepsDone) {
+        if (stepIndex < maxStep && campaignStatus !== 'waiting') {
             setCurrentStep(stepIndex)
         };
     }
     const chooseStep3 = () => {
         const stepIndex = 3;
         console.log(`User choose stepIndex: ${stepIndex}`);
-        if (stepIndex < stepsDone) {
+        if (stepIndex < maxStep && campaignStatus !== 'waiting') {
             setCurrentStep(stepIndex)
         };
     }
     const chooseStep4 = () => {
         const stepIndex = 4;
         console.log(`User choose stepIndex: ${stepIndex}`);
-        if (stepIndex < stepsDone) {
+        if (stepIndex < maxStep && campaignStatus !== 'waiting') {
             setCurrentStep(stepIndex)
         };
     }
     const chooseStep5 = () => {
         const stepIndex = 5;
         console.log(`User choose stepIndex: ${stepIndex}`);
-        if (stepIndex < stepsDone) {
+        if (stepIndex < maxStep) {
             setCurrentStep(stepIndex)
         };
     }

@@ -20,6 +20,7 @@ import CreateCampaignSuccess from '../campaigns/create-campaign/CreateCampaignSu
 import CampaignsContext from '../../context/campaigns/campaignsContext';
 import { types } from '../../components/campaigns/create-campaign/createCampaignTypes';
 import CreateCampaignStep4 from '../campaigns/create-campaign/CreateCampaignStep4';
+import { getMaxStepsDone } from '../../utils/createCampaignUtils';
 
 
 const CreateCampaign = (props) => {
@@ -34,19 +35,64 @@ const CreateCampaign = (props) => {
     }
 
     useEffect(() => {
-        getCategories();
-        getRegions();
-        getAuthorizedUser();
-        getUserBankAccount();
+        fetchData();
+
+        // getCategories();
+        // getRegions();
+        // getAuthorizedUser();
+        // getUserBankAccount();
 
         //eslint-disable-next-line
     }, []);
+
+    const fetchData = async () => {
+        const checkCampaign = await getCheckSettingOrWaitingCampaign();
+        getCategories();
+        getRegions();
+        const authUser = await getAuthorizedUser();
+        const authBankAccount = await getUserBankAccount();
+
+        if (checkCampaign) {
+            const status = checkCampaign.campaignStatus;
+            if (status === 'waiting') {
+                const allSteps = [1, 1, 1, 1, 1];
+                setAllSteps(allSteps);
+                setCurrentStep(5);
+            } else if (status === 'setting') {
+                const allSteps = getAllStepsOfSettingCamppaign(checkCampaign, authUser, authBankAccount);
+                const maxStep = getMaxStepsDone(allSteps);
+                setAllSteps(allSteps);
+                setCurrentStep(maxStep);
+            }
+            
+            const initCampaign = {
+                id: checkCampaign.id,
+                campaignTitle: checkCampaign.campaignTitle,
+                campaignSlug: checkCampaign.campaignSlug,
+                goal: checkCampaign.campaignGoal,
+                endDate: null,
+                category: checkCampaign.categoryId,
+                campaignShortDescription: checkCampaign.campaignShortDescription,
+                image: checkCampaign.campaignThumbnail,
+                description: checkCampaign.campaignDescription,
+                campaignRegion: checkCampaign.campaignRegion,
+                address: checkCampaign.campaignAddress,
+                autoClose: checkCampaign.autoClose,
+                campaignStatus: checkCampaign.campaignStatus
+            }
+            dispatch({
+                type: types.SET_INIT_CAMPAIGN,
+                payload: initCampaign
+            });
+        }
+    }
 
     const initialState = {
         currentStep: 0,
         stepsDone: 1,
         //this is the maximum amount of steps user can click on step navigation 
         //(not actual number of steps done)
+        steps: [0, 0, 0, 0, 0],
         loading: false,
         // categories: [],
         //campaign
@@ -62,7 +108,8 @@ const CreateCampaign = (props) => {
             description: '',
             campaignRegion: null,
             address: '',
-            autoClose: true
+            autoClose: true,
+            campaignStatus: null
         },
         user: {},
         bankAccount: {}
@@ -84,6 +131,30 @@ const CreateCampaign = (props) => {
         });
     }
 
+    const setAllSteps = (allSteps) => {
+        dispatch({
+            type: types.SET_ALL_STEPS,
+            payload: allSteps
+        });
+    }
+
+    //statusDone = 0 or 1
+    const setSingleStep = (stepIndex, statusDone) => {
+        const stepsArray = [];
+        let i = 0;
+        for (i = 0; i < 5; i++) {
+            if (stepIndex === i) {
+                stepsArray.push(statusDone);
+            } else {
+                stepsArray.push(state.steps[i]);
+            }
+        }
+        dispatch({
+            type: types.SET_ALL_STEPS,
+            payload: stepsArray
+        });
+    }
+
     const getAuthorizedUser = async () => {
         try {
             const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.getAuthorizedUser}`, {
@@ -93,6 +164,7 @@ const CreateCampaign = (props) => {
                 type: types.GET_AUTHORIZED_USER,
                 payload: res.data.user
             });
+            return res.data.user;
         } catch (error) {
             console.error(`Get Authorized User Error: ${error}`);
         }
@@ -107,8 +179,23 @@ const CreateCampaign = (props) => {
                 type: types.SET_BANK_ACCOUNT,
                 payload: res.data.bankAccount
             });
+            return res.data.bankAccount;
         } catch (error) {
             console.error(`Get User BankAccount Error: ${error}`);
+        }
+    }
+
+    const getCheckSettingOrWaitingCampaign = async () => {
+        try {
+            const token = localStorage.getItem(localStoreKeys.token);
+            const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.checkBeforeCreateCampagin}`, {
+                token: token
+            });
+            const checkCampaign = res.data.campaign;
+            return checkCampaign;
+        } catch (error) {
+            console.error(`Check before create campaign: ${error}`);
+            alert('Đã có lỗi xảy ra, xin hãy thử lại');
         }
     }
 
@@ -261,6 +348,7 @@ const CreateCampaign = (props) => {
             setLoading(false);
             setStepsDone(6);
             setCurrentStep(5);
+            dispatch({ type: types.SET_CREATE_SUCCESS });
         } catch (error) {
             console.error(`Create campaign step 5: ${error}`);
             alert('Đã có lỗi xảy ra, xin hãy thử lại');
@@ -291,7 +379,7 @@ const CreateCampaign = (props) => {
                 createCampaignStep5={createCampaignStep5} />;
             break;
         case 5:
-            stepJsx = <CreateCampaignSuccess />;
+            stepJsx = <CreateCampaignSuccess campaign={state.campaign} />;
             break;
         default:
             stepJsx = <CreateCampaignStep1 campaign={state.campaign}
@@ -305,7 +393,7 @@ const CreateCampaign = (props) => {
     return (
         <div className='container create-campaign'>
             <CreateCampaignProgressBar currentStep={state.currentStep} stepsDone={state.stepsDone}
-                setCurrentStep={setCurrentStep}
+                setCurrentStep={setCurrentStep} steps={state.steps} campaignStatus={state.campaign.campaignStatus}
             />
             {/* <CampaignPreviewBasicInfo campaign={state.campaign} host={state.user} createCampaignStep5={createCampaignStep5} /> */}
 
@@ -324,4 +412,34 @@ const CreateCampaign = (props) => {
 
 export default CreateCampaign;
 
-const htmlString = '<h1>Hello</h1><p>Hello đây là body p</p>';
+//params: campaign: object returned from request api
+const getAllStepsOfSettingCamppaign = (campaign, user, bankAccount) => {
+    let steps = [0, 0, 0, 0, 0];
+    if (campaign) {
+        const hasTitle = campaign.campaignTitle ? true : false;
+        const hasGoal = campaign.campaignGoal ? true : false;
+        const hasImage = campaign.campaignThumbnail ? true : false;
+        const hasStory = campaign.campaignDescription ? true : false;
+        const hasEndDate = campaign.campaignEndDate ? true : false;
+        let hasUserAddress = false;
+        let hasBankAccount = false;
+        if (user && bankAccount) {
+            hasUserAddress = user.address ? true : false;
+            const hasAccountNumber = bankAccount.accountNumber ? true : false;
+            const hasBank = bankAccount.bankName ? true : false;
+            if (hasAccountNumber && hasBank) {
+                hasBankAccount = true;
+            }
+        }
+        if (hasTitle && hasGoal && hasEndDate && hasUserAddress && hasBankAccount) {
+            steps = [1, 1, 1, 1, 0];
+        } else if (hasTitle && hasGoal && hasEndDate) {
+            steps = [1, 1, 1, 0, 0];
+        } else if (hasImage || hasStory) {
+            steps = [1, 1, 0, 0, 0];
+        } else if (hasTitle) {
+            steps = [1, 0, 0, 0, 0];
+        }
+    }
+    return steps;
+}

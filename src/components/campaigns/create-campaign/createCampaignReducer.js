@@ -13,6 +13,11 @@ export default (state, action) => {
                 ...state,
                 stepsDone: data
             };
+        case types.SET_ALL_STEPS:
+            return {
+                ...state,
+                steps: data
+            };
         case types.SET_LOADING:
             return {
                 ...state,
@@ -31,6 +36,11 @@ export default (state, action) => {
                     ...state.campaign,
                     category: data
                 }
+            };
+        case types.SET_INIT_CAMPAIGN:
+            return {
+                ...state,
+                campaign: data
             };
         case types.SET_BASIC_INFO:
             return {
@@ -94,6 +104,14 @@ export default (state, action) => {
                     goal: data.campaignGoal,
                     endDate: new Date(data.campaignEndDate),
                     autoClose: data.autoClose
+                }
+            };
+        case types.SET_CREATE_SUCCESS:
+            return {
+                ...state,
+                campaign: {
+                    ...state.campaign,
+                    campaignStatus: 'waiting'
                 }
             };
         default:

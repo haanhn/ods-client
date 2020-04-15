@@ -234,6 +234,26 @@ const MycampaignsState = props => {
     }
   }
 
+  //Host Delete Post
+  const deleteCampaignPost = async (postId) => {
+    try {
+      const token = localStorage.getItem(localStoreKeys.token);
+      const api = odsAPIHost.deleteCampaignPost(postId);
+      const slug = state.hostViewingCampaign.campaignSlug;
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': token
+        }
+      };
+      await axios.delete(`${odsBase}${api}`, config);
+      await getMyCampaignPosts(slug);
+    } catch (error) {
+      console.error('Error when host delete post');
+      console.error(error);
+    }
+  }
+
   //Host Get Campaign Donations
   const getCampaignDonations = async (slug) => {
     const token = localStorage.getItem(localStoreKeys.token);
@@ -406,6 +426,7 @@ const MycampaignsState = props => {
         getMyCampaignPosts,
         createCampaignPost,
         updateCampaignPosts,
+        deleteCampaignPost,
         //Methods for donations
         getCampaignDonations,
         createOutsideDonation,

@@ -18,8 +18,10 @@ const CreateCampaignStep3 = (props) => {
     const inputAutoClose = React.createRef();
 
     //State
-    const [goal, setGoal] = useState(campaign.goal);
-    const [endDate, setEndDate] = useState(campaign.endDate);
+    const initGoal = campaign && campaign.goal ? campaign.goal : 1000000;
+    const initEndDate = campaign && campaign.endDate ? campaign.endDate : null;
+    const [goal, setGoal] = useState(initGoal);
+    const [endDate, setEndDate] = useState(initEndDate);
     //State Alerts
     const [alertAddress, setAlertAddress] = useState(null);
     const [alertGoal, setAlertGoal] = useState(null);

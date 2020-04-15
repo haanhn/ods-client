@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, Fragment } from 'react';
 import mycampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
 import '../../css/host-manage-campaign.css';
 // import '../../css/icon.css';
@@ -15,6 +15,16 @@ const MyCampaignPosts = (props) => {
 
     let postJsx = null;
     let posts = myCampaignsContext.myCampaignPosts;
+
+    const deletePost = (event, row) => {
+        try {
+            if (row) {
+                myCampaignsContext.deleteCampaignPost(row.id);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const columns = [
         {
@@ -37,14 +47,20 @@ const MyCampaignPosts = (props) => {
         {
             name: ' ',
             cell: (row) => (
-                <Link to={{
-                    pathname: routes.getRouteMyCampaignPostDetail(slug, row.id),
-                    state: {
-                        hello: 'hello'
-                    }
-                }} className='btn btn-sm btn-info' style={{ color: '#fff' }} >
-                    <i className="fas fa-eye"></i>
-                </Link>
+                <Fragment>
+                    <Link to={{
+                        pathname: routes.getRouteMyCampaignPostDetail(slug, row.id),
+                        state: {
+                            hello: 'hello'
+                        }
+                    }} className='btn btn-sm btn-info' style={{ color: '#fff' }} >
+                        <i className="fas fa-eye"></i>
+                    </Link>
+                    <button className='btn btn-sm btn-danger' style={{ color: '#fff', marginLeft: '5px' }}
+                        onClick={(event) => { deletePost(event, row) }} >
+                        <i className="fas fa-trash-alt"></i>
+                    </button>
+                </Fragment>
             ),
             center: true,
             maxWidth: '80px'
@@ -63,10 +79,10 @@ const MyCampaignPosts = (props) => {
     const createRoute = routes.getRouteMyCampaignPostCreate(slug);
 
     return (
-        <div className='container host-list-posts' style={{maxWidth: '850px'}}>
+        <div className='container host-list-posts' style={{ maxWidth: '850px' }}>
             <h4>Các bài viết
-                <button className='btn btn-sm btn-success' style={{float: 'right'}}>
-                <i class="fas fa-plus-circle" style={{marginRight: '3px'}}></i><Link to={createRoute} style={{ color: 'white' }} > Tạo bài viết </Link>
+                <button className='btn btn-sm btn-success' style={{ float: 'right' }}>
+                    <i class="fas fa-plus-circle" style={{ marginRight: '3px' }}></i><Link to={createRoute} style={{ color: 'white' }} > Tạo bài viết </Link>
                 </button>
             </h4>
             {/* <div style={{ marginBottom: '8px' }} >

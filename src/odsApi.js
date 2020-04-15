@@ -1,3 +1,4 @@
+export const odsFrontEndBase = 'http://localhost:3000';
 export const odsBase = 'http://localhost:5000';
 
 //Routes in front end
@@ -87,6 +88,7 @@ export const odsAPIOpenRoutes = {
   getSuggestedCampaigns2: (userId) => `/api/campaign/get-by-similar-users/${userId}`,
   //Comments
   createCampaignComment: `/api/comments`,
+  deleteCampaignComment: (commentId) => `/api/comments/${commentId}`,
   // url: /api/comments/:campaignSlug
   getCampaignComments: `/api/comments/`,
   getCampaignPosts: (slug) => `/api/posts/get-all-post/${slug}`,
@@ -108,6 +110,7 @@ export const odsAPIOpenRoutes = {
 }
 
 export const odsAPIAuthorizedUser = {
+  checkBeforeCreateCampagin: '/api/campaign/check-before-create',
   createCampaignStep1: '/api/campaign/create',
   createCampaignStep2: '/api/campaign/create-step2',
   createCampaignStep3: '/api/campaign/create-step3',
@@ -129,6 +132,7 @@ export const odsAPIHost = {
   updateCampaignInfo: '/api/campaign/update',
   createCampaignPost: '/api/posts/host/create',
   updateCampaignPost: '/api/posts/host/update',
+  deleteCampaignPost: (postId) => `/api/posts/host/delete/${postId}`,
   getCampaignDonations(slug) { return `/api/donations/host/get-by-campaign/${slug}`; },
   createOutsideDonation: '/api/donations/host/create',
   updateCampaignDonationStatus(action) { return `/api/donations/host/update-donation-status/${action}`; },
