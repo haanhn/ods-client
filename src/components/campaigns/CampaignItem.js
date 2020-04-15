@@ -7,9 +7,10 @@ function CampaignItem(props) {
 
     const {
         campaignThumbnail, campaignTitle, campaignSlug, campaignShortDescription,
-        campaignRegion, raise, campaignGoal,
+        raise, campaignGoal,
         campaignEndDate, campaignStatus } = props.campaign;
     const Category = props.campaign.Category;
+    const Region = props.campaign.Region;
     const image = campaignThumbnail ? campaignThumbnail : '/images/default-data-images/default-campaign-cover.jpg';
 
 
@@ -31,15 +32,12 @@ function CampaignItem(props) {
                 </h5>
                 <div className='description-box'>
                     <div>
-                        <i className="fas fa-map-marker-alt" style={{ marginRight: '5px', fontSize: '80%' }}></i> {campaignRegion}
+                        <i className="fas fa-map-marker-alt" style={{ marginRight: '5px', fontSize: '80%' }}></i> {Region ? Region.name : ''}
                     </div>
                     <div>
                         <i className="fas fa-tag" style={{ marginRight: '5px', fontSize: '80%' }}></i>
                         {Category ? Category.categoryTitle : ''}
                     </div>
-                    {/* <div className='description-content'>
-                        { campaignShortDescription }
-                    </div> */}
                 </div>
                 <div>
                     <CampaignItemProgress raised={raise} goal={campaignGoal}

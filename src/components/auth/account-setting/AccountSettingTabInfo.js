@@ -56,11 +56,11 @@ const AccountSettingTabInfo = () => {
     if (regions) {
         regionsJsx =
             regions.map((region) => {
-                return (user.region == region.name ?
-                    <option value={region.name} key={region.name} selected>
+                return (user.regionId === region.id ?
+                    <option value={region.id} key={region.id} selected>
                         {region.name}
                     </option> :
-                    <option value={region.name} key={region.name}>{region.name}</option>
+                    <option value={region.id} key={region.id}>{region.name}</option>
                 );
             });
     }

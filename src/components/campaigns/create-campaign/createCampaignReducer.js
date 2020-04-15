@@ -99,7 +99,7 @@ export default (state, action) => {
                 ...state,
                 campaign: {
                     ...state.campaign,
-                    campaignRegion: data.campaignRegion,
+                    campaignRegion: data.regionId,
                     address: data.campaignAddress,
                     goal: data.campaignGoal,
                     endDate: new Date(data.campaignEndDate),

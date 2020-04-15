@@ -31,11 +31,11 @@ const CreateCampaignStep4 = (props) => {
     if (regions) {
         regionsJsx =
             regions.map((region) => {
-                return (user.region == region.name ?
-                    <option value={region.name} key={region.name} selected>
+                return (user.regionId == region.id ?
+                    <option value={region.id} key={region.id} selected>
                         {region.name}
                     </option> :
-                    <option value={region.name} key={region.name}>{region.name}</option>
+                    <option value={region.id} key={region.id}>{region.name}</option>
                 );
             });
     }
@@ -64,9 +64,8 @@ const CreateCampaignStep4 = (props) => {
                 setAlertBankName({ type: 'danger', msg: messages.bankName });
             }
         } else {
-            console.log(`yayyyyyyyyyyyyyyyyyyyyyyy`);
             if (!region) {
-                region = regions[0].name;
+                region = regions[0].id;
             }
             createCampaignStep4(address, region, accountNumber, bankName, bankAgency);
 

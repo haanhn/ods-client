@@ -15,6 +15,8 @@ const MycampaignsItem = props => {
     type = 'chờ xác nhận';
   } else if (status === 'setting') {
     type = 'đang tạo';
+  } else if (status === 'block') {
+    type = 'bị khóa';
   }
 
   const image = campaignThumbnail ? campaignThumbnail : '/images/default-data-images/default-campaign-cover.jpg';

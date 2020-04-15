@@ -15,7 +15,7 @@ const MyCampaignTabDetails = () => {
 
     //Init campaign value
     const campaignCategory = campaign ? campaign.categoryId : null;
-    const campaignRegion = campaign ? campaign.campaignRegion : null;
+    const campaignRegion = campaign ? campaign.regionId : null;
     const initGoalValue = campaign ? campaign.campaignGoal : 0;
     const initEndDateValue = campaign && campaign.campaignEndDate ? new Date(campaign.campaignEndDate) : null;
     const initStatus = campaign && campaign.campaignStatus ? campaign.campaignStatus : '';
@@ -97,7 +97,8 @@ const MyCampaignTabDetails = () => {
         categoriesJsx = getCategoriesJsx(categories, campaignCategory);
     }
     let regionsJsx = null;
-    if (campaign && campaign.campaignRegion) {
+    // if (campaign && campaign.regionId) {
+    if (campaign) {
         regionsJsx = getRegionsJsx(regions, campaignRegion);
     }
 
@@ -263,11 +264,11 @@ const getRegionsJsx = (regions, campaignRegion) => {
     let regionsJsx = null;
     if (regions) {
         regionsJsx = regions.map((region) => {
-            return (campaignRegion === region.name ?
-                <option value={region.name} key={region.name} selected>
+            return (campaignRegion === region.id ?
+                <option value={region.id} key={region.id} selected>
                     {region.name}
                 </option> :
-                <option value={region.name} key={region.name}>{region.name}</option>
+                <option value={region.id} key={region.id}>{region.name}</option>
             );
         });
     }

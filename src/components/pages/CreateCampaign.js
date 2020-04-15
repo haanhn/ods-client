@@ -60,8 +60,11 @@ const CreateCampaign = (props) => {
                 setCurrentStep(5);
             } else if (status === 'setting') {
                 const allSteps = getAllStepsOfSettingCamppaign(checkCampaign, authUser, authBankAccount);
-                const maxStep = getMaxStepsDone(allSteps);
+                let maxStep = getMaxStepsDone(allSteps);
                 setAllSteps(allSteps);
+                if (maxStep === 5) {
+                    maxStep = 4;
+                } 
                 setCurrentStep(maxStep);
             }
             
@@ -75,7 +78,7 @@ const CreateCampaign = (props) => {
                 campaignShortDescription: checkCampaign.campaignShortDescription,
                 image: checkCampaign.campaignThumbnail,
                 description: checkCampaign.campaignDescription,
-                campaignRegion: checkCampaign.campaignRegion,
+                campaignRegion: checkCampaign.regionId,
                 address: checkCampaign.campaignAddress,
                 autoClose: checkCampaign.autoClose,
                 campaignStatus: checkCampaign.campaignStatus
@@ -307,7 +310,6 @@ const CreateCampaign = (props) => {
                 address: address,
                 region: region
             });
-            console.log(userRes.data);
             dispatch({
                 type: types.SET_AUTHORIZED_USER,
                 payload: userRes.data.user
@@ -320,7 +322,6 @@ const CreateCampaign = (props) => {
                     accountNumber: accountNumber
                 }
             });
-            console.log(bankAccountRes.data);
             dispatch({
                 type: types.SET_BANK_ACCOUNT,
                 payload: bankAccountRes.data.bankAccount

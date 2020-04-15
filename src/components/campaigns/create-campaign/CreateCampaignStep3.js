@@ -31,11 +31,11 @@ const CreateCampaignStep3 = (props) => {
     if (regions) {
         regionsJsx =
             regions.map((region) => {
-                return (campaign.campaignRegion == region.name ?
-                    <option value={region.name} key={region.name} selected>
+                return (campaign.campaignRegion === region.id ?
+                    <option value={region.id} key={region.id} selected>
                         {region.name}
                     </option> :
-                    <option value={region.name} key={region.name}>{region.name}</option>
+                    <option value={region.id} key={region.id}>{region.name}</option>
                 );
             });
     }
@@ -62,10 +62,9 @@ const CreateCampaignStep3 = (props) => {
                 setAlertEndDate({ type: 'danger', msg: messages.endDate });
             }
         } else {
-            console.log('Create step 3: data valid');
-            console.log(region);
+            console.log('region id: ' + region);
             if (!region) {
-                region = regions[0].name;
+                region = regions[0].id;
             }
             createCampaignStep3(address, region, goal, endDate, autoClose);
         }
