@@ -100,6 +100,11 @@ const campaignReducer = (state, action) => {
                 ...state,
                 loading: action.payload
             });
+        case actionTypes.SET_INIT_CREATE_LOADING:
+            return ({
+                ...state,
+                initCreateLoading: data
+            });
         default:
             return state;
     }

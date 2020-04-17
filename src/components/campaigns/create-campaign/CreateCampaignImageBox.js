@@ -41,7 +41,7 @@ const CreateCampaignImageBox = (props) => {
     const btnsUpdateImg = (
         <div className='child btns-update-img' >
             <button className='btn btn-secondary' onClick={removeImage}>Xóa ảnh</button>
-            <label for='createCampaignImage' className='btn btn-primary'>
+            <label htmlFor='createCampaignImage' className='btn btn-primary'>
                 <div>Chọn ảnh</div>
             </label>
         </div>
@@ -53,7 +53,7 @@ const CreateCampaignImageBox = (props) => {
                 style={{ display: 'none' }}
                 onChange={chooseImage}
             />
-            <label for='createCampaignImage' className='child campaign-image-cover'>
+            <label htmlFor='createCampaignImage' className='child campaign-image-cover'>
                 {image ?
                     <img src={image} alt='' />
                     : <div className='btn-choose-image' > Chọn ảnh </div>
@@ -67,8 +67,9 @@ const CreateCampaignImageBox = (props) => {
 }
 
 const imageGuide = <p className='child image-guide'>
-    Chọn ảnh bìa đại diện cho chiến dịch của bạn, nội dung ảnh nên khái quát lý do bạn gây quỹ.
-    Những bức ảnh có người hoặc con vật làm tăng sự kết nối, đồng cảm giữa người xem với bạn, từ đó giúp bạn gây quỹ được nhiều và nhanh hơn.
+    <b>Mẹo nhỏ: </b>
+    Chọn ảnh bìa đại diện cho chiến dịch của bạn, nội dung ảnh nên thể hiện lý do bạn gây quỹ.
+    Những bức ảnh có người hoặc con vật làm tăng sự kết nối, đồng cảm giữa người xem với bạn, giúp bạn gây quỹ được nhiều và nhanh hơn.
 </p>;
 
 const validateImageFile = (file) => {

@@ -11,7 +11,8 @@ const CreateCampaignSuccess = (props) => {
         event.preventDefault();
         if (campaign && campaign.campaignSlug) {
             const route = routes.getRouteMyCampaignDetail(campaign.campaignSlug);
-            window.location.assign(`${odsFrontEndBase}${route}`);
+            const baseFrontEnd = odsFrontEndBase();
+            window.location.assign(`${baseFrontEnd}${route}`);
         }
     }
 

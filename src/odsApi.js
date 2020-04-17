@@ -1,5 +1,11 @@
-export const odsFrontEndBase = 'http://localhost:3000';
+// export const odsFrontEndBase = 'http://localhost:3000';
 export const odsBase = 'http://localhost:5000';
+export const odsFrontEndBase = () => {
+  const protocol = window.location.protocol;
+  const host = window.location.host;
+  const base = protocol + '//' + host;
+  return base; 
+};
 
 //Routes in front end
 export const routes = {

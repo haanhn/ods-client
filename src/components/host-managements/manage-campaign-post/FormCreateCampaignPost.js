@@ -80,9 +80,7 @@ const FormCreateCampaignPost = (props) => {
                 'insertdatetime media table paste wordcount'
             ],
             toolbar:
-                'undo redo | bold italic underline | \
-                alignleft aligncenter alignright | \
-                bullist numlist outdent indent | image media',
+                'undo redo | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | image media',
             // | help',
             // plugins: "image media mediaembed",
             // menubar: "insert",

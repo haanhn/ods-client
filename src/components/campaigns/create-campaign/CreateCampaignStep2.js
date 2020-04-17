@@ -3,22 +3,27 @@ import CreateCampaignImageBox from './CreateCampaignImageBox';
 import '../../css/icon.css';
 import { odsBase, odsAPIOpenRoutes } from '../../../odsApi';
 import { Editor } from '@tinymce/tinymce-react';
-import { mceApiKey } from '../../../privateApiKeys';
+import Alert from '../../common/Alert';
+// import { mceApiKey } from '../../../privateApiKeys';
 
 const CreateCampaignStep2 = (props) => {
 
-    const { campaign, createCampaignStep2 } = props;
+    const { campaign, loading, createCampaignStep2 } = props;
     const [image, setImage] = useState(campaign.image);
     const [imageBinary, setImageBinary] = useState(null);
     const [description, setDescription] = useState(campaign.description);
     const [showTipsForStory, setShowTipsForStory] = useState(false);
 
+    const [alertResult, setAlertResult] = useState(null);
+
     const showTipsStory = () => setShowTipsForStory(!showTipsForStory);
 
-    const onClick = () => {
-        console.log('step 2 onclick');
-        console.log('Step 2: image not empty or description not empty');
-        createCampaignStep2(image, imageBinary, description);
+    const onClick = async () => {
+        setAlertResult(null);
+        const result = await createCampaignStep2(image, imageBinary, description);
+        if (result === false) {
+            setAlertResult({ type: 'danger', msg: 'Lưu thất bại, xin hãy thử lại' });
+        }
     }
 
     const handleEditorChange = (content, editor) => {
@@ -39,14 +44,12 @@ const CreateCampaignStep2 = (props) => {
                 'insertdatetime media table paste wordcount'
             ],
             toolbar:
-                'undo redo | formatselect | bold italic | \
-                alignleft aligncenter alignright | \
-                bullist numlist outdent indent | image media',
+                'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | image media',
             // | help',
             // plugins: "image media mediaembed",
             // menubar: "insert",
             // toolbar: "image media",
-            mediaembed_max_width: 450,  
+            mediaembed_max_width: 450,
             file_picker_types: 'image',
             images_upload_handler: async function (blobInfo, success, failure) {
                 console.log('blobInfo');
@@ -75,7 +78,7 @@ const CreateCampaignStep2 = (props) => {
                         failure('Invalid JSON: ' + xhr.responseText);
                         return;
                     }
-                    
+
                     console.log('json success: ' + json);
                     success(json.data.url);
                 };
@@ -122,14 +125,18 @@ const CreateCampaignStep2 = (props) => {
                     <p>Chia sẻ với mọi người lý do bạn quyết định gây quỹ</p>
                     {showTipsForStory ? tipsForStory : null}
                 </div>
-                {/* <textarea id='campaignStory' rows='5'></textarea> */}
                 {editor}
+                <Alert alert={alertResult} />
             </div>
             <div className="row justify-content-end">
                 <div className='box-button'>
-                    <button className="btn btn-primary"
-                        onClick={onClick}
-                    >Lưu và tiếp tục</button>
+                    {loading ? (
+                        <button class="btn btn-primary" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm"></span>
+                                &nbsp; Đang lưu...
+                        </button>) : (
+                            <button className="btn btn-primary" onClick={onClick}>Lưu và tiếp tục</button>
+                        )}
                 </div>
             </div>
         </div>
@@ -137,18 +144,24 @@ const CreateCampaignStep2 = (props) => {
 }
 
 const tipsForStory = (
-    <p>An effective story informs and inspires. Here's what you should include:
-
-    Introduce yourself
-    Your friends know you, but a bigger audience may not.
-    Introduce your cause
-    Describe your cause, its importance, the people involved, and what you're trying to achieve.
-    Say what the money is for
-    Explain how the money you raise will be used. Give details. They build trust.
-    Ask for help
-    Ask people to contribute money and share your campaign. If you don't ask, people won't act.
-    Be personal, detailed and optimistic
-    People respond to authenticity, information, and hope. Your job is to provide them.</p>
+    <div style={{ fontSize: '90%', marginBottom: '15px' }} >
+        Một câu chuyện có chiều sâu sẽ dễ đi vào lòng người, bạn nên:
+        <div>
+            <b>1. Giới thiệu bản thân:</b> Giới thiệu đôi nét về bản thân, tạo niềm tin giữa người xem với bạn.
+        </div>
+        <div>
+            <b>2. Mục đích, lý do:</b> Giải thích tại sao bạn cần gây quỹ, mục tiêu của bạn là gì, và những đối tượng có liên quan.
+        </div>
+        <div>
+            <b>3. Số tiền được dùng cho việc gì:</b> Bạn cần mô tả chi tiết số tiền sẽ được dùng làm gì, như thế nào với người xem.
+        </div>
+        <div>
+            <b>4. Kêu gọi sự giúp đỡ:</b> Đừng ngại ngần chia sẻ về chiến dịch của bạn cho những người quen.
+        </div>
+        <div>
+            <b>5. Chi tiết:</b> Mô tả chi tiết về câu chuyện của bạn để người xem hiểu rõ bạn hơn.
+        </div>
+    </div>
 );
 
 export default CreateCampaignStep2;

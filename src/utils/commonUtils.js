@@ -26,7 +26,7 @@ export const getTimeFormatHH_MM_SS = (dateStr) => {
     const date = new Date(dateStr);
     let h = date.getHours();
     let m = date.getMinutes();
-    const s = date.getSeconds();
+    let s = date.getSeconds();
     if (h < 10) {
         h = '0' + h;
     }

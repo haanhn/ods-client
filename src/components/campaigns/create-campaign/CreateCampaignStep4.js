@@ -1,11 +1,13 @@
 import React, { useState, useContext } from 'react';
 import CampaignsContext from '../../../context/campaigns/campaignsContext';
 import Alert from '../../common/Alert';
+import CommonModal from './create-campaign-modal-suggest/CommonModal';
+import { tipsForUserAddress, tipsForBankAccount } from './create-campaign-modal-suggest/tipsModal';
 
 const CreateCampaignStep4 = (props) => {
     const campaignsContext = useContext(CampaignsContext);
     const { regions } = campaignsContext;
-    const { user, bankAccount, createCampaignStep4 } = props;
+    const { user, bankAccount, loading, createCampaignStep4 } = props;
 
     const defaultAddress = () => {
         if (user) {
@@ -26,6 +28,11 @@ const CreateCampaignStep4 = (props) => {
     const [alertAddress, setAlertAddress] = useState(null);
     const [alertAccountNumber, setAlertAccountNumber] = useState(null);
     const [alertBankName, setAlertBankName] = useState(null);
+    const [alertResult, setAlertResult] = useState(null);
+
+    //State for suggestions
+    const [showingModalUserAddr, setShowingModalUserAddr] = useState(false);
+    const [showingModalBankAcc, setShowingModalBankAcc] = useState(false);
 
     let regionsJsx = null;
     if (regions) {
@@ -40,7 +47,7 @@ const CreateCampaignStep4 = (props) => {
             });
     }
 
-    const createStep4 = (event) => {
+    const createStep4 = async (event) => {
         event.preventDefault();
         const address = inputAddress.current.value;
         let region = inputRegion.current.value;
@@ -51,6 +58,7 @@ const CreateCampaignStep4 = (props) => {
         setAlertAddress(null);
         setAlertAccountNumber(null);
         setAlertBankName(null);
+        setAlertResult(null);
 
         const messages = validateData(address, accountNumber, bankName);
         if (messages !== null) {
@@ -67,8 +75,10 @@ const CreateCampaignStep4 = (props) => {
             if (!region) {
                 region = regions[0].id;
             }
-            createCampaignStep4(address, region, accountNumber, bankName, bankAgency);
-
+            const result = await createCampaignStep4(address, region, accountNumber, bankName, bankAgency);
+            if (result === false) {
+                setAlertResult({ type: 'danger', msg: 'Lưu thất bại, xin hãy thử lại' });
+            }
         }
     }
 
@@ -77,9 +87,10 @@ const CreateCampaignStep4 = (props) => {
             <form>
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
-                        Địa chỉ liên hệ<i class="fas fa-info-circle icon-small theme_color"
+                        Địa chỉ liên hệ
+                        <i class="fas fa-info-circle icon-small theme_color"
                             style={{ padding: '0 7px' }}
-                        // onClick={showTipsStory} 
+                            onClick={() => setShowingModalUserAddr(true)}
                         ></i>
                     </label>
                     <div className="col-sm-12">
@@ -106,7 +117,7 @@ const CreateCampaignStep4 = (props) => {
                     <label className="col-sm-12 col-form-label">
                         Tên tài khoản <i class="fas fa-info-circle icon-small theme_color"
                             style={{ padding: '0 7px' }}
-                        // onClick={showTipsStory} 
+                            onClick={() => setShowingModalBankAcc(true)}
                         ></i>
                     </label>
                     <div className="col-sm-12">
@@ -152,19 +163,26 @@ const CreateCampaignStep4 = (props) => {
                             defaultValue={bankAccount.bankAgency ? bankAccount.bankAgency : ''}
                             ref={inputBankAgency}
                         />
+                        <Alert alert={alertResult} />
                     </div>
                 </div>
                 <div className="row justify-content-end">
                     <div className='box-button'>
-                        <button className="btn btn-primary"
-                            onClick={createStep4}
-                        >Lưu và tiếp tục</button>
+                        {loading ? (
+                            <button class="btn btn-primary" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm"></span>
+                                &nbsp; Đang lưu...
+                            </button>) : (
+                                <button className="btn btn-primary" onClick={createStep4}>Lưu và tiếp tục</button>
+                            )}
                     </div>
                 </div>
             </form>
 
-            {/* <FormUpdateAddress /> */}
-            {/* <FormUpdateBankAccount /> */}
+            <CommonModal showingModal={showingModalUserAddr} setShowingModal={setShowingModalUserAddr}
+                title='Địa chỉ liên hệ' message={tipsForUserAddress} />
+            <CommonModal showingModal={showingModalBankAcc} setShowingModal={setShowingModalBankAcc}
+                title='Tài khoản ngân hàng' message={tipsForBankAccount} />
 
         </div>
     );

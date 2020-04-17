@@ -2,11 +2,13 @@ import React, { useContext, useState } from 'react';
 import CampaignsContext from '../../../context/campaigns/campaignsContext';
 import Alert from '../../common/Alert';
 import '../../css/icon.css';
+import CommonModal from './create-campaign-modal-suggest/CommonModal';
+import { tipsForName, tipsForShortDescr } from './create-campaign-modal-suggest/tipsModal';
 
 const CreateCampaignStep1 = (props) => {
     const campaignsContext = useContext(CampaignsContext);
     const { categories } = campaignsContext;
-    const { campaign, createCampaignStep1 } = props;
+    const { campaign, loading, createCampaignStep1 } = props;
 
     let inputTitle = React.createRef();
     let inputCategory = React.createRef();
@@ -15,12 +17,17 @@ const CreateCampaignStep1 = (props) => {
     //State Alerts
     const [alertTitle, setAlertTitle] = useState(null);
     const [alertShortDescription, setAlertShortDescription] = useState(null);
+    const [alertResult, setAlertResult] = useState(null);
+
+    //State for suggestions
+    const [showingModalTitle, setShowingModalTitle] = useState(false);
+    const [showingModalShortDescr, setShowingModalShortDescr] = useState(false);
 
     let categoriesJsx = null;
     if (categories) {
         categoriesJsx =
             categories.map((category) => {
-                return (campaign.category == category.id ?
+                return (campaign.category === category.id ?
                     <option value={category.id} key={category.id} selected>
                         {category.categoryTitle}
                     </option> :
@@ -29,7 +36,7 @@ const CreateCampaignStep1 = (props) => {
             });
     }
 
-    const createStep1 = (event) => {
+    const createStep1 = async (event) => {
         event.preventDefault();
         const title = inputTitle.current.value.trim();
         const category = inputCategory.current.value;
@@ -37,8 +44,8 @@ const CreateCampaignStep1 = (props) => {
 
         setAlertTitle(null);
         setAlertShortDescription(null);
-        console.log('category')
-        console.log(category)
+        setAlertResult(null);
+
         const messages = validateData(title, shortDescription);
         if (messages) {
             if (messages.title) {
@@ -48,11 +55,11 @@ const CreateCampaignStep1 = (props) => {
                 setAlertShortDescription({ type: 'danger', msg: messages.shortDescription });
             }
         } else {
-
-            console.log(category)
-            createCampaignStep1(title, category, shortDescription);
+            const result = await createCampaignStep1(title, category, shortDescription);
+            if (result === false) {
+                setAlertResult({ type: 'danger', msg: 'Lưu thất bại, xin hãy thử lại' });
+            }
         }
-
     }
 
     return (
@@ -61,10 +68,9 @@ const CreateCampaignStep1 = (props) => {
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
                         Tên chiến dịch
-                        <i class="fas fa-info-circle icon-small theme_color"
-                            data-toggle="modal" data-target="#modalTipsName"
+                        <i className="fas fa-info-circle icon-small theme_color"
+                            onClick={() => setShowingModalTitle(true)}
                             style={{ padding: '0 7px' }} ></i>
-                            {/* <button data-toggle="modal" data-target="#modalTipsName">k</button> */}
                     </label>
                     <div className="col-sm-12">
                         <input type="text" className="form-control" placeholder="Tên chiến dịch"
@@ -90,8 +96,8 @@ const CreateCampaignStep1 = (props) => {
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
                         Mô tả ngắn
-                        <i class="fas fa-info-circle icon-small theme_color"
-                            data-toggle="modal" data-target="#modalTipsShortDescr"
+                        <i className="fas fa-info-circle icon-small theme_color"
+                            onClick={() => setShowingModalShortDescr(true)}
                             style={{ padding: '0 7px' }} ></i>
                     </label>
                     <div className="col-sm-12">
@@ -101,79 +107,31 @@ const CreateCampaignStep1 = (props) => {
                             defaultValue={campaign.campaignShortDescription}
                         />
                         <Alert alert={alertShortDescription} />
+                        <Alert alert={alertResult} />
                     </div>
                 </div>
 
                 <div className="row justify-content-end">
                     <div className='box-button'>
-                        <button className="btn btn-primary"
-                            onClick={createStep1}
-                        >Lưu và tiếp tục</button>
+                        {loading ? (
+                            <button className="btn btn-primary" type="button" disabled>
+                                <span className="spinner-border spinner-border-sm"></span>
+                                &nbsp; Đang lưu...
+                            </button>) : (
+                                <button className="btn btn-primary" onClick={createStep1}>Lưu và tiếp tục</button>
+                            )}
                     </div>
                 </div>
             </form>
-            {tipsForName}
-            {tipsForShortDescr}
+
+            <CommonModal showingModal={showingModalTitle} setShowingModal={setShowingModalTitle}
+                title='Cách đặt tên chiến dịch' message={tipsForName} />
+            <CommonModal showingModal={showingModalShortDescr} setShowingModal={setShowingModalShortDescr}
+                title='Mô tả ngắn' message={tipsForShortDescr} />
 
         </div>
     );
 }
-
-const tipsForName = (
-    // {/* <!-- The Modal --> */ }
-    < div className="modal" id="modalTipsName" >
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-
-                {/* <!-- Modal Header --> */}
-                <div className="modal-header">
-                    <h5 className="modal-title">Cách đặt tên</h5>
-                    <button type="button" class="close" data-dismiss="modal">×</button>
-                </div>
-
-                {/* <!-- Modal body --> */}
-                <div class="modal-body">
-
-                    <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-                    <p>A good title can make your campaign stand out. Identify your cause, ask for help, and use a personal tone. You can include:
-
-                    The name of the person, group, or organization that needs help e.g. Nancy.
-                    A call to action e.g. Please help ....
-A personal connection, detail or tone e.g. Please help us pay for Nancy's chemo costs.</p>
-                </div>
-            </div>
-        </div>
-    </div >
-);
-
-const tipsForShortDescr = (
-    // {/* <!-- The Modal --> */ }
-    < div className="modal" id="modalTipsShortDescr" >
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-
-                {/* <!-- Modal Header --> */}
-                <div className="modal-header">
-                    <h5 className="modal-title">ShortDescription</h5>
-                    <button type="button" class="close" data-dismiss="modal">×</button>
-                </div>
-
-                {/* <!-- Modal body --> */}
-                <div class="modal-body">
-
-                    <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-                    <p>A good title can make your campaign stand out. Identify your cause, ask for help, and use a personal tone. You can include:
-
-                    The name of the person, group, or organization that needs help e.g. Nancy.
-                    A call to action e.g. Please help ....
-A personal connection, detail or tone e.g. Please help us pay for Nancy's chemo costs.</p>
-                </div>
-            </div>
-        </div>
-    </div >
-);
 
 const validateData = (title, shortDescription) => {
     let msg = {};

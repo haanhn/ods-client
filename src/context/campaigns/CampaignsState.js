@@ -21,36 +21,49 @@ const CampaignsState = (props) => {
         countFollowers: 0,
         suggestedCampaigns1: [], //similar campaigns
         suggestedCampaigns2: [], //campaigns of similar users
-        loading: false
+        loading: false,
+        initCreateLoading: false //Set init loading when clicks on link Create Campaign
     }
 
     const [state, dispatch] = useReducer(CampaignsReducer, initialState);
 
     //GET ALL AVAILABLE CATEGORIES
     const getCategories = async () => {
-        const res = await axios.get(`${odsBase}/api/categories`);
-        dispatch({
-            type: GET_CATEGORIES,
-            payload: res.data
-        });
+        try {
+            const res = await axios.get(`${odsBase}/api/categories`);
+            dispatch({
+                type: GET_CATEGORIES,
+                payload: res.data
+            });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     //GET ALL REGIONS
     const getRegions = async () => {
-        const res = await axios.get(`${odsBase}${odsAPIRegions}`);
-        dispatch({
-            type: actionTypes.GET_REGIONS,
-            payload: res.data.regions
-        });
+        try {
+            const res = await axios.get(`${odsBase}${odsAPIRegions}`);
+            dispatch({
+                type: actionTypes.GET_REGIONS,
+                payload: res.data.regions
+            });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     //GET ALL AVAILABLE CAMPAIGNS
     const getAllAvailableCampaigns = async () => {
-        const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getAllCampaigns}`);
-        dispatch({
-            type: actionTypes.GET_CAMPAIGNS,
-            payload: res.data.campaigns
-        });
+        try {
+            const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getAllCampaigns}`);
+            dispatch({
+                type: actionTypes.GET_CAMPAIGNS,
+                payload: res.data.campaigns
+            });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     //SEARCH CAMPAIGNS
@@ -398,6 +411,9 @@ const CampaignsState = (props) => {
 
     const setLoading = (isLoading) => dispatch({ type: actionTypes.SET_LOADING, payload: isLoading });
 
+    //Set init loading when clicks on link Create Campaign
+    const setInitCreateLoading = (isLoading) => dispatch({ type: actionTypes.SET_INIT_CREATE_LOADING, payload: isLoading });
+
     return (
         <CampaignsContext.Provider value={{
             categories: state.categories,
@@ -416,8 +432,10 @@ const CampaignsState = (props) => {
             ratingStats: state.ratingStats,
             getCategories: getCategories,
             loading: state.loading,
+            initCreateLoading: state.initCreateLoading,
             //-------------------------------
             setLoading,
+            setInitCreateLoading,
             getAllAvailableCampaigns,
             getCampaignsByCategory,
             getCampaignBySlug,

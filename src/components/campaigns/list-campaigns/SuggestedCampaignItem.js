@@ -6,7 +6,7 @@ function CampaignItem(props) {
 
     const {
         campaignThumbnail, campaignTitle, campaignSlug,
-        campaignRegion, raise, campaignGoal,
+        raise, campaignGoal,
         campaignEndDate, campaignStatus } = props.campaign;
     const Category = props.campaign.Category;
     const Region = props.campaign.Region;

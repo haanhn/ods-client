@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 const CampaignBasicInfo = (props) => {
     const { campaignThumbnail, campaignShortDescription, Category } = props.campaign;
 
-    if (Object.keys(props.campaign).length === 0) {
+    if (!props.campaign || Object.keys(props.campaign).length === 0) {
         return null;
     }
     return (
@@ -15,9 +15,8 @@ const CampaignBasicInfo = (props) => {
                 </figure>
             </div>
             <p style={{ marginBottom: '5px' }}>
-                <i class="fas fa-tag" style={{ marginRight: '10px' }}></i>
+                <i className="fas fa-tag" style={{ marginRight: '10px' }}></i>
                 {Category ? Category.categoryTitle : ''}
-                {/* {Category.categoryTitle} */}
             </p>
             <p style={{ fontSize: '110%', textAlign: 'justify' }}>
                 {campaignShortDescription}

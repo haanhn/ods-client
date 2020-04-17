@@ -19,7 +19,7 @@ const CampaignHostInfo = (props) => {
                             {host ? host.fullname : ''}
                         </Link>
                     </h6>
-                    <i class="fas fa-map-marker-alt icon-color-one"></i> {region && region.name ? region.name : ''}
+                    <i className="fas fa-map-marker-alt icon-color-one"></i> {region && region.name ? region.name : ''}
 
                 </div>
             </div>

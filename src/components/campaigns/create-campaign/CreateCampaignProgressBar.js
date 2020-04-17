@@ -2,7 +2,7 @@ import React from 'react';
 import { getMaxStepsDone } from '../../../utils/createCampaignUtils';
 
 const CreateCampaignProgressBar = (props) => {
-    const { currentStep, stepsDone, setCurrentStep, steps, campaignStatus } = props;
+    const { currentStep, setCurrentStep, steps, campaignStatus } = props;
     const maxStep = getMaxStepsDone(steps);
     const getclazz = (i) => {
         if (i === currentStep) {
@@ -50,13 +50,6 @@ const CreateCampaignProgressBar = (props) => {
             setCurrentStep(stepIndex)
         };
     }
-    const chooseStep5 = () => {
-        const stepIndex = 5;
-        console.log(`User choose stepIndex: ${stepIndex}`);
-        if (stepIndex < maxStep) {
-            setCurrentStep(stepIndex)
-        };
-    }
 
     return (
         <div >
@@ -66,7 +59,7 @@ const CreateCampaignProgressBar = (props) => {
                     onClick={chooseStep0}
                 >
                     <div style={{ textAlign: 'center' }}>
-                        <i class="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
                     </div>
                     <span>Bắt đầu</span>
                 </li>
@@ -74,7 +67,7 @@ const CreateCampaignProgressBar = (props) => {
                     onClick={chooseStep1}
                 >
                     <div style={{ textAlign: 'center' }}>
-                        <i class="fas fa-pencil-alt"></i>
+                        <i className="fas fa-pencil-alt"></i>
                     </div>
                     <span>Câu chuyện</span>
                 </li>
@@ -82,7 +75,7 @@ const CreateCampaignProgressBar = (props) => {
                     onClick={chooseStep2}
                 >
                     <div style={{ textAlign: 'center' }}>
-                        <i class="fas fa-info"></i>
+                        <i className="fas fa-info"></i>
                     </div>
                     <span>Chi tiết</span>
                 </li>
@@ -90,7 +83,7 @@ const CreateCampaignProgressBar = (props) => {
                     onClick={chooseStep3}
                 >
                     <div style={{ textAlign: 'center' }}>
-                        <i class="fas fa-comment-dollar"></i>
+                        <i className="fas fa-comment-dollar"></i>
                     </div>
                     <span>Tài khoản</span>
                 </li>
@@ -98,18 +91,10 @@ const CreateCampaignProgressBar = (props) => {
                     onClick={chooseStep4}
                 >
                     <div style={{ textAlign: 'center' }}>
-                        <i class="fas fa-eye"></i>
+                        <i className="fas fa-eye"></i>
                     </div>
                     <span>Xem trước</span>
                 </li>
-                {/* <li className={getclazz(5)}
-                    onClick={chooseStep5}
-                >
-                    <div style={{ textAlign: 'center' }}>
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <span>Xác nhận</span>
-                </li> */}
             </ul>
         </div>
     );

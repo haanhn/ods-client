@@ -1,13 +1,7 @@
 import React, { useReducer, useEffect, useContext } from 'react';
 import axios from 'axios';
 import CreateCampaignProgressBar from '../campaigns/create-campaign/CreateCampaignProgressBar';
-import CreateCampaignBasicInfo from '../campaigns/create-campaign/CreateCampaignBasicInfo';
-import CreateCampaignImageCover from '../campaigns/create-campaign/CreateCampaignImageCover';
-import CreateCampaignStory from '../campaigns/create-campaign/CreateCampaignStory';
-import CreateCampaignMoneyMethods from '../campaigns/create-campaign/CreateCampaignMoneyMethods';
-import CreateCampaignConfirm from '../campaigns/create-campaign/CreateCampaignConfirm';
-import CreateCampaignCompleted from '../campaigns/create-campaign/CreateCampaignCompleted';
-import { odsBase, odsAPIOpenRoutes, odsAPIAuthorizedUser, routes, localStoreKeys } from '../../odsApi';
+import { odsBase, odsAPIAuthorizedUser, routes, localStoreKeys } from '../../odsApi';
 import '../campaigns/campaign2.css';
 import reducer from '../campaigns/create-campaign/createCampaignReducer';
 import CreateCampaignStep1 from '../campaigns/create-campaign/CreateCampaignStep1';
@@ -20,13 +14,14 @@ import CreateCampaignSuccess from '../campaigns/create-campaign/CreateCampaignSu
 import CampaignsContext from '../../context/campaigns/campaignsContext';
 import { types } from '../../components/campaigns/create-campaign/createCampaignTypes';
 import CreateCampaignStep4 from '../campaigns/create-campaign/CreateCampaignStep4';
-import { getMaxStepsDone } from '../../utils/createCampaignUtils';
+import { getInitEndDate, getInitStepIndex, getAllStepsOfSettingCamppaign } from '../../utils/createCampaignUtils';
+import Spinner from '../common/Spinner';
 
 
 const CreateCampaign = (props) => {
     const campaignsContext = useContext(CampaignsContext);
-    const { loading } = campaignsContext;
-    const { getCategories, getRegions, setLoading } = campaignsContext;
+    const { loading, setLoading, initCreateLoading, setInitCreateLoading } = campaignsContext;
+    const { getCategories, getRegions } = campaignsContext;
 
     const token = localStorage.getItem(localStoreKeys.token);
     if (!token) {
@@ -36,68 +31,68 @@ const CreateCampaign = (props) => {
 
     useEffect(() => {
         fetchData();
-
-        // getCategories();
-        // getRegions();
-        // getAuthorizedUser();
-        // getUserBankAccount();
-
         //eslint-disable-next-line
     }, []);
 
     const fetchData = async () => {
-        const checkCampaign = await getCheckSettingOrWaitingCampaign();
-        getCategories();
-        getRegions();
-        const authUser = await getAuthorizedUser();
-        const authBankAccount = await getUserBankAccount();
+        try {
+            if (!token) {
+                return '';
+            }
+            setInitCreateLoading(true);
+            const checkCampaign = await getCheckSettingOrWaitingCampaign();
+            getCategories();
+            getRegions();
+            const authUser = await getAuthorizedUser();
+            const authBankAccount = await getUserBankAccount();
 
-        if (checkCampaign) {
-            const status = checkCampaign.campaignStatus;
-            if (status === 'waiting') {
-                const allSteps = [1, 1, 1, 1, 1];
-                setAllSteps(allSteps);
-                setCurrentStep(5);
-            } else if (status === 'setting') {
-                const allSteps = getAllStepsOfSettingCamppaign(checkCampaign, authUser, authBankAccount);
-                let maxStep = getMaxStepsDone(allSteps);
-                setAllSteps(allSteps);
-                if (maxStep === 5) {
-                    maxStep = 4;
-                } 
-                setCurrentStep(maxStep);
+            if (checkCampaign) {
+                const status = checkCampaign.campaignStatus;
+                if (status === 'waiting') {
+                    const allSteps = [1, 1, 1, 1, 1];
+                    setAllSteps(allSteps);
+                    setCurrentStep(5);
+                } else if (status === 'setting') {
+                    const allSteps = getAllStepsOfSettingCamppaign(checkCampaign, authUser, authBankAccount);
+                    let initCurrentStep = getInitStepIndex(allSteps);
+                    setAllSteps(allSteps);
+                    setCurrentStep(initCurrentStep);
+                }
+                const initGoal = checkCampaign.campaignGoal ? checkCampaign.campaignGoal : 1000000;
+                const initEndDate = getInitEndDate(checkCampaign.campaignEndDate);
+                const initCampaign = {
+                    id: checkCampaign.id,
+                    campaignTitle: checkCampaign.campaignTitle,
+                    campaignSlug: checkCampaign.campaignSlug,
+                    goal: initGoal,
+                    endDate: initEndDate,
+                    category: checkCampaign.categoryId,
+                    campaignShortDescription: checkCampaign.campaignShortDescription,
+                    image: checkCampaign.campaignThumbnail,
+                    description: checkCampaign.campaignDescription,
+                    campaignRegion: checkCampaign.regionId,
+                    address: checkCampaign.campaignAddress,
+                    autoClose: checkCampaign.autoClose,
+                    campaignStatus: checkCampaign.campaignStatus
+                }
+                dispatch({
+                    type: types.SET_INIT_CAMPAIGN,
+                    payload: initCampaign
+                });
             }
-            
-            const initCampaign = {
-                id: checkCampaign.id,
-                campaignTitle: checkCampaign.campaignTitle,
-                campaignSlug: checkCampaign.campaignSlug,
-                goal: checkCampaign.campaignGoal,
-                endDate: null,
-                category: checkCampaign.categoryId,
-                campaignShortDescription: checkCampaign.campaignShortDescription,
-                image: checkCampaign.campaignThumbnail,
-                description: checkCampaign.campaignDescription,
-                campaignRegion: checkCampaign.regionId,
-                address: checkCampaign.campaignAddress,
-                autoClose: checkCampaign.autoClose,
-                campaignStatus: checkCampaign.campaignStatus
-            }
-            dispatch({
-                type: types.SET_INIT_CAMPAIGN,
-                payload: initCampaign
-            });
+            setInitCreateLoading(false);
+        } catch (error) {
+            setInitCreateLoading(false);
+            console.error(error);
         }
     }
 
     const initialState = {
         currentStep: 0,
-        stepsDone: 1,
         //this is the maximum amount of steps user can click on step navigation 
         //(not actual number of steps done)
         steps: [0, 0, 0, 0, 0],
         loading: false,
-        // categories: [],
         //campaign
         campaign: {
             id: null,
@@ -124,13 +119,6 @@ const CreateCampaign = (props) => {
         dispatch({
             type: types.SET_CURRENT_STEP,
             payload: current
-        });
-    }
-
-    const setStepsDone = (stepsDoneAmount) => {
-        dispatch({
-            type: types.SET_STEPS_DONE,
-            payload: stepsDoneAmount
         });
     }
 
@@ -198,7 +186,6 @@ const CreateCampaign = (props) => {
             return checkCampaign;
         } catch (error) {
             console.error(`Check before create campaign: ${error}`);
-            alert('Đã có lỗi xảy ra, xin hãy thử lại');
         }
     }
 
@@ -219,16 +206,18 @@ const CreateCampaign = (props) => {
                 payload: res.data.campaign
             })
             setLoading(false);
-            setStepsDone(2);
+            setSingleStep(0, 1);
+            //Move on to step 2, index = 1
             setCurrentStep(1);
+            return true;
         } catch (error) {
             console.error(`Create campaign step 1: ${error}`);
-            alert('Đã có lỗi xảy ra, xin hãy thử lại');
             setLoading(false);
+            return false;
         }
     }
 
-    const createCampaignStep2 = async (image, imageBinary, desription) => {
+    const createCampaignStep2 = async (newImageUrl, imageBinary, desription) => {
         try {
             setLoading(true);
             const token = localStorage.getItem(localStoreKeys.token);
@@ -248,6 +237,8 @@ const CreateCampaign = (props) => {
                 console.log(`upload campaign img cover:`);
                 console.log(resImg);
                 imgUrl = resImg.data.data.campaignThumbnail;
+            } else {
+                imgUrl = newImageUrl;
             }
 
             const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.createCampaignStep2}`, {
@@ -258,19 +249,19 @@ const CreateCampaign = (props) => {
                     campaignDescription: desription
                 }
             });
-            console.log('save campaign description');
-            console.log(res.data);
             dispatch({
                 type: types.SET_STORY,
                 payload: res.data.campaign
             })
             setLoading(false);
-            setStepsDone(3);
+            setSingleStep(1, 1);
+            //Move on to step 3, index = 2
             setCurrentStep(2);
+            return true;
         } catch (error) {
             console.error(`Create campaign step 2: ${error}`);
-            alert('Đã có lỗi xảy ra, xin hãy thử lại');
             setLoading(false);
+            return false;
         }
     }
 
@@ -293,12 +284,14 @@ const CreateCampaign = (props) => {
                 payload: res.data.campaign
             })
             setLoading(false);
-            setStepsDone(4);
+            setSingleStep(2, 1);
+            //Move on to step 4, index = 3
             setCurrentStep(3);
+            return true;
         } catch (error) {
             console.error(`Create campaign step 3: ${error}`);
-            alert('Đã có lỗi xảy ra, xin hãy thử lại');
             setLoading(false);
+            return false;
         }
     }
 
@@ -327,33 +320,36 @@ const CreateCampaign = (props) => {
                 payload: bankAccountRes.data.bankAccount
             });
             setLoading(false);
-            setStepsDone(5);
+            setSingleStep(3, 1);
+            //Move on to step 5, step index = 4
             setCurrentStep(4);
+            return true;
         } catch (error) {
             console.error(`Create campaign step 4: ${error}`);
-            alert('Đã có lỗi xảy ra, xin hãy thử lại');
             setLoading(false);
+            return false;
         }
     }
 
     const createCampaignStep5 = async () => {
         try {
             setLoading(true);
-            const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.createCampaignStep5}`, {
+            await axios.post(`${odsBase}${odsAPIAuthorizedUser.createCampaignStep5}`, {
                 token: localStorage.getItem(localStoreKeys.token),
                 campaign: {
                     campaignSlug: state.campaign.campaignSlug //get trong state luon
                 }
             });
-            console.log(res.data);
             setLoading(false);
-            setStepsDone(6);
+            setSingleStep(4, 1);
+            //Move on to step final done: step 6, index step = 5
             setCurrentStep(5);
             dispatch({ type: types.SET_CREATE_SUCCESS });
+            return true;
         } catch (error) {
             console.error(`Create campaign step 5: ${error}`);
-            alert('Đã có lỗi xảy ra, xin hãy thử lại');
             setLoading(false);
+            return false;
         }
     }
 
@@ -363,40 +359,41 @@ const CreateCampaign = (props) => {
     switch (state.currentStep) {
         case 0:
             stepJsx = <CreateCampaignStep1 campaign={state.campaign}
-                createCampaignStep1={createCampaignStep1} />;
+                createCampaignStep1={createCampaignStep1} loading={loading} />;
             break;
         case 1:
-            stepJsx = <CreateCampaignStep2 campaign={state.campaign} createCampaignStep2={createCampaignStep2} />;
+            stepJsx = <CreateCampaignStep2 campaign={state.campaign} loading={loading}
+                createCampaignStep2={createCampaignStep2} />;
             break;
         case 2:
-            stepJsx = <CreateCampaignStep3 campaign={state.campaign} createCampaignStep3={createCampaignStep3} />;
+            stepJsx = <CreateCampaignStep3 campaign={state.campaign} loading={loading}
+                createCampaignStep3={createCampaignStep3} />;
             break;
         case 3:
             stepJsx = <CreateCampaignStep4 user={state.user} bankAccount={state.bankAccount}
-                createCampaignStep4={createCampaignStep4} />;
+                loading={loading} createCampaignStep4={createCampaignStep4} />;
             break;
         case 4:
             stepJsx = <CampaignPreviewBasicInfo campaign={state.campaign} host={state.user}
-                createCampaignStep5={createCampaignStep5} />;
+                loading={loading} createCampaignStep5={createCampaignStep5} />;
             break;
         case 5:
             stepJsx = <CreateCampaignSuccess campaign={state.campaign} />;
             break;
         default:
             stepJsx = <CreateCampaignStep1 campaign={state.campaign}
-                createCampaignStep1={createCampaignStep1} />;
+                createCampaignStep1={createCampaignStep1} loading={loading} />;
     }
 
-    if (loading) {
-        return <div>loading................</div>
+    if (initCreateLoading) {
+        return <Spinner />;
     }
 
     return (
         <div className='container create-campaign'>
-            <CreateCampaignProgressBar currentStep={state.currentStep} stepsDone={state.stepsDone}
-                setCurrentStep={setCurrentStep} steps={state.steps} campaignStatus={state.campaign.campaignStatus}
+            <CreateCampaignProgressBar currentStep={state.currentStep} setCurrentStep={setCurrentStep}
+                steps={state.steps} campaignStatus={state.campaign.campaignStatus}
             />
-            {/* <CampaignPreviewBasicInfo campaign={state.campaign} host={state.user} createCampaignStep5={createCampaignStep5} /> */}
 
             {(state.currentStep === 4 || state.currentStep === 5) ?
                 (stepJsx)
@@ -412,35 +409,3 @@ const CreateCampaign = (props) => {
 }
 
 export default CreateCampaign;
-
-//params: campaign: object returned from request api
-const getAllStepsOfSettingCamppaign = (campaign, user, bankAccount) => {
-    let steps = [0, 0, 0, 0, 0];
-    if (campaign) {
-        const hasTitle = campaign.campaignTitle ? true : false;
-        const hasGoal = campaign.campaignGoal ? true : false;
-        const hasImage = campaign.campaignThumbnail ? true : false;
-        const hasStory = campaign.campaignDescription ? true : false;
-        const hasEndDate = campaign.campaignEndDate ? true : false;
-        let hasUserAddress = false;
-        let hasBankAccount = false;
-        if (user && bankAccount) {
-            hasUserAddress = user.address ? true : false;
-            const hasAccountNumber = bankAccount.accountNumber ? true : false;
-            const hasBank = bankAccount.bankName ? true : false;
-            if (hasAccountNumber && hasBank) {
-                hasBankAccount = true;
-            }
-        }
-        if (hasTitle && hasGoal && hasEndDate && hasUserAddress && hasBankAccount) {
-            steps = [1, 1, 1, 1, 0];
-        } else if (hasTitle && hasGoal && hasEndDate) {
-            steps = [1, 1, 1, 0, 0];
-        } else if (hasImage || hasStory) {
-            steps = [1, 1, 0, 0, 0];
-        } else if (hasTitle) {
-            steps = [1, 0, 0, 0, 0];
-        }
-    }
-    return steps;
-}
