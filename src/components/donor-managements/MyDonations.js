@@ -7,12 +7,14 @@ import DataTable from 'react-data-table-component';
 import Alert from '../common/Alert';
 import './my-donations.css';
 import '../css/common.css';
+import Spinner from '../common/Spinner';
 import MyDonationModal from './MyDonationModal';
+import FormSearchMyDonations from './FormSearchMyDonations';
 
 const MyDonations = () => {
     const myDonationsContext = useContext(MyDonationsContext);
-    const donations = myDonationsContext.myDonations;
-
+    const donations = myDonationsContext.myFilteredDonations;
+    const {loading} = myDonationsContext;
 
     const viewDonation = (event, donation) => {
         console.log(donation);
@@ -85,9 +87,14 @@ const MyDonations = () => {
         data = getDonationsData(donations);
     }
 
+    if (loading) {
+        return <Spinner />;
+    }
+
     return (
         <div className='my-donations-container'>
             <h4 className='header'>Quyên góp của tôi</h4>
+            <FormSearchMyDonations />
             {
                 data && data.length > 0 ? (
                     <DataTable

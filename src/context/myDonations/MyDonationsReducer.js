@@ -8,6 +8,16 @@ export default (state, action) => {
         ...state,
         myDonations: data
       };
+    case donorActionTypes.SET_MY_FILTERED_DONATIONS:
+      return {
+        ...state,
+        myFilteredDonations: data
+      };
+    case donorActionTypes.SET_LOADING:
+      return ({
+        ...state,
+        loading: data
+      });
     default:
       return state;
   }

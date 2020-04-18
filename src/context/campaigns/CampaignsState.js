@@ -56,12 +56,15 @@ const CampaignsState = (props) => {
     //GET ALL AVAILABLE CAMPAIGNS
     const getAllAvailableCampaigns = async () => {
         try {
+            setLoading(true);
             const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getAllCampaigns}`);
             dispatch({
                 type: actionTypes.GET_CAMPAIGNS,
                 payload: res.data.campaigns
             });
+            setLoading(false);
         } catch (error) {
+            setLoading(false);
             console.error(error);
         }
     };
@@ -73,26 +76,32 @@ const CampaignsState = (props) => {
                 console.log('Search value empty');
                 return;
             }
+            setLoading(true);
             const api = odsAPIOpenRoutes.searchCampaigns(searchedValue);
             const res = await axios.get(`${odsBase}${api}`);
             dispatch({
                 type: actionTypes.GET_CAMPAIGNS,
                 payload: res.data.campaigns
             });
+            setLoading(false);
         } catch (error) {
+            setLoading(false);
             console.error(error);
         }
     }
 
     const getCampaignsByCategory = async (categorySlug) => {
         try {
+            setLoading(true);
             const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getCampaignsByCategory(categorySlug)}`);
             const campaigns = res.data.campaigns;
             dispatch({
                 type: actionTypes.GET_CAMPAIGNS,
                 payload: campaigns
             });
+            setLoading(false);
         } catch (error) {
+            setLoading(false);
             console.error(error);
         }
     };

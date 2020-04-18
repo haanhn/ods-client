@@ -7,7 +7,9 @@ import { odsBase, odsAPIDonor, localStoreKeys } from '../../odsApi';
 
 const MyDonationsState = props => {
   const initialState = {
-    myDonations: []
+    myDonations: [],
+    myFilteredDonations: [],
+    loading: false
   };
 
   const [state, dispatch] = useReducer(MyDonationsReducer, initialState);
@@ -23,23 +25,36 @@ const MyDonationsState = props => {
     };
     const api = odsAPIDonor.getMyDonations;
     try {
+      setLoading(true);
       const res = await axios.get(`${odsBase}${api}`, config);
       const donations = res.data.result;
       dispatch({
         type: donorActionTypes.GET_MY_DONATIONS,
         payload: donations
       });
+      setFilteredDonations(donations);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error.message);
     }
   };
+
+  const setLoading = (isLoading) => dispatch({ type: donorActionTypes.SET_LOADING, payload: isLoading });
+  
+  const setFilteredDonations = (filteredDonations) => dispatch({
+    type: donorActionTypes.SET_MY_FILTERED_DONATIONS, payload: filteredDonations
+  });
 
   return (
     <MyDonationsContext.Provider
       value={{
         myDonations: state.myDonations,
+        myFilteredDonations: state.myFilteredDonations,
+        loading: state.loading,
         //Methods
-        getMyDonations        
+        getMyDonations,
+        setFilteredDonations
       }}
     >
       {props.children}

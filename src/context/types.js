@@ -71,7 +71,9 @@ export const hostActionTypes = {
 
 //My Donations
 export const donorActionTypes = {
-    GET_MY_DONATIONS: 'GET_MY_DONATIONS'
+    GET_MY_DONATIONS: 'GET_MY_DONATIONS',
+    SET_MY_FILTERED_DONATIONS: 'SET_MY_FILTERED_DONATIONS',
+    SET_LOADING: 'SET_LOADING',
 };
 
 //User Profile
