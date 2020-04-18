@@ -200,9 +200,10 @@ const CampaignsState = (props) => {
                 }
             });
             await getCampaignComments(state.viewingCampaign.campaignSlug);
+            return true;
         } catch (error) {
             console.error(`Error when create comment: ${error}`);
-            throw error;
+            return false;
         }
     };
 
@@ -226,16 +227,15 @@ const CampaignsState = (props) => {
     //***** GET CAMPAIGN COMMENTS *****
     const getCampaignComments = async (slug) => {
         try {
-            const res = await axios.get(`${odsBase}${odsAPIOpenRoutes.getCampaignComments}${slug}`);
+            const api = odsAPIOpenRoutes.getCampaignComments(slug);
+            const res = await axios.get(`${odsBase}${api}`);
             dispatch({
                 type: actionTypes.SET_COMMENTS,
                 payload: res.data.comments
             });
             console.log(`get comments success`);
-
         } catch (error) {
             console.error(`Error when get campaign comments: ${error}`);
-            throw error;
         }
     };
 

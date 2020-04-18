@@ -96,7 +96,7 @@ export const odsAPIOpenRoutes = {
   createCampaignComment: `/api/comments`,
   deleteCampaignComment: (commentId) => `/api/comments/${commentId}`,
   // url: /api/comments/:campaignSlug
-  getCampaignComments: `/api/comments/`,
+  getCampaignComments: (slug) => `/api/comments/${slug}`,
   getCampaignPosts: (slug) => `/api/posts/get-all-post/${slug}`,
   //Donations
   getCampaignDonations: (slug) => `/api/donations/get-by-campaign/${slug}`,

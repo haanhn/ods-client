@@ -28,10 +28,9 @@ const CampaignComment = (props) => {
     }
 
     return (
-        // <div className='auto-container host-info'>
         <div className='campaign-comment'>
             <div className='row clearfix comment-avatar'>
-                <img src={User.avatar ? User.avatar : '/images/default-data-images/default-user-avatar.png'}
+                <img src={User && User.avatar ? User.avatar : '/images/default-data-images/default-user-avatar.png'}
                     className='col' />
                 <div className='col' >
                     <h6> {User ? User.fullname : ''} </h6>
@@ -44,9 +43,7 @@ const CampaignComment = (props) => {
             </div>
             {btnDeleteJsx}
         </div>
-        // </div>
     );
 }
 
-const popoverHtml = <div id='btnDeleteComment'>Xóa bình luận</div>
 export default CampaignComment;

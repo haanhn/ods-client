@@ -8,8 +8,13 @@ const FormCreateComment = () => {
         const inputComment = document.getElementById('inputCampaignComment');
         try {
             const commentContent = inputComment.value.trim();
-            if (commentContent.length > 0) {
-                await campaignsContext.createCampaignComment(commentContent);
+            if (commentContent.length === 0) {
+                return;
+            }
+            const result = await campaignsContext.createCampaignComment(commentContent);
+            if (result === false) {
+                alert('Có lỗi xảy ra khi tạo comment, xin hãy thử lại');
+            } else if (result === true) {
                 inputComment.value = '';
             }
         } catch (error) {
@@ -23,7 +28,7 @@ const FormCreateComment = () => {
             <div className="form-group">
                 <textarea className="form-control" rows="3" placeholder='Bình luận về chiến dịch'
                     id='inputCampaignComment'
-                    />
+                />
             </div>
             <div style={{ textAlign: 'right' }}>
                 <button className="btn btn-success" onClick={createComment} >Bình luận</button>
