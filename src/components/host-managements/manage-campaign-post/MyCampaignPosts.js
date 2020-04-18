@@ -1,25 +1,32 @@
-import React, { useContext, useEffect, Fragment } from 'react';
+import React, { useContext, useEffect, useState, Fragment } from 'react';
 import mycampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
 import '../../css/host-manage-campaign.css';
-// import '../../css/icon.css';
 import { getDateFormatDD_MM_YYYY } from '../../../utils/commonUtils';
 import { Link } from 'react-router-dom';
 import { routes } from '../../../odsApi';
 import DataTable from 'react-data-table-component';
 import { getPostStatus } from './postUtils';
 import Alert from '../../common/Alert';
+import ConfirmDeletePost from './ConfirmDeletePost';
 
 const MyCampaignPosts = (props) => {
     const { slug } = props.match.params;
     const myCampaignsContext = useContext(mycampaignsContext);
 
-    let postJsx = null;
     let posts = myCampaignsContext.myCampaignPosts;
 
-    const deletePost = (event, row) => {
+    const [showingDeleteModal, setShowingDeleteModal] = useState(false);
+    const [deletePostId, setDeletePostId] = useState(null);
+    const [deletePostName, setDeletePostName] = useState(null);
+
+    const showDeletePost = (event, row) => {
         try {
             if (row) {
-                myCampaignsContext.deleteCampaignPost(row.id);
+                console.log('delete post id')
+                console.log(row)
+                setDeletePostId(row.id);
+                setDeletePostName(row.postTitle);
+                setShowingDeleteModal(true);
             }
         } catch (error) {
             console.error(error);
@@ -57,7 +64,7 @@ const MyCampaignPosts = (props) => {
                         <i className="fas fa-eye"></i>
                     </Link>
                     <button className='btn btn-sm btn-danger' style={{ color: '#fff', marginLeft: '5px' }}
-                        onClick={(event) => { deletePost(event, row) }} >
+                        onClick={(event) => { showDeletePost(event, row) }} >
                         <i className="fas fa-trash-alt"></i>
                     </button>
                 </Fragment>
@@ -82,7 +89,7 @@ const MyCampaignPosts = (props) => {
         <div className='container host-list-posts' style={{ maxWidth: '850px' }}>
             <h4>Các bài viết
                 <button className='btn btn-sm btn-success' style={{ float: 'right' }}>
-                    <i class="fas fa-plus-circle" style={{ marginRight: '3px' }}></i><Link to={createRoute} style={{ color: 'white' }} > Tạo bài viết </Link>
+                    <i className="fas fa-plus-circle" style={{ marginRight: '3px' }}></i><Link to={createRoute} style={{ color: 'white' }} > Tạo bài viết </Link>
                 </button>
             </h4>
             {/* <div style={{ marginBottom: '8px' }} >
@@ -106,7 +113,8 @@ const MyCampaignPosts = (props) => {
                 : (
                     <Alert alert={alertEmpty} />
                 )}
-
+            <ConfirmDeletePost showingModal={showingDeleteModal} setShowingModal={setShowingDeleteModal}
+                slug={slug} postName={deletePostName} postId={deletePostId} />
         </div>
     );
 }
@@ -206,15 +214,3 @@ export default MyCampaignPosts;
 //         );
 //     })
 // }
-
-{/* <table className="table table-hover">
-    <thead>
-        <tr>
-            <th>Tiêu đề</th>
-            <th>Cập nhật</th>
-        </tr>
-    </thead>
-    <tbody>
-        {postJsx}
-    </tbody>
-</table> */}

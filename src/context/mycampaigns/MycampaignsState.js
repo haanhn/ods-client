@@ -14,20 +14,24 @@ const MycampaignsState = props => {
     myCampaignDonations: [],
     myCampaignExpenses: [],
     totalExpense: 0,
-    loading: false
+    loading: false,
+    listLoading: false, //Loading list expenses, donations, posts
+    updateDataLoading: false,
   };
 
   const [state, dispatch] = useReducer(mycampaingsReducer, initialState);
 
   // Load My Campaigns
   const getMyCampaigns = async () => {
+    const token = localStorage.getItem(localStoreKeys.token);
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': `${localStorage.token}`
+        'x-access-token': token
       }
     };
     try {
+      setLoading(true);
       const res = await axios.get(
         `${odsBase}/api/campaign/get-by-relation/host`,
         config
@@ -36,7 +40,9 @@ const MycampaignsState = props => {
         type: GET_MYCAMPAIGNS,
         payload: res.data.campaigns.Campaigns
       });
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error.message);
     }
   };
@@ -44,7 +50,7 @@ const MycampaignsState = props => {
   //HOST GET CAMPAIGN BY SLUG
   const getMyCampaignBySlug = async (slug) => {
     const route = odsAPIHost.getMyCampaignBySlug(slug);
-    const token =localStorage.getItem(localStoreKeys.token);
+    const token = localStorage.getItem(localStoreKeys.token);
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +84,7 @@ const MycampaignsState = props => {
   //HOST GET CAMPAIGN DASHBOARD STATS
   const getMyCampaignStats = async (slug) => {
     const route = odsAPIHost.getMyCampaignStats(slug);
-    const token =localStorage.getItem(localStoreKeys.token);
+    const token = localStorage.getItem(localStoreKeys.token);
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -106,6 +112,7 @@ const MycampaignsState = props => {
 
       let imgUrl = null;
       if (imageBinary) {
+        setUpdateDataLoading(true);
         let formData = new FormData();
         formData.append('image', imageBinary);
         const resImg = await axios.post(`${odsBase}${routeUploadCampaignImg}`, formData, {
@@ -121,9 +128,11 @@ const MycampaignsState = props => {
           type: hostActionTypes.SET_CAMPAIGN_IMAGE,
           payload: imgUrl
         });
+        setUpdateDataLoading(false);
         return true;
       }
     } catch (error) {
+      setUpdateDataLoading(false);
       console.error(`Host update campaign image error: ${error}`);
       return false;
     }
@@ -132,6 +141,7 @@ const MycampaignsState = props => {
   const updateCampaign = async (id, title, category, shortDesription, description,
     image, address, region, endDate, goal, autoClose) => {
     try {
+      setUpdateDataLoading(true);
       const res = await axios.post(`${odsBase}${odsAPIHost.updateCampaignInfo}`, {
         token: localStorage.getItem(localStoreKeys.token),
         campaign: {
@@ -152,8 +162,10 @@ const MycampaignsState = props => {
         type: hostActionTypes.GET_CAMPAIGN_DETAIL,
         payload: res.data.result
       });
+      setUpdateDataLoading(false);
       return true;
     } catch (error) {
+      setUpdateDataLoading(false);
       console.error('Update campaign error');
       console.error(error);
       return false;
@@ -194,6 +206,7 @@ const MycampaignsState = props => {
     const token = localStorage.getItem(localStoreKeys.token);
     const campaignId = state.hostViewingCampaign.id;
     try {
+      setUpdateDataLoading(true);
       const res = await axios.post(`${odsBase}${odsAPIHost.createCampaignPost}`,
         {
           token: token,
@@ -205,10 +218,13 @@ const MycampaignsState = props => {
           }
         }
       );
+      setUpdateDataLoading(false);
       return res;
     } catch (error) {
+      setUpdateDataLoading(false);
       console.error('Error when host create post');
       console.error(error);
+      return false;
     }
   }
 
@@ -216,6 +232,7 @@ const MycampaignsState = props => {
   const updateCampaignPosts = async (postId, title, content, status) => {
     const token = localStorage.getItem(localStoreKeys.token);
     try {
+      setUpdateDataLoading(true);
       const res = await axios.post(`${odsBase}${odsAPIHost.updateCampaignPost}`,
         {
           token: token,
@@ -227,10 +244,13 @@ const MycampaignsState = props => {
           }
         }
       );
+      setUpdateDataLoading(false);
       return res;
     } catch (error) {
+      setUpdateDataLoading(false);
       console.error('Error when host update post ' + postId);
       console.error(error);
+      return false;
     }
   }
 
@@ -239,7 +259,7 @@ const MycampaignsState = props => {
     try {
       const token = localStorage.getItem(localStoreKeys.token);
       const api = odsAPIHost.deleteCampaignPost(postId);
-      const slug = state.hostViewingCampaign.campaignSlug;
+      // const slug = state.hostViewingCampaign.campaignSlug;
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -247,10 +267,12 @@ const MycampaignsState = props => {
         }
       };
       await axios.delete(`${odsBase}${api}`, config);
-      await getMyCampaignPosts(slug);
+      // await getMyCampaignPosts(slug);
+      return true;
     } catch (error) {
       console.error('Error when host delete post');
       console.error(error);
+      return false;
     }
   }
 
@@ -317,15 +339,18 @@ const MycampaignsState = props => {
   const getCampaignExpenses = async (slug) => {
     const api = odsAPIHost.getCampaignExpenses(slug);
     try {
+      setListLoading(true);
       const res = await axios.get(`${odsBase}${api}`);
       dispatch({
         type: hostActionTypes.GET_EXPENSES,
         payload: res.data.result
       });
       setTotalExpense(res.data.result);
+      setListLoading(false);
     } catch (error) {
       console.error('Error when host get expenses');
       console.error(error);
+      setListLoading(false);
     }
   }
 
@@ -336,13 +361,16 @@ const MycampaignsState = props => {
     const api = odsAPIHost.createCampaignExpense;
 
     try {
+      setUpdateDataLoading(true);
       const res = await axios.post(`${odsBase}${api}`, {
         token,
         campaignId,
         expense: { title, cost, description }
       });
+      setUpdateDataLoading(false);
       return res.data.result.id;
     } catch (error) {
+      setUpdateDataLoading(false);
       console.error('Error when host create expense');
       console.error(error);
       return false;
@@ -355,12 +383,15 @@ const MycampaignsState = props => {
     const api = odsAPIHost.updateCampaignExpense;
 
     try {
+      setUpdateDataLoading(true);
       await axios.post(`${odsBase}${api}`, {
         token,
         expense: { id, title, cost, description }
       });
+      setUpdateDataLoading(false);
       return true;
     } catch (error) {
+      setUpdateDataLoading(false);
       console.error('Error when host update expense');
       console.error(error);
       return false;
@@ -403,6 +434,10 @@ const MycampaignsState = props => {
   }
 
   const setLoading = (isLoading) => dispatch({ type: hostActionTypes.SET_LOADING, payload: isLoading });
+  const setListLoading = (isLoading) => dispatch({ type: hostActionTypes.SET_LIST_LOADING, payload: isLoading });
+  const setUpdateDataLoading = (isLoading) => dispatch({
+    type: hostActionTypes.SET_UPDATE_DATA_LOADING, payload: isLoading
+  });
 
   return (
     <MycampaignsContext.Provider
@@ -415,6 +450,8 @@ const MycampaignsState = props => {
         myCampaignExpenses: state.myCampaignExpenses,
         totalExpense: state.totalExpense,
         loading: state.loading,
+        listLoading: state.listLoading,
+        updateDataLoading: state.updateDataLoading,
         //Methods
         getMyCampaigns,
         getMyCampaignBySlug,

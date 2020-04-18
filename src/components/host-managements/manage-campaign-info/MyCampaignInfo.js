@@ -46,7 +46,6 @@ const MyCampaignInfo = (props) => {
                     <div className='row clearfix'>
                         <div className='col-lg-2 col-md-3 col-sm-3 col-12 campaign-info-tabs'>
                             <ul className="list-group list-group-flush">
-                                {/* <li class="list-group-item active"> */}
                                 <li className={`list-group-item ${activeImg ? 'active' : null}`}>
                                     <Link to={routeInfoImage} id='linkTabInfoImg' onClick={setActive}>
                                         Ảnh bìa
@@ -71,11 +70,9 @@ const MyCampaignInfo = (props) => {
                                     <MyCampaignTabImage />
                                 </Route>
                                 <Route exact path={`${routes.MY_CAMPAIGN_INFO_DETAILS}`}>
-                                    {/* <CampaignTabMoreInfo description={campaign.campaignDescription} /> */}
                                     <MyCampaignTabDetails />
                                 </Route>
                                 <Route exact path={`${routes.MY_CAMPAIGN_INFO_STORY}`}>
-                                    {/* <CampaignTabMoreInfo description={campaign.campaignDescription} /> */}
                                     <MyCampaignTabStory />
                                 </Route>
                             </Switch>
@@ -88,28 +85,3 @@ const MyCampaignInfo = (props) => {
 }
 
 export default MyCampaignInfo;
-
-{/* <Tab.Container id="left-tabs-example" defaultActiveKey="campInfoImage">
-    <Row>
-        <Col sm={3}>
-            <Nav variant="pills" className="flex-column">
-                <Nav.Item>
-                    <Nav.Link eventKey="campInfoImage">Ảnh bìa</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="campInfoDetails">Chi tiết</Nav.Link>
-                </Nav.Item>
-            </Nav>
-        </Col>
-        <Col sm={9}>
-            <Tab.Content>
-                <Tab.Pane eventKey="campInfoImage">
-                    <MyCampaignTabImage />
-                </Tab.Pane>
-                <Tab.Pane eventKey="campInfoDetails">
-                    <div>2nd</div>
-                </Tab.Pane>
-            </Tab.Content>
-        </Col>
-    </Row>
-</Tab.Container> */}

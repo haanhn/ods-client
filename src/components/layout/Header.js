@@ -15,7 +15,7 @@ function Header(props) {
   const authContext = useContext(AuthContext);
   const mycampaignsContext = useContext(MycampaignsContext);
 
-  const { isLoggedIn, logout } = authContext;
+  const { logout } = authContext;
   const { clearMycampaigns } = mycampaignsContext;
 
   const myId = localStorage.getItem(localStoreKeys.userId);
@@ -28,19 +28,6 @@ function Header(props) {
     logout();
     clearMycampaigns();
   };
-
-  // const authLinks = (
-  //   <Fragment>
-  //     <div style={userStyles}>
-  //       <li>
-  //         <Link to={routes.HOME} onClick={onLogout}>
-  //           <i className='fas fa-sign-out-alt'></i>{' '}
-  //           <span className='hide-sm'>Logout</span>
-  //         </Link>
-  //       </li>
-  //     </div>
-  //   </Fragment>
-  // );
 
   const routeCreateCampaign = routes.CAMPAIGNS_CREATE;
   return (

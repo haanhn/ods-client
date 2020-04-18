@@ -3,31 +3,32 @@ import Modal from 'react-bootstrap/Modal';
 import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
 import Alert from '../../common/Alert';
 
-const ConfirmDeleteExpense = (props) => {
+const ConfirmDeletePost = (props) => {
     const myCampaignsContext = useContext(MyCampaignsContext);
-    const { slug, expenseId, expenseName } = props;
+    const { slug, postId, postName } = props;
     //State Alerts
     const [alertResult, setAlertResult] = useState(null);
     const [result, setResult] = useState(false);
 
-    const deleteExpense = async () => {
+    const deletePost = async () => {
         setAlertResult(null);
-        const resultDelete = await myCampaignsContext.deleteCampaignExpense(expenseId);
-        if (resultDelete) {
-            setAlertResult({ type: 'success', msg: 'Xóa chi phí thành công' });
+        const result = await myCampaignsContext.deleteCampaignPost(postId);
+        if (result) {
+            setAlertResult({ type: 'success', msg: 'Xóa bài viết thành công' });
             setResult(true);
         } else {
-            setAlertResult({ type: 'danger', msg: 'Xóa chi phí thất bại, xin thử lại' });
+            setAlertResult({ type: 'danger', msg: 'Xóa bài viết thất bại, xin thử lại' });
         }
     }
 
     const hideModal = () => {
         props.setShowingModal(false);
         setAlertResult(null);
-        if (result) {
-            myCampaignsContext.getCampaignExpenses(slug);
-        }
         setResult(false);
+        // If delete success => reload posts
+        if (result) {
+            myCampaignsContext.getMyCampaignPosts(slug);
+        }
     }
 
     return (
@@ -39,12 +40,12 @@ const ConfirmDeleteExpense = (props) => {
             centered
         >
             <Modal.Body>
-                Bạn có muốn xóa chi phí: {expenseName} ?
+                Bạn có muốn xóa bài viết: {postName} ?
                 <Alert alert={alertResult} />
             </Modal.Body>
             <Modal.Footer>
                 {!result ? (
-                    <button className="btn btn-danger" onClick={deleteExpense} >Xoá</button>
+                    <button className="btn btn-danger" onClick={deletePost} >Xoá</button>
                 ) : null}
                 <button className="btn btn-light" onClick={hideModal} >Đóng</button>
             </Modal.Footer>
@@ -53,4 +54,4 @@ const ConfirmDeleteExpense = (props) => {
     );
 }
 
-export default ConfirmDeleteExpense;
+export default ConfirmDeletePost;

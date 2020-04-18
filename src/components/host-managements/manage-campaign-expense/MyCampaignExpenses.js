@@ -6,12 +6,14 @@ import '../../css/common.css';
 import '../../css/host-manage-campaign.css';
 import MyCampaignExpenseModal from './MyCampaignExpenseModal';
 import ConfirmDeleteExpense from './ConfirmDeleteExpense';
+import Spinner from '../../common/Spinner';
 
 const MyCampaignExpenses = (props) => {
     const { slug } = props.match.params;
     const myCampaignsContext = useContext(MyCampaignsContext);
     const expenses = myCampaignsContext.myCampaignExpenses;
     const totalExpense = myCampaignsContext.totalExpense;
+    const { loading, listLoading } = myCampaignsContext;
 
     const [showingModal, setShowingModal] = useState(false);
     const [showingDeleteModal, setShowingDeleteModal] = useState(false);
@@ -20,15 +22,15 @@ const MyCampaignExpenses = (props) => {
     const [deleteExpenseName, setDeleteExpenseName] = useState(null);
 
     const viewExpense = (event, expense) => {
-        console.log('view expense')
-        console.log(expense)
+        console.log('view expense');
+        console.log(expense);
         setCurrentExpense(expense);
         setShowingModal(true);
     }
 
     const showDeleteExpense = (event, expense) => {
-        console.log('view expense id')
-        console.log(expense.id)
+        console.log('view delete expense id');
+        console.log(expense);
         setDeleteExpenseId(expense.id);
         setDeleteExpenseName(expense.title);
         setShowingDeleteModal(true);
@@ -68,6 +70,10 @@ const MyCampaignExpenses = (props) => {
     useEffect(() => {
         myCampaignsContext.getCampaignExpenses(slug);
     }, []);
+
+    if (!loading && listLoading) {
+        return <Spinner />;
+    }
 
     return (
         <div className='host-list-expenses-container' >

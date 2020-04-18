@@ -9,7 +9,7 @@ const MycampaignsItem = props => {
   const route = routes.getRouteMyCampaignDetail(campaignSlug);
 
   let type = 'đang mở';
-  if (status === 'closed') {
+  if (status === 'close') {
     type = 'đã đóng';
   } else if (status === 'waiting') {
     type = 'chờ xác nhận';

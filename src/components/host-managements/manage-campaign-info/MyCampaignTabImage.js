@@ -6,6 +6,7 @@ import { validateImageFile } from '../../../utils/imageUtils';
 const MyCampaignTabImage = () => {
     const myCampaignsContext = useContext(MyCampaignsContext);
     const viewingCampaign = myCampaignsContext.hostViewingCampaign;
+    const loading = myCampaignsContext.updateDataLoading;
 
     const currentImageUrl = viewingCampaign ? viewingCampaign.campaignThumbnail : null;
     const status = viewingCampaign && viewingCampaign.campaignStatus ? viewingCampaign.campaignStatus : '';
@@ -36,6 +37,7 @@ const MyCampaignTabImage = () => {
             }
             reader.readAsDataURL(file);
         } catch (error) {
+            setAlertImage({ type: 'danger', msg: 'Có lỗi xảy ra khi đọc file, xin hãy thử lại' });
             console.error(`Error choose image: ` + error);
         }
     }
@@ -58,7 +60,7 @@ const MyCampaignTabImage = () => {
                 viewingCampaign.campaignDescription,
                 null,
                 viewingCampaign.campaignAddress,
-                viewingCampaign.campaignRegion,
+                viewingCampaign.regionId,
                 viewingCampaign.campaignEndDate,
                 viewingCampaign.campaignGoal,
                 viewingCampaign.autoClose
@@ -72,6 +74,7 @@ const MyCampaignTabImage = () => {
     }
 
     const removeImage = () => {
+        setAlertImage(null);
         setNewImageUrl(null);
         setImageBinary(null);
     }
@@ -100,18 +103,25 @@ const MyCampaignTabImage = () => {
             />
             <label htmlFor='createCampaignImage' className='child campaign-image-cover'>
                 {newImageUrl ?
-                    <img src={newImageUrl} alt='' />
+                    <img src={newImageUrl} className='lazy-image' alt='' />
                     : <div className='btn-choose-image' > Chọn ảnh </div>
                 }
             </label>
-            <Alert alert={alertImage} />
+            <div className='child' >
+                <Alert alert={alertImage} />
+            </div>
             {newImageUrl && status !== 'close' ? btnsUpdateImg : null}
             {status !== 'close' ? (
                 <div className='box-btn-save-campaign-image'>
-                    <button className='btn btn-sm btn-success' onClick={saveImage}>Cập nhật</button>
+                    {loading ? (
+                        <button class="btn btn-success" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm"></span>
+                                &nbsp; Đang lưu...
+                        </button>) : (
+                            <button className='btn btn-sm btn-success' onClick={saveImage}>Cập nhật</button>
+                        )}
                 </div>
             ) : null}
-            {/* {imageGuide} */}
         </div>
 
     );

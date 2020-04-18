@@ -7,6 +7,7 @@ import Alert from '../../common/Alert';
 const MyCampaignExpenseModal = (props) => {
     const myCampaignsContext = useContext(MyCampaignsContext);
     const { slug } = props;
+    const { updateDataLoading } = myCampaignsContext;
     const expense = props.expense;
     const initId = expense ? expense.id : null;
     const initTitle = expense ? expense.title : '';
@@ -21,6 +22,7 @@ const MyCampaignExpenseModal = (props) => {
     const inputDescription = React.createRef();
     const [id, setId] = useState(initId);
     const [cost, setCost] = useState(initCost);
+    const [changed, setChanged] = useState(false); //if create  or update success => changed=true => reload expenses
 
     //State Alerts
     const [alertResult, setAlertResult] = useState(null);
@@ -56,11 +58,11 @@ const MyCampaignExpenseModal = (props) => {
             }
 
             //Choose when to create or update
-            if (initId) {
+            if (initId) { //Have an expense in the list to update (click button Edit expense item)
                 console.log('Update expense');
                 result = await myCampaignsContext.updateCampaignExpense(initId, title, costVal, description);
-                
-            } else {
+
+            } else { //Dont have an expense in the list (click button Create)
                 console.log('Create expense');
                 if (id) {
                     result = await myCampaignsContext.updateCampaignExpense(id, title, costVal, description);
@@ -76,9 +78,10 @@ const MyCampaignExpenseModal = (props) => {
             }
         }
         if (result) {
-            setAlertResult({ type: 'success', msg: 'Lưu thành công' })
+            setAlertResult({ type: 'success', msg: 'Lưu thành công' });
+            setChanged(true);
         } else if (!messages) {
-            setAlertResult({ type: 'danger', msg: 'Lưu thất bại, xin thử lại' })
+            setAlertResult({ type: 'danger', msg: 'Lưu thất bại, xin thử lại' });
         }
     }
 
@@ -91,7 +94,10 @@ const MyCampaignExpenseModal = (props) => {
         setAlertCost(null);
         setAlertDescription(null);
         setAlertResult(null);
-        myCampaignsContext.getCampaignExpenses(slug);
+        if (changed) {
+            myCampaignsContext.getCampaignExpenses(slug);
+        }
+        setChanged(false);
         props.setShowingModal(false);
     }
 
@@ -171,7 +177,13 @@ const MyCampaignExpenseModal = (props) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <button className="btn btn-primary" onClick={saveExpense} >Lưu</button>
+                {updateDataLoading ? (
+                    <button class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm"></span>
+                                &nbsp; Đang lưu...
+                    </button>) : (
+                        <button className="btn btn-primary" onClick={saveExpense} >Lưu</button>
+                    )}
                 <button className="btn btn-light" onClick={hideModal} >Đóng</button>
             </Modal.Footer>
         </Modal>

@@ -5,6 +5,8 @@ import { odsBase, odsAPIOpenRoutes } from '../../../odsApi';
 import { Editor } from '@tinymce/tinymce-react';
 import Alert from '../../common/Alert';
 // import { mceApiKey } from '../../../privateApiKeys';
+import { tipsForStory } from './create-campaign-modal-suggest/tipsModal';
+
 
 const CreateCampaignStep2 = (props) => {
 
@@ -142,26 +144,5 @@ const CreateCampaignStep2 = (props) => {
         </div>
     );
 }
-
-const tipsForStory = (
-    <div style={{ fontSize: '90%', marginBottom: '15px' }} >
-        Một câu chuyện có chiều sâu sẽ dễ đi vào lòng người, bạn nên:
-        <div>
-            <b>1. Giới thiệu bản thân:</b> Giới thiệu đôi nét về bản thân, tạo niềm tin giữa người xem với bạn.
-        </div>
-        <div>
-            <b>2. Mục đích, lý do:</b> Giải thích tại sao bạn cần gây quỹ, mục tiêu của bạn là gì, và những đối tượng có liên quan.
-        </div>
-        <div>
-            <b>3. Số tiền được dùng cho việc gì:</b> Bạn cần mô tả chi tiết số tiền sẽ được dùng làm gì, như thế nào với người xem.
-        </div>
-        <div>
-            <b>4. Kêu gọi sự giúp đỡ:</b> Đừng ngại ngần chia sẻ về chiến dịch của bạn cho những người quen.
-        </div>
-        <div>
-            <b>5. Chi tiết:</b> Mô tả chi tiết về câu chuyện của bạn để người xem hiểu rõ bạn hơn.
-        </div>
-    </div>
-);
 
 export default CreateCampaignStep2;

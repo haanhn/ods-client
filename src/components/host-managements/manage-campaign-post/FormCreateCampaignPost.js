@@ -8,7 +8,7 @@ const FormCreateCampaignPost = (props) => {
     const { id } = props.match.params;
 
     const myCampaignsContext = useContext(MyCampaignsContext);
-    const { createCampaignPost, updateCampaignPosts } = myCampaignsContext;
+    const { updateDataLoading , createCampaignPost, updateCampaignPosts } = myCampaignsContext;
 
     let post = null;
     if (id) {
@@ -53,11 +53,19 @@ const FormCreateCampaignPost = (props) => {
         } else {
             if (!postId) { //create post
                 const res = await createCampaignPost(title, content, status);
-                setPostId(res.data.result.id);
-                setAlertResult({ type: 'success', msg: 'Tạo bài viết thành công.' })
+                if (res !== false) {
+                    setPostId(res.data.result.id);
+                    setAlertResult({ type: 'success', msg: 'Tạo bài viết thành công.' });
+                } else {
+                    setAlertResult({ type: 'danger', msg: 'Lưu thất bại, xin thử lại.' });
+                }
             } else { //update post
-                await updateCampaignPosts(postId, title, content, status);
-                setAlertResult({ type: 'success', msg: 'Cập nhật bài viết thành công.' })
+                const res = await updateCampaignPosts(postId, title, content, status);
+                if (res !== false) {
+                    setAlertResult({ type: 'success', msg: 'Cập nhật bài viết thành công.' });
+                } else {
+                    setAlertResult({ type: 'danger', msg: 'Lưu thất bại, xin thử lại.' });
+                }
             }
         }
     }
@@ -146,7 +154,7 @@ const FormCreateCampaignPost = (props) => {
                     </div>
                 </div>
                 <div className="form-check">
-                <label className="form-check-label"><input type="checkbox" className="form-check-input" ref={inputStatus}
+                    <label className="form-check-label"><input type="checkbox" className="form-check-input" ref={inputStatus}
                         defaultChecked={initPostStatus === 'enable' ? true : false}
                     />
                     Công khai bài viết</label>
@@ -171,9 +179,16 @@ const FormCreateCampaignPost = (props) => {
                 }
 
                 <div style={{ textAlign: 'center' }} >
-                    <button className="btn btn-success" style={{ width: '150px' }}
-                        onClick={savePost}
-                    >Lưu bài viết</button>
+                    {updateDataLoading  ? (
+                        <button class="btn btn-success" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm"></span>
+                                &nbsp; Đang lưu...
+                        </button>
+                    ) : (
+                        <button className="btn btn-success" style={{ width: '150px' }} onClick={savePost} >
+                            Lưu bài viết
+                        </button>
+                    )}
                 </div>
             </form>
         </div>

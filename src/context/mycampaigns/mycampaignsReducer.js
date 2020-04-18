@@ -56,6 +56,16 @@ export default (state, action) => {
         ...state,
         loading: data
       };
+    case hostActionTypes.SET_LIST_LOADING:
+      return {
+        ...state,
+        listLoading: data
+      };
+    case hostActionTypes.SET_UPDATE_DATA_LOADING:
+      return {
+        ...state,
+        updateDataLoading: data
+      };
     default:
       return state;
   }

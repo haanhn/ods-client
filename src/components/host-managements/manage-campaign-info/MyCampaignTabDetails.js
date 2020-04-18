@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import DatePicker from 'react-datepicker';
 import addDays from 'date-fns/addDays';
@@ -277,8 +277,7 @@ const getRegionsJsx = (regions, campaignRegion) => {
 
 const validateData = (title, address, goal, minGoal, endDate) => {
     let msg = {};
-    const goal10M = 10000000000;
-    // const goalMin = 100000;
+    const goalMax = 3000000000;
     //Title
     if (title.length === 0) {
         msg.title = 'Xin nhập tên chiến dịch';
@@ -297,11 +296,11 @@ const validateData = (title, address, goal, minGoal, endDate) => {
         msg.goal = 'Xin nhập mục tiêu';
     } else {
         const goalNumber = parseFloat(goalStr);
-        if (goalNumber > goal10M) {
-            msg.goal = 'Chúng tôi chỉ hỗ trợ mục tiêu dưới 10 tỷ đồng';
+        if (goalNumber > goalMax) {
+            msg.goal = 'Chúng tôi chỉ hỗ trợ mục tiêu từ dưới 3 tỷ đồng';
         } else if (goal < minGoal) {
             const goalFormat = new Intl.NumberFormat('ja-JP').format(minGoal);
-            msg.goal = 'Mục tiêu cần lớn hơn số tiền quyên góp được: ' + goalFormat + ' đồng';
+            msg.goal = 'Mục tiêu cần lớn hơn hoặc bằng số tiền quyên góp được: ' + goalFormat + ' đồng';
         }
     }
     //endDate

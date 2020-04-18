@@ -3,12 +3,16 @@ import { Editor } from '@tinymce/tinymce-react';
 import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
 import Alert from '../../common/Alert';
 import { odsAPIOpenRoutes, odsBase } from '../../../odsApi';
+import CommonModal from '../../campaigns/create-campaign/create-campaign-modal-suggest/CommonModal';
+import { tipsForShortDescr, tipsForStory } from '../../campaigns/create-campaign/create-campaign-modal-suggest/tipsModal';
 
 const MyCampaignTabStory = () => {
     const myCampaignsContext = useContext(MyCampaignsContext);
     const campaign = myCampaignsContext.hostViewingCampaign;
-    const initShortDescription = campaign ? campaign.campaignShortDescription : '';
-    const initDescription = campaign ? campaign.campaignDescription : '';
+    const loading = myCampaignsContext.updateDataLoading;
+
+    const initShortDescription = campaign && campaign.campaignShortDescription ? campaign.campaignShortDescription : '';
+    const initDescription = campaign && campaign.campaignDescription ? campaign.campaignDescription : '';
     const status = campaign && campaign.campaignStatus ? campaign.campaignStatus : '';
 
     const [description, setDescription] = useState(initDescription);
@@ -17,6 +21,10 @@ const MyCampaignTabStory = () => {
     //State Alert
     const [alertShortDescription, setAlertShortDescription] = useState(null);
     const [alertResult, setAlertResult] = useState(null);
+
+    //State for suggestions
+    const [showTipsForStory, setShowTipsForStory] = useState(false);
+    const [showingModalShortDescr, setShowingModalShortDescr] = useState(false);
 
     const handleEditorChange = (content, editor) => {
         console.log('Content was updated:');
@@ -103,7 +111,7 @@ const MyCampaignTabStory = () => {
                 description,
                 campaign.campaignThumbnail,
                 campaign.campaignAddress,
-                campaign.campaignRegion,
+                campaign.regionId,
                 campaign.campaignEndDate,
                 campaign.campaignGoal,
                 campaign.autoClose
@@ -122,9 +130,8 @@ const MyCampaignTabStory = () => {
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
                         Mô tả ngắn
-                        <i className="fas fa-info-circle icon-small theme_color"
-                            data-toggle="modal" data-target="#modalTipsShortDescr"
-                            style={{ padding: '0 7px' }} ></i>
+                        <i className="fas fa-info-circle icon-small theme_color" style={{ padding: '0 7px' }}
+                            onClick={() => setShowingModalShortDescr(true)} ></i>
                     </label>
                     <div className="col-sm-12">
                         <textarea type="text" className="form-control" placeholder="Mô tả ngắn"
@@ -138,24 +145,34 @@ const MyCampaignTabStory = () => {
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
                         Câu chuyện của bạn
-                        <i className="fas fa-info-circle icon-small theme_color"
-                            data-toggle="modal" data-target="#modalTipsShortDescr"
-                            style={{ padding: '0 7px' }} ></i>
+                        <i className="fas fa-info-circle icon-small theme_color" style={{ padding: '0 7px' }} 
+                            onClick={() => setShowTipsForStory(!showTipsForStory)} ></i>
+                        {showTipsForStory ? tipsForStory : null}
                     </label>
                     <div className="col-sm-12">
                         {editor}
+                    </div>
+                    <div className="col-sm-12">
+                        <Alert alert={alertResult} />
                     </div>
                 </div>
                 {status !== 'close' ? (
                     <div className="row">
                         <div className="col-sm-12" style={{ textAlign: 'center', paddingTop: '10px' }}>
-                            <button className="btn btn-sm btn-success"
-                                onClick={saveStory}
-                            >Cập nhật</button>
+                            {loading ? (
+                                <button class="btn btn-success" type="button" disabled>
+                                    <span class="spinner-border spinner-border-sm"></span>
+                                &nbsp; Đang lưu...
+                                </button>
+                            ) : (
+                                    <button className="btn btn-sm btn-success" onClick={saveStory} >Cập nhật</button>
+                                )}
                         </div>
                     </div>
                 ) : null}
             </form>
+            <CommonModal showingModal={showingModalShortDescr} setShowingModal={setShowingModalShortDescr}
+                title='Mô tả ngắn' message={tipsForShortDescr} />
         </div>
     );
 }
