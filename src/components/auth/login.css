@@ -18,7 +18,7 @@
   font-size: 16px;
   /* background: #eee; */
   /* color: #666; */
-  height: 100vh;
+  min-height: 90vh;
   width: 100%;
 }
 .login-form {
@@ -26,10 +26,13 @@
   width: 370px;
   padding: 15px;
   max-width: 100%;
+  border-radius: 9px;
+  border: 1px solid #eee;
+  background-color: #fff;
 }
 .login-form .form-control {
   font-size: 15px;
-  min-height: 48px;
+  /* min-height: 48px; */
   font-weight: 500;
 }
 .login-form a {
@@ -53,7 +56,7 @@
   color: #fff;
   font-size: 15px;
   font-weight: 600;
-  min-height: 48px;
+  min-height: 30px;
 }
 .btn-custom:focus,
 .btn-custom:hover,
@@ -69,12 +72,14 @@
 .registerbtn {
   background-color: #28a745;
   color: white;
-  padding: 16px 20px;
+  padding: 5px 0;
   margin: 8px 0;
   border: none;
   cursor: pointer;
   width: 100%;
   opacity: 0.9;
+  border-radius: 5px;
+  margin-top: 17px;
 }
 .registerbtn:hover {
   background: #1e682f;

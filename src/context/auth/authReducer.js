@@ -4,7 +4,6 @@ import {
   GET_OTP,
   LOG_OUT,
   LOGIN_SUCCESS,
-  LOGIN_FAIL,
   CLEAR_ERRORS,
   authActionTypes
 } from '../types';
@@ -29,11 +28,6 @@ export default (state, action) => {
         isLoggedIn: true
       };
     case REGISTER_FAIL:
-    case LOGIN_FAIL:
-      return {
-        ...state,
-        error: action.payload
-      };
     case CLEAR_ERRORS:
       return {
         ...state,

@@ -19,9 +19,11 @@ const CampaignItemProgress = (props) => {
         progress = progress + '%';
     }
     const raisedFormat =
+    // raisedValue.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
         new Intl.NumberFormat('en-GB', { notation: "compact", compactDisplay: "short" }).format(raisedValue);
 
     const goalFormat =
+    // goalValue.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
         new Intl.NumberFormat('en-GB', { notation: "compact", compactDisplay: "short" }).format(goalValue);
 
     //left time
@@ -31,7 +33,7 @@ const CampaignItemProgress = (props) => {
         <div className="campaign-progress" style={{marginBottom: '5px', color: '#5d5d5d'}}>
             <div className="campaign-progress-number clearfix">
                 <div>
-                    <strong> {raisedFormat} / {goalFormat} vnđ </strong>
+                    <strong> {raisedFormat} / {goalFormat} đ </strong>
                 </div>
                 {campaignStatus === 'public' ? (
                     <div>Còn <strong>{leftTime}</strong> </div>

@@ -1,5 +1,6 @@
 // export const odsFrontEndBase = 'http://localhost:3000';
 export const odsBase = 'http://localhost:5000';
+// export const odsBase = 'https://odsserver.herokuapp.com';
 export const odsFrontEndBase = () => {
   const protocol = window.location.protocol;
   const host = window.location.host;

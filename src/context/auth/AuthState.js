@@ -7,7 +7,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGIN_SUCCESS,
-  LOGIN_FAIL,
+  // LOGIN_FAIL,
   LOG_OUT,
   CLEAR_ERRORS,
   authActionTypes
@@ -80,9 +80,9 @@ const AuthState = props => {
   //
 
   // Login User
-  const login = async formData => {
+  const login = async (formData) => {
     const config = {
-      headers: {
+      headers: { 
         'Content-Type': 'application/json'
       }
     };
@@ -100,11 +100,11 @@ const AuthState = props => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
+      return true;
     } catch (err) {
-      dispatch({
-        type: LOGIN_FAIL,
-        payload: err.response.data.message
-      });
+      console.error('Login failed: ');
+      console.error(err);
+      return false;
     }
   };
 

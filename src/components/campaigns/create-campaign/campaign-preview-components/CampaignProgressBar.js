@@ -14,7 +14,7 @@ const CampaignProgressBar = (props) => {
         <div className="campaign-progress">
             <div className="campaign-progress-number clearfix">
                 <div>
-                    <strong> {raisedJsx} / {goalJsx} vnđ </strong>
+                    <strong> {raisedJsx} / {goalJsx} đ </strong>
                 </div>
                 <div><strong>Còn 5 ngày</strong></div>
             </div>

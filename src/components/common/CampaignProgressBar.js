@@ -26,7 +26,7 @@ const CampaignProgressBar = (props) => {
         <div className="campaign-progress">
             <div className="campaign-progress-number clearfix">
                 <div>
-                    <strong> {raisedJsx} / {goalJsx} vnđ </strong>
+                    <strong> {raisedJsx} / {goalJsx} đ </strong>
                 </div>
                 {campaignStatus === 'public' ? (
                     <div>Còn <strong>{leftTime}</strong> </div>

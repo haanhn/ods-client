@@ -65,75 +65,68 @@ const Register = props => {
   };
 
   return (
-    <div className='d-flex justify-content-center align-items-center login-content'>
+    <div className='d-flex justify-content-center align-items-center login-content' style={{minHeight: '90vh'}}>
       {!isOtp && (
-        <form className='login-form text-center' onSubmit={onSetOtp}>
-          <h1 className='mb-5 font-weight-light'>Register</h1>
+        <form className='login-form' onSubmit={onSetOtp} style={{margin: '25px auto'}} >
+          <h2 style={{marginBottom: '5px', padding: '10px 0 5px'}}>Tạo tài khoản</h2>
           <div className='form-group'>
             {/* <p>Please fill in this form to create an account.</p> */}
-            <label htmlFor='email'>
+            <label htmlFor='email' style={{margin: '3px 0 0'}}>
               <b>Email</b>
             </label>
             <input
-              type='email'
-              placeholder='Enter Email'
-              name='email'
-              value={email}
-              onChange={onChange}
-              className='form-control rounded-pill form-control-lg'
+              type='email' placeholder='Nhập email' name='email' 
+              value={email} onChange={onChange}
+              className='form-control'
               required
             />
-            <label htmlFor='name'>
-              <b>Name</b>
+            <label htmlFor='name' style={{margin: '3px 0 0'}}>
+              <b>Họ tên</b>
             </label>
             <input
               type='text'
-              placeholder='Enter Name'
+              placeholder='Nhập họ tên'
               name='fullname'
               value={fullname}
               onChange={onChange}
-              className='form-control rounded-pill form-control-lg'
+              className='form-control'
               required
             />
-            <label htmlFor='psw'>
-              <b>Password</b>
+            <label htmlFor='psw' style={{margin: '3px 0 0'}}>
+              <b>Mật khẩu</b>
             </label>
             <input
               type='password'
-              placeholder='Enter Password'
+              placeholder='Nhập mật khẩu'
               name='password'
               value={password}
               onChange={onChange}
-              className='form-control rounded-pill form-control-lg'
+              className='form-control'
               required
               minLength='6'
             />
-            <label htmlFor='psw-repeat'>
-              <b>Repeat Password</b>
+            <label htmlFor='psw-repeat' style={{margin: '3px 0 0'}}>
+              <b>Nhập lại mật khẩu</b>
             </label>
             <input
               type='password'
-              placeholder='Enter Password'
+              placeholder='Nhập lại mật khẩu'
               name='password2'
               value={password2}
               onChange={onChange}
-              className='form-control rounded-pill form-control-lg'
+              className='form-control'
               required
               minLength='6'
             />
 
-            {/* <p>
-            By creating an account you agree to our{' '}
-            <a href='# '>Terms &amp; Privacy</a>.
-          </p> */}
             <input type='submit' value='Register' className='registerbtn' />
           </div>
-          <div className='container signin'>
+          <div className='container signin  text-center'>
             <p>
-              Already have an account?{' '}
+              Bạn đã có tài khoản?
               <li className=''>
                 <Link to={routes.PAGE_SIGN_IN}>
-                  <strong>Sign in</strong>
+                  <strong>Đăng nhập</strong>
                 </Link>
               </li>
             </p>
@@ -141,20 +134,17 @@ const Register = props => {
         </form>
       )}
       {isOtp && (
-        <form className='login-form text-center' onSubmit={onSubmit}>
-          <label htmlFor='name'>
-            <b>Name</b>
+        <form className='login-form text-center' onSubmit={onSubmit} >
+          <label htmlFor='name' style={{margin: '3px 0 0'}}>
+            <b>Nhập mã OTP</b>
           </label>
           <input
-            type='text'
-            placeholder='Enter OTP'
-            name='otpToken'
-            value={otpToken}
-            onChange={onChange}
-            className='form-control rounded-pill form-control-lg'
+            type='text' placeholder='Mã OTP' name='otpToken'
+            value={otpToken} onChange={onChange}
+            className='form-control'
             required
           />
-          <button className='registerbtn'>OK</button>
+          <button className='registerbtn'>Xác nhận</button>
         </form>
       )}
     </div>
