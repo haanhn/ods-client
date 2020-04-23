@@ -70,10 +70,7 @@ const AccountSettingTabInfo = () => {
             <form>
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
-                        Họ tên <i class="fas fa-info-circle icon-small theme_color"
-                            style={{ padding: '0 7px' }}
-                        // onClick={showTipsStory} 
-                        ></i>
+                        Họ tên
                     </label>
                     <div className="col-sm-12">
                         <input type="text" className="form-control" placeholder="Họ tên"
@@ -85,10 +82,7 @@ const AccountSettingTabInfo = () => {
                 </div>
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
-                        Địa chỉ liên hệ<i class="fas fa-info-circle icon-small theme_color"
-                            style={{ padding: '0 7px' }}
-                        // onClick={showTipsStory} 
-                        ></i>
+                        Địa chỉ liên hệ
                     </label>
                     <div className="col-sm-12">
                         <input type="text" className="form-control" placeholder="Địa chỉ liên hệ"
