@@ -278,12 +278,6 @@ const getRegionsJsx = (regions, campaignRegion) => {
 const validateData = (title, address, goal, minGoal, endDate) => {
     let msg = {};
     const goalMax = 3000000000;
-    //Title
-    if (title.length === 0) {
-        msg.title = 'Xin nhập tên chiến dịch';
-    } else if (title.length > 50) {
-        msg.title = 'Tên chiến dịch không quá 50 kí tự';
-    }
     //Address
     if (address.length === 0) {
         msg.address = 'Xin nhập địa chỉ thực hiện chiến dịch';

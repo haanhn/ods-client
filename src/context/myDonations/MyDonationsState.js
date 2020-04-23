@@ -28,11 +28,12 @@ const MyDonationsState = props => {
       setLoading(true);
       const res = await axios.get(`${odsBase}${api}`, config);
       const donations = res.data.result;
+      const nonOutsideDonations = getNonOutsideDonations(donations);
       dispatch({
         type: donorActionTypes.GET_MY_DONATIONS,
-        payload: donations
+        payload: nonOutsideDonations
       });
-      setFilteredDonations(donations);
+      setFilteredDonations(nonOutsideDonations);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -63,3 +64,18 @@ const MyDonationsState = props => {
 };
 
 export default MyDonationsState;
+
+const getNonOutsideDonations = (listDonations) => {
+  if (!listDonations || listDonations.length === 0) {
+    return [];
+  }
+  const list = [];
+  let i = 0;
+  for (i = 0; i < listDonations.length; i++) {
+    const donation = listDonations[i];
+    if (donation.donationMethod !== 'outside') {
+      list.push(donation);
+    }
+  }
+  return list;
+}

@@ -6,11 +6,13 @@ function Footer() {
         color: "white", 
         textAlign: "center", 
         margin: "0 auto", 
-        padding: "15px 0"
+        padding: "15px 0",
+        fontSize: '95%'
     };
     return (
         <div style={styles}>
-            Footer goes here: From ODS Team
+            Hệ thống quyên góp từ thiện: ODS
+            <p>Được làm bởi ODS Team</p>
         </div>
     );
 }

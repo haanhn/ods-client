@@ -1,6 +1,8 @@
 import React from 'react';
 import CurrencyFormat from 'react-currency-format';
 import Modal from 'react-bootstrap/Modal';
+import { Link } from 'react-router-dom';
+import { routes } from '../../odsApi';
 
 const MyDonationModal = (props) => {
     const donation = props.donation;
@@ -11,6 +13,8 @@ const MyDonationModal = (props) => {
     const donationStatusJsx = donation ? donation.donationStatusJsx : '';
     const donationMessage = donation ? donation.donationMessage : '';
     const campaignTitle = (donation && donation.Campaign) ? donation.Campaign.campaignTitle : '';
+    const slug = (donation && donation.Campaign) ? donation.Campaign.campaignSlug : '';
+    const routeCampaign = routes.getRouteCampaignDetail(slug);
 
     const hideModal = () => {
         props.setShowingModal(false);
@@ -43,7 +47,9 @@ const MyDonationModal = (props) => {
                             <td> {dateJsx} </td>
                         </tr><tr>
                             <td>Chiến dịch</td>
-                            <td> {campaignTitle} </td>
+                            <td>
+                                <Link to={routeCampaign} style={{color: 'inherit'}} >{campaignTitle}</Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>Số tiền</td>

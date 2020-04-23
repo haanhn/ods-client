@@ -5,6 +5,7 @@ import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext'
 
 const HostCreateOutsideDonation = () => {
     const myCampaignsContext = useContext(MyCampaignsContext);
+    const { updateDataLoading } = myCampaignsContext;
 
     const [money, setMoney] = useState(20000);
     const inputName = React.createRef();
@@ -33,22 +34,41 @@ const HostCreateOutsideDonation = () => {
             }
         } else {
             const result = await myCampaignsContext.createOutsideDonation(name, money, anonymous);
-            if (result !== false) {
+            if (result === true) {
                 setResult(true);
-                setAlertResult({ type: 'success', msg: 'Tạo quyên góp thành công' })
+                setAlertResult({ type: 'success', msg: 'Tạo quyên góp thành công' });
+            } else if (result === false) {
+                setAlertResult({ type: 'danger', msg: 'Tạo quyên góp thất bại, xin thử lại' });
             }
+        }
+    }
+
+    const resetDonation = () => {
+        setResult(false);
+        setAlertResult(null);
+        try {
+            const inputIdName = document.getElementById('donationOutsideName');
+            const inputIdAnonymous = document.getElementById('donationOutsideAnonymous');
+            inputIdName.value = '';
+            inputIdAnonymous.checked = false;
+            setMoney(20000);
+        } catch (error) {
+            console.error(error);
         }
     }
 
     return (
         <div className='host-create-outside-donation' >
             <div className='host-create-outside-donation-content' >
+                <h5 style={{fontSize: '105%', paddingBottom: '7px', marginBottom: '5px', borderBottom: '1px #dddddd solid'}} >
+                    <b>Tạo quyên góp nhận từ bên ngoài</b>
+                </h5>
                 <form>
                     <div className="row">
                         <label className="col-sm-12 col-form-label">Tên người quyên góp</label>
                         <div className="col-sm-12">
                             <input type="text" className="form-control" placeholder="Tên người quyên góp"
-                                defaultValue={''} ref={inputName} />
+                                defaultValue={''} ref={inputName} id='donationOutsideName' />
                             <Alert alert={alertName} />
                         </div>
                     </div>
@@ -82,7 +102,8 @@ const HostCreateOutsideDonation = () => {
 
                     <div className="form-check" style={{ paddingTop: '5px' }}>
                         <label className="form-check-label">
-                            <input type="checkbox" className="form-check-input" ref={inputAnonymous} />
+                            <input type="checkbox" className="form-check-input" ref={inputAnonymous} 
+                                id='donationOutsideAnonymous' />
                         Ẩn danh
                     </label>
                     </div>
@@ -90,7 +111,7 @@ const HostCreateOutsideDonation = () => {
                     <div className="row">
                         <div className="col-sm-12" style={{ textAlign: 'center' }}>
                             <Alert alert={alertResult} />
-                            {!result ? (
+                            {!result && !updateDataLoading ? (
                                 <button class="btn btn-success" type="button" onClick={saveDonation}>
                                     Tạo quyên góp
                                 </button>
@@ -98,16 +119,19 @@ const HostCreateOutsideDonation = () => {
                                     null
                                 )}
 
-                            {/* {loading ? (
-                            <button class="btn btn-success" type="button" disabled>
-                                <span class="spinner-border spinner-border-sm"></span>
-                                &nbsp; Đang gửi...
-                            </button>
-                        ) : (
-                                <button className="btn btn-success" style={{ minWidth: '120px' }} 
-                                // onClick={donate} 
-                                >Xác nhận</button>
-                            )} */}
+                            {!result && updateDataLoading ? (
+                                <button class="btn btn-success" type="button" disabled>
+                                    <span class="spinner-border spinner-border-sm"></span>
+                                    &nbsp; Đang gửi...
+                                </button>
+                            ) : (
+                                    null
+                                )}
+                            {result ? (
+                                <button class="btn btn-outline-success" type="button" onClick={resetDonation}>
+                                    Tạo quyên góp khác
+                                </button>
+                            ) : null}
                         </div>
                     </div>
                 </form>
@@ -116,7 +140,6 @@ const HostCreateOutsideDonation = () => {
     );
 }
 const validateData = (name, money) => {
-    const maxMoney = 10000000000;
     const minMoney = 1000;
 
     let msg = {};
@@ -131,9 +154,7 @@ const validateData = (name, money) => {
         msg.money = 'Xin nhập số tiền';
     } else {
         const moneyNumber = parseFloat(moneyStr);
-        if (moneyNumber > maxMoney) {
-            msg.money = 'Số tiền quyên góp không quá 10 tỷ đồng';
-        } else if (moneyNumber < minMoney) {
+        if (moneyNumber < minMoney) {
             msg.money = 'Số tiền quyên góp cần lớn hơn 1,000 đồng';
         }
     }

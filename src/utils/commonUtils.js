@@ -98,3 +98,21 @@ export const getIntegerDaysBetweenDates = (fromDateStr, toDateStr) => {
         return -1;
     }
 }
+
+//Lay ngay (date) trong x ngay: ngay 21/4/2020 -> 21-7 = 14/4/2020
+//Base =  today
+export const getDateBeforeAmountOfDays = (daysAmount) => {
+    try {
+        if (!daysAmount || daysAmount <= 0) {
+            return new Date();
+        }
+        const today = new Date();
+        const todayMili = today.getTime();
+        const dateMili = todayMili - 1000 * 60 * 60 * 24 * daysAmount;
+        const date = new Date(dateMili);
+        return date;
+    } catch (error) {
+        console.error(error);
+        return new Date();
+    }
+}

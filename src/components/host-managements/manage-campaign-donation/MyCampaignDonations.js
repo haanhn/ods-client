@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, Fragment } from 'react';
+import React, { useContext, useEffect } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import mycampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
 import { routes } from '../../../odsApi';
@@ -8,13 +8,16 @@ import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import Alert from '../../common/Alert';
 import '../../css/host-manage-donations.css';
+import Spinner from '../../common/Spinner';
+import FormSearchCampaignDonations from './FormSearchCampaignDonations';
+import FormFilterCampaignDonations from './FormFilterCampaignDonations';
 
 const MyCampaignDonations = (props) => {
     const { slug } = props.match.params;
     const myCampaignsContext = useContext(mycampaignsContext);
+    const { loading, listLoading } = myCampaignsContext;
 
-    // let donationsJsx = null;
-    let donations = myCampaignsContext.myCampaignDonations;
+    let donations = myCampaignsContext.campaignFilteredDonations;
     const columns = [
         {
             name: 'Mã quyên góp',
@@ -34,7 +37,7 @@ const MyCampaignDonations = (props) => {
         },
         {
             name: 'Email',
-            selector: 'User.email',
+            selector: 'emailJsx',
             sortable: true,
             hide: 'md',
         },
@@ -74,20 +77,32 @@ const MyCampaignDonations = (props) => {
         myCampaignsContext.getCampaignDonations(slug);
     }, []);
 
-    if (donations && donations.length > 0) {
+    if (donations && donations.length > 0 && !listLoading) {
         data = getDonationsData(donations);
     }
 
     const createRoute = routes.getRouteMyCampaignCreateDonation(slug);
 
+    if (!loading && listLoading) {
+        return <Spinner />;
+    }
+
     return (
-        <div className='host-list-donations'>
-            <h4>Các quyên góp
-                <button className='btn btn-sm btn-success' style={{float: 'right'}}>
-                    <i class="fas fa-plus-circle" style={{marginRight: '3px'}}></i>
-                        <Link to={createRoute} style={{ color: 'white' }} >Tạo quyên góp ở ngoài</Link>
+        <div className='auto-container host-list-donations' style={{ maxWidth: '1500px' }}>
+            <h4 style={{ marginBottom: '17px' }}>Các quyên góp
+                <button className='btn btn-sm btn-success' style={{ float: 'right' }}>
+                    <i class="fas fa-plus-circle" style={{ marginRight: '3px' }}></i>
+                    <Link to={createRoute} style={{ color: 'white' }} >Tạo quyên góp ở ngoài</Link>
                 </button>
             </h4>
+            <div className='host-searchfilter-donations'>
+                <div>
+                    <FormSearchCampaignDonations />
+                </div>
+                <div>
+                    <FormFilterCampaignDonations />
+                </div>
+            </div>
             {
                 data && data.length > 0 ? (
                     <DataTable
@@ -134,12 +149,15 @@ const getDonationsData = (donations) => {
         //methodJsx, dateJsx
         donations[i].method = getMethod(donations[i].donationMethod);
         donations[i].dateJsx = getDateFormatDD_MM_YYYY(donations[i].createdAt);
+        let emailJsx = donations[i].User.email;
         //donorName (system donor or outside donor)
         if (donations[i].donationMethod === 'outside') {
             donations[i].donorName = donations[i].outsideDonor;
+            emailJsx = '(không có)';
         } else {
             donations[i].donorName = donations[i].User.fullname;
         }
+        donations[i].emailJsx = emailJsx;
     }
     return donations;
 }
@@ -168,7 +186,7 @@ const customStyles = {
 
 const alertEmpty = {
     type: 'secondary',
-    msg: 'Chưa có quyên góp nào'
+    msg: 'Không tìm thấy quyên góp nào'
 }
 
 export default MyCampaignDonations;
@@ -226,21 +244,3 @@ export default MyCampaignDonations;
 //     );
 // })
 // }
-
-{/* <table className="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Mã quyên góp</th>
-                        <th>Người quyên góp</th>
-                        <th>Email</th>
-                        <th>Số tiền</th>
-                        <th>Thời gian</th>
-                        <th>Phương thức</th>
-                        <th>Trạng thái</th>
-                        <th>Chi tiết</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {donationsJsx}
-                </tbody>
-            </table> */}

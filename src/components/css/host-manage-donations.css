@@ -6,6 +6,12 @@
 .host-list-donations header {
     display: none;
 }
+/* Form Search and Filter Donations */
+.host-searchfilter-donations {
+    padding: 15px;
+    background-color: rgba(231,234,237,0.5);
+    border-radius: 7px;
+}
 /* Host view donation detail */
 .host-donation-detail,
 .host-create-outside-donation {
@@ -19,7 +25,7 @@
     background-color: #fff;
     border: 1px #dddddd solid;
     border-radius: 5px;
-    padding: 30px 12px 10px;
+    padding: 15px 12px 17px;
 }
 .host-donation-detail .table {
     margin-bottom: 0;

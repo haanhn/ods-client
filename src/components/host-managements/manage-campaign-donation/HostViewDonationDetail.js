@@ -1,33 +1,46 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, Fragment } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import NotFound from '../../pages/NotFound';
 import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
 import { getDonationStatus, getMethod } from '../../../utils/donationUtils';
 import { getDateFormatDD_MM_YYYY } from '../../../utils/commonUtils';
 import '../../css/host-manage-donations.css';
+import Alert from '../../common/Alert';
 
 const HostViewDonationDetail = (props) => {
     const myCampaignsContext = useContext(MyCampaignsContext);
+    const { updateDataLoading } = myCampaignsContext;
     const { code } = props.match.params;
     const donation = getDonation(code, myCampaignsContext.myCampaignDonations);
 
-    let initStatus = getDonationStatus(donation.donationMessage);
+    let initStatus = getDonationStatus(donation.donationStatus);
     let initDonationStatus = donation.donationStatus;
 
     const [donationStatus, setDonationStatus] = useState(initDonationStatus);
     const [status, setStatus] = useState(initStatus);
+    const [alertResult, setAlertResult] = useState(null);
 
     const updateStatus = async (event) => {
-        console.log(event.target.textContent);
-        let action = 'approve';
-        if (event.target.textContent === 'Từ chối') {
-            action = 'reject';
+        try {
+            console.log(event.target.textContent);
+            let action = 'approve';
+            if (event.target.textContent === 'Từ chối') {
+                action = 'reject';
+            }
+            setAlertResult(null);
+
+            const res = await myCampaignsContext.updateDonationStatus(donation.id, action);
+            const returnStatus = res.data.result.donationStatus;
+            if (returnStatus !== false) {
+                const textStatus = getDonationStatus(returnStatus);
+                setDonationStatus(res.data.result.donationStatus);
+                setStatus(textStatus);
+            } else {
+                setAlertResult({ type: 'danger', msg: 'Cập nhật quyên góp thất bại, xin thử lại' });
+            }
+        } catch (error) {
+            console.error(error);
         }
-        const res = await myCampaignsContext.updateDonationStatus(donation.id, action);
-        const returnStatus = res.data.result.donationStatus;
-        const textStatus = getDonationStatus(returnStatus);
-        setDonationStatus(res.data.result.donationStatus);
-        setStatus(textStatus);
     }
 
     if (!donation) {
@@ -48,6 +61,7 @@ const HostViewDonationDetail = (props) => {
     return (
         <div className='host-donation-detail' >
             <div className='host-donation-detail-content' >
+                <h5 style={{marginBottom: '12px'}} >Chi tiết quyên góp</h5>
                 <table className="table">
 
                     <col style={{ width: '180px', }} />
@@ -73,9 +87,10 @@ const HostViewDonationDetail = (props) => {
                         <tr>
                             <td>Số tiền</td>
                             <td>
-                                <CurrencyFormat value={donation.donationAmount} displayType={'text'} thousandSeparator={true} />
-            đ
-        </td>
+                                <CurrencyFormat value={donation && donation.donationAmount? donation.donationAmount : 0} 
+                                    displayType={'text'} thousandSeparator={true} />
+                                đ
+                            </td>
                         </tr>
                         <tr>
                             <td>Thời gian</td>
@@ -110,19 +125,34 @@ const HostViewDonationDetail = (props) => {
                                 <td> {donation.donationMessage} </td>
                             </tr>
                         ) : null}
-                        {donation.donationMethod !== 'paypal' ? (<tr>
-                            <td colSpan='2' style={{ textAlign: 'center' }}>
-                                <button className='btn btn-success' style={{ marginRight: '15px' }}
-                                    onClick={updateStatus}
-                                >Xác nhận</button>
-                                <button className='btn btn-danger' onClick={updateStatus}>Từ chối</button>
-                            </td>
-                        </tr>) : null}
+
+                        {donation.donationMethod !== 'paypal' && donationStatus !== 'done' ? (
+                            <tr>
+                                <td colSpan='2' style={{ textAlign: 'center' }}>
+                                    <Alert alert={alertResult} />
+                                    <div style={{ paddingTop: '10px' }} >
+                                        {updateDataLoading ? (
+                                            <button className='btn btn-success' style={{ marginRight: '15px' }}
+                                                onClick={updateStatus} disabled
+                                            >Xác nhận</button>
+                                        ) : (
+                                                <button className='btn btn-success' style={{ marginRight: '15px' }}
+                                                    onClick={updateStatus}
+                                                >Xác nhận</button>
+                                            )}
+                                        {updateDataLoading ? (
+                                            <button className='btn btn-danger' onClick={updateStatus} disabled>Từ chối</button>
+                                        ) : (
+                                                <button className='btn btn-danger' onClick={updateStatus}>Từ chối</button>
+                                            )}
+                                    </div>
+                                </td>
+                            </tr>) : null}
 
                     </tbody>
                 </table>
-            </div>
         </div>
+        </div >
     )
 }
 

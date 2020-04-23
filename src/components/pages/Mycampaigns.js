@@ -36,7 +36,7 @@ const MyCampaigns = (props) => {
       <div className='row'>
         {mycampaigns && mycampaigns.length > 0
           ? mycampaigns.map(mycampaign => (
-              <MyCampaignsItem  {...props} mycampaign={mycampaign} />
+              <MyCampaignsItem key={mycampaign.id} {...props} mycampaign={mycampaign} />
             ))
           : <Alert alert={emptyMsg} /> }
       </div>

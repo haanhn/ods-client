@@ -18,19 +18,17 @@ const CampaignItemProgress = (props) => {
     if (progress >= 1) {
         progress = progress + '%';
     }
-    const raisedFormat =
-    // raisedValue.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
-        new Intl.NumberFormat('en-GB', { notation: "compact", compactDisplay: "short" }).format(raisedValue);
+    let raisedFormat = getShortFormattedMoney(raisedValue);
+        // raisedValue.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+        // new Intl.NumberFormat('en-GB', { notation: "compact", compactDisplay: "short" }).format(raisedValue);
 
-    const goalFormat =
-    // goalValue.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
-        new Intl.NumberFormat('en-GB', { notation: "compact", compactDisplay: "short" }).format(goalValue);
+    let goalFormat = getShortFormattedMoney(goalValue);
 
     //left time
     const today = new Date();
     let leftTime = calculateDaysBetweenDates(today.toString(), campaignEndDate);
     return (
-        <div className="campaign-progress" style={{marginBottom: '5px', color: '#5d5d5d'}}>
+        <div className="campaign-progress" style={{ marginBottom: '5px', color: '#5d5d5d' }}>
             <div className="campaign-progress-number clearfix">
                 <div>
                     <strong> {raisedFormat} / {goalFormat} đ </strong>
@@ -52,3 +50,38 @@ const CampaignItemProgress = (props) => {
 }
 
 export default CampaignItemProgress;
+
+const getShortFormattedMoney = (money) => {
+    try {
+        let formattedMoney = '';
+        if (1000 <= money && money <= 999999) {
+            formattedMoney = money / 1000;
+            formattedMoney = Math.floor(formattedMoney);
+            formattedMoney = formattedMoney + 'N';
+        } else if (1000000 <= money && money <= 999999999) {
+            const flooredMoney = Math.floor(money / 1000000) + 0.1;
+            formattedMoney = money / 1000000;
+            if (formattedMoney < flooredMoney) {
+                formattedMoney = Math.floor(formattedMoney);
+            } else {
+                formattedMoney = formattedMoney.toFixed(1);
+            }
+            formattedMoney = formattedMoney + 'tr';
+        } else if (1000000000 <= money) {
+            const flooredMoney = Math.floor(money / 1000000000) + 0.1;
+            formattedMoney = money / 1000000000;
+            if (formattedMoney < flooredMoney) {
+                formattedMoney = Math.floor(formattedMoney);
+            } else {
+                formattedMoney = formattedMoney.toFixed(1);
+            }
+            formattedMoney = formattedMoney + 'T';
+        } else {
+            formattedMoney = money;
+        }
+        return formattedMoney;
+    } catch (error) {
+        console.error(error);
+        return '';
+    }
+}

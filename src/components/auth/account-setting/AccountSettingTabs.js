@@ -1,42 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from '../../../odsApi';
 
 const AccountSettingTabs = () => {
-    
+
     const routeInfo = routes.MY_ACCOUNT;
     const routeAvatar = routes.MY_ACCOUNT_AVATAR;
     const routeBankAccount = routes.MY_ACCOUNT_BANK_ACCOUNT;
 
+    //State for set tab active css
+    const [activeInfo, setActiveInfo] = useState(false);
+    const [activeAvatar, setActiveAvatar] = useState(false);
+    const [activeBankAccount, setActiveBankAccount] = useState(false);
+
+    const setActive = (event) => {
+        const target = event.target;
+        if (!target) {
+            return;
+        }
+        const id = target.id;
+        setActiveInfo(false);
+        setActiveAvatar(false);
+        setActiveBankAccount(false);
+        switch (id) {
+            case 'linkTabAccountInfo':
+                setActiveInfo(true);
+                break;
+            case 'linkTabAccountAvatar':
+                setActiveAvatar(true);
+                break;
+            case 'linkTabAccountBank':
+                setActiveBankAccount(true);
+                break;
+        }
+    }
+
     return (
         <ul className="list-group list-group-flush">
-            <li class="list-group-item active">
-                {/* <li className={`list-group-item`}> */}
-                <Link to={routeInfo} id='linkTabInfoImg'
-                // onClick={setActive}
-                >
+            <li class={`list-group-item ${activeInfo ? 'active' : null}`}>
+                <Link to={routeInfo} id='linkTabAccountInfo' onClick={setActive} >
                     Thông tin chung
-                                </Link>
+                </Link>
             </li>
-            <li class="list-group-item">
-                {/* <li className={`list-group-item`}> */}
-                <Link to={routeAvatar} id='linkTabInfoImg'
-                // onClick={setActive}
-                >
+            <li class={`list-group-item ${activeAvatar ? 'active' : null}`}>
+                <Link to={routeAvatar} id='linkTabAccountAvatar' onClick={setActive} >
                     Ảnh đại diện
-                                </Link>
+                </Link>
             </li>
-            <li className={`list-group-item `}>
-                <Link to={routeBankAccount} id='linkTabInfoDetails'
-                // onClick={setActive}
-                >
+            <li className={`list-group-item ${activeBankAccount ? 'active' : null}`}>
+                <Link to={routeBankAccount} id='linkTabAccountBank' onClick={setActive} >
                     TK ngân hàng
-                                    </Link>
-            </li>
-            <li className={`list-group-item `}>
-                {/* <Link to={routeInfoStory} id='linkTabInfoStory' onClick={setActive}> */}
-                                        Câu chuyện
-                                    {/* </Link> */}
+                </Link>
             </li>
         </ul>
 

@@ -10,7 +10,7 @@ function CampaignDonorItem(props) {
     let avatarJsx = <img src='/images/default-data-images/default-user-avatar.png' className='col' alt='' />;
     let fullname = 'Ẩn danh';
     
-    if (!anonymous) {
+    if (!anonymous && donationMethod !== 'outside') {
         if (User && User.avatar) {
             avatarJsx = <img src={User.avatar} className='col' alt='' />;
         }

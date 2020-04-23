@@ -9,6 +9,7 @@
     margin: 0 auto;
     padding: 15px 0;
     border-radius: 6px;
+    min-height: 83vh;
 }
 /* Profile Info Box */
 .profile-overal-container {

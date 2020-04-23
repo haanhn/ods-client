@@ -13,6 +13,14 @@ export default (state, action) => {
         ...state,
         hostViewingCampaign: data
       };
+    case hostActionTypes.SET_CAMPAIGN_STATUS:
+      return {
+        ...state,
+        hostViewingCampaign: {
+          ...state.hostViewingCampaign,
+          campaignStatus: data
+        }
+      };
     case hostActionTypes.SET_CAMPAIGN_STATS:
       return {
         ...state,
@@ -40,6 +48,11 @@ export default (state, action) => {
       return {
         ...state,
         myCampaignDonations: data
+      };
+    case hostActionTypes.SET_FILTERED_DONATIONS:
+      return {
+        ...state,
+        campaignFilteredDonations: data
       };
     case hostActionTypes.GET_EXPENSES:
       return {

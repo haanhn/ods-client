@@ -12,6 +12,7 @@ const MycampaignsState = props => {
     viewingCampaignStats: {},
     myCampaignPosts: [],
     myCampaignDonations: [],
+    campaignFilteredDonations: [],
     myCampaignExpenses: [],
     totalExpense: 0,
     loading: false,
@@ -93,6 +94,15 @@ const MycampaignsState = props => {
     };
     try {
       const res = await axios.get(`${odsBase}${route}`, config);
+      const updatedStatus = res.data.result.campaignStatus;
+      const viewingCamp = state.hostViewingCampaign;
+      const currentStatus = viewingCamp && viewingCamp.campaignStatus ? viewingCamp.campaignStatus : '';
+      if (updatedStatus !== currentStatus) {
+        dispatch({
+          type: hostActionTypes.SET_CAMPAIGN_STATUS,
+          payload: updatedStatus
+        });
+      }
       dispatch({
         type: hostActionTypes.SET_CAMPAIGN_STATS,
         payload: res.data.result
@@ -287,12 +297,16 @@ const MycampaignsState = props => {
     };
     const api = odsAPIHost.getCampaignDonations(slug);
     try {
+      setListLoading(true);
       const res = await axios.get(`${odsBase}${api}`, config);
       dispatch({
         type: hostActionTypes.GET_DONATIONS,
         payload: res.data.donations
       });
+      setCampaignFilteredDonations(res.data.donations);
+      setListLoading(false);
     } catch (error) {
+      setListLoading(false);
       console.error('Error when host get donations');
       console.error(error);
     }
@@ -304,13 +318,16 @@ const MycampaignsState = props => {
     const campaignId = state.hostViewingCampaign.id;
     const api = odsAPIHost.createOutsideDonation;
     try {
-      const res = await axios.post(`${odsBase}${api}`, {
+      setUpdateDataLoading(true);
+      await axios.post(`${odsBase}${api}`, {
         token: token,
         campaignId: campaignId,
         donation: { name, amount, anonymous }
       });
-      return res.data.result;
+      setUpdateDataLoading(false);
+      return true;
     } catch (error) {
+      setUpdateDataLoading(false);
       console.error('Error when host update donation status');
       console.error(error);
       return false;
@@ -323,15 +340,19 @@ const MycampaignsState = props => {
     const userId = localStorage.getItem(localStoreKeys.userId);
     const api = odsAPIHost.updateCampaignDonationStatus(action);
     try {
+      setUpdateDataLoading(true);
       const res = await axios.post(`${odsBase}${api}`, {
         token: token,
         donationId: donationId,
         userId: userId
       });
+      setUpdateDataLoading(false);
       return res;
     } catch (error) {
+      setUpdateDataLoading(false);
       console.error('Error when host update donation status');
       console.error(error);
+      return false;
     }
   }
 
@@ -433,6 +454,10 @@ const MycampaignsState = props => {
     });
   }
 
+  const setCampaignFilteredDonations = (filteredDonations) => dispatch({
+    type: hostActionTypes.SET_FILTERED_DONATIONS, payload: filteredDonations
+  });
+
   const setLoading = (isLoading) => dispatch({ type: hostActionTypes.SET_LOADING, payload: isLoading });
   const setListLoading = (isLoading) => dispatch({ type: hostActionTypes.SET_LIST_LOADING, payload: isLoading });
   const setUpdateDataLoading = (isLoading) => dispatch({
@@ -447,6 +472,7 @@ const MycampaignsState = props => {
         viewingCampaignStats: state.viewingCampaignStats,
         myCampaignPosts: state.myCampaignPosts,
         myCampaignDonations: state.myCampaignDonations,
+        campaignFilteredDonations: state.campaignFilteredDonations,
         myCampaignExpenses: state.myCampaignExpenses,
         totalExpense: state.totalExpense,
         loading: state.loading,
@@ -466,6 +492,7 @@ const MycampaignsState = props => {
         deleteCampaignPost,
         //Methods for donations
         getCampaignDonations,
+        setCampaignFilteredDonations,
         createOutsideDonation,
         updateDonationStatus,
         //Methods for expenses
