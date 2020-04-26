@@ -28,6 +28,7 @@ export const routes = {
   CAMPAIGN_DONATE_DETAILS: '/campaign/:slug/donate/details',
   getRouteDonateCampaignDetails (slug) { return `/campaign/${slug}/donate/details`; },
   CAMPAIGN_DONATE_COMPLETE: '/campaign/:slug/donate/complete',
+  CAMPAIGN_DONATE_COMPLETE_PAYPAL: '/campaign/:slug/donate/paypal-complete',
   getRouteDonateCampaignComplete (slug) { return `/campaign/${slug}/donate/complete`; },
 
   //-------------------------------------

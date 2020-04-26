@@ -7,6 +7,8 @@ import { Switch, Route } from 'react-router-dom';
 import { odsBase, odsAPIOpenRoutes, routes, localStoreKeys } from '../../odsApi';
 import FormDonateCashOrBanking from '../campaigns/donate-campaign/FormDonateCashOrBanking';
 import DonateComplete from '../campaigns/donate-campaign/DonateComplete';
+import DonatePaypalComplete from '../campaigns/donate-campaign/DonatePaypalComplete';
+import Spinner from '../common/Spinner';
 
 
 const DonateCampaign = (props) => {
@@ -50,9 +52,11 @@ const DonateCampaign = (props) => {
             );
             setCompletedDonation(res.data.donation);
             props.history.push(routes.getRouteDonateCampaignComplete(slug));
+            return true;
         } catch (error) {
             console.error('Error when donate cash or banking:');
             console.error(error);
+            return false;
         }
     }
 
@@ -87,7 +91,7 @@ const DonateCampaign = (props) => {
     }, []);
 
     if (loading) {
-        return <div>loading....</div>
+        return (<Spinner/>);
     }
 
     return (
@@ -110,8 +114,9 @@ const DonateCampaign = (props) => {
                 <Route exact path={`${routes.CAMPAIGN_DONATE_COMPLETE}`}
                     render={(props) => (<DonateComplete {...props}
                         completedDonation={completedDonation} />)} />
+                <Route exact path={routes.CAMPAIGN_DONATE_COMPLETE_PAYPAL} 
+                    render={(props) => (<DonatePaypalComplete {...props} />)} />
             </Switch>
-            {/* <DonateComplete completedDonation={{}} match={{params: ''}}/> */}
         </div>
     );
 }

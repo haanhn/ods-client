@@ -76,6 +76,7 @@ const FormDonateCashOrBanking = (props) => {
             } else {
                 setLoading(true);
                 const res = await sendDonate(campaignId, method, money, name, email, anonymous, noti, message);
+                console.log(res);
                 setLoading(false);
             }
 

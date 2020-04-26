@@ -4,11 +4,13 @@ import ProfileContainer from '../user-profile/ProfileContainer';
 import '../css/user-profile.css';
 import '../css/campaign-detail-tabs.css';
 import '../campaigns/campaign2.css';
+import Spinner from '../common/Spinner';
 
 const UserProfile = (props) => {
     const userProfileContext = useContext(UserProfileContext);    
     const { userId } = props.match.params;
     const profile = userProfileContext.profile;
+    const { loadingProfile } = userProfileContext;
 
     //State
     const [allowedRating, setAllowedRating] = useState(false);
@@ -29,6 +31,10 @@ const UserProfile = (props) => {
     useEffect(() => {
         fetchProfileData();
     }, []);
+
+    if (loadingProfile) {
+        return (<Spinner/>);
+    }
 
     return (
         <div className='user-profile'>

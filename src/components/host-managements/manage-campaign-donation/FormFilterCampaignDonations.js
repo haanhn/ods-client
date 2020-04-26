@@ -51,6 +51,7 @@ const FormFilterCampaignDonations = () => {
                     <option value='pending' key='pending'>Chờ duyệt</option>
                     <option value='done' key='done'>Đã duyệt</option>
                     <option value='reject' key='reject'>Từ chối</option>
+                    <option value='returned' key='returned'>Trả lại</option>
                 </select>
             </div>
         </div>

@@ -14,14 +14,14 @@ import FormSearchMyDonations from './FormSearchMyDonations';
 const MyDonations = () => {
     const myDonationsContext = useContext(MyDonationsContext);
     const donations = myDonationsContext.myFilteredDonations;
-    const {loading} = myDonationsContext;
+    const { loading } = myDonationsContext;
 
     const viewDonation = (event, donation) => {
         console.log(donation);
         setCurrentDonation(donation);
         setShowingModal(true);
     }
-    
+
     const [showingModal, setShowingModal] = useState(false);
     const [currentDonation, setCurrentDonation] = useState(null);
 
@@ -136,7 +136,8 @@ const getDonationsData = (donations) => {
                 ? 'badge-success'
                 : donations[i].donationStatus === 'pending'
                     ? 'badge-warning'
-                    : 'badge-danger')
+                    : donations[i].donationStatus === 'reject'
+                        ? 'badge-danger' : 'badge-secondary')
         }
         >
             {status}

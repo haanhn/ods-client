@@ -19,11 +19,11 @@ function Home() {
     return (
         <Fragment>
             <HomeBigIntro />
-            <div className='auto-container' style={{ padding: '0 0 25px' }}>
-                <h2 style={{ textAlign: 'center', marginBottom: '10px' }}>Các chiến dịch nổi tiếng nhất</h2>
-                <Campaigns />
-            </div>
-            <HomeFeatures />
+            {/* <div className='auto-container' style={{ padding: '0 0 25px' }}> */}
+                {/* <h2 style={{ textAlign: 'center', marginBottom: '10px' }}>Các chiến dịch nổi tiếng nhất</h2> */}
+                {/* <Campaigns /> */}
+            {/* </div> */}
+            {/* <HomeFeatures /> */}
             {/* <div className="dropdown" > */}
             {/* <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dropdown button

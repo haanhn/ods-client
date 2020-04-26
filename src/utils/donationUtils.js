@@ -4,6 +4,8 @@ export const getDonationStatus = (status) => {
         type = 'chờ duyệt';
     } else if (status === 'reject') {
         type = 'từ chối';
+    } else if (status === 'returned') {
+        type = 'trả lại';
     }
     return type;
 }

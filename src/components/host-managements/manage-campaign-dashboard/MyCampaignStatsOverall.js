@@ -24,6 +24,7 @@ const MyCampaignStatsOverall = () => {
     const avgDonationJsx = <MyCampaignStatsItem statsNumber={`${avgDonationStr}đ`} statsName='Trung bình mỗi quyên góp' />;
 
     const status = campaign.campaignStatus;
+    const success = campaign.success;
     const type = getType(status);
 
     return (
@@ -39,6 +40,12 @@ const MyCampaignStatsOverall = () => {
                         >
                             {type}
                         </span>
+                        {status === 'close' && success === true ? (
+                            <span style={{color: 'green', marginLeft: '12px'}}>Đã quyên đủ tiền</span>
+                        ) : null}
+                        {status === 'close' && !success ? (
+                            <span style={{color: 'orange', marginLeft: '12px'}}>Chưa quyên đủ tiền</span>
+                        ) : null}
                     </h5>
                 </div>
                 <h5>Tổng quan</h5>

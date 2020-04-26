@@ -13,7 +13,7 @@ const CampaignRating = (props) => {
     return (
         <div className='campaign-comment campaign-rating'>
             <div className='grid-row'>
-                <img src={avatar} className='grid-col' />
+                <img src={avatar} className='grid-col' style={{width: '65px', height: '65px'}} />
                 <div className='grid-col'>
                     <h6> {User && User.fullname ? User.fullname : 'Tên donor'} </h6>
                     <span style={{fontSize: '90%'}}>

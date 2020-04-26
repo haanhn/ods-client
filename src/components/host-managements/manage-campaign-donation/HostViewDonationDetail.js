@@ -9,7 +9,7 @@ import Alert from '../../common/Alert';
 
 const HostViewDonationDetail = (props) => {
     const myCampaignsContext = useContext(MyCampaignsContext);
-    const { updateDataLoading } = myCampaignsContext;
+    const { hostViewingCampaign, updateDataLoading } = myCampaignsContext;
     const { code } = props.match.params;
     const donation = getDonation(code, myCampaignsContext.myCampaignDonations);
 
@@ -26,6 +26,8 @@ const HostViewDonationDetail = (props) => {
             let action = 'approve';
             if (event.target.textContent === 'Từ chối') {
                 action = 'reject';
+            } else if (event.target.textContent === 'Trả lại') {
+                action = 'return';
             }
             setAlertResult(null);
 
@@ -61,7 +63,7 @@ const HostViewDonationDetail = (props) => {
     return (
         <div className='host-donation-detail' >
             <div className='host-donation-detail-content' >
-                <h5 style={{marginBottom: '12px'}} >Chi tiết quyên góp</h5>
+                <h5 style={{ marginBottom: '12px' }} >Chi tiết quyên góp</h5>
                 <table className="table">
 
                     <col style={{ width: '180px', }} />
@@ -87,7 +89,7 @@ const HostViewDonationDetail = (props) => {
                         <tr>
                             <td>Số tiền</td>
                             <td>
-                                <CurrencyFormat value={donation && donation.donationAmount? donation.donationAmount : 0} 
+                                <CurrencyFormat value={donation && donation.donationAmount ? donation.donationAmount : 0}
                                     displayType={'text'} thousandSeparator={true} />
                                 đ
                             </td>
@@ -112,7 +114,8 @@ const HostViewDonationDetail = (props) => {
                                             ? 'badge-success'
                                             : donationStatus === 'pending'
                                                 ? 'badge-warning'
-                                                : 'badge-danger')
+                                                : donationStatus === 'reject'
+                                                    ? 'badge-danger' : 'badge-secondary')
                                     }
                                 >
                                     {status}
@@ -126,7 +129,7 @@ const HostViewDonationDetail = (props) => {
                             </tr>
                         ) : null}
 
-                        {donation.donationMethod !== 'paypal' && donationStatus !== 'done' ? (
+                        {donation.donationMethod !== 'paypal' && donationStatus !== 'done' && donationStatus !== 'returned' ? (
                             <tr>
                                 <td colSpan='2' style={{ textAlign: 'center' }}>
                                     <Alert alert={alertResult} />
@@ -148,10 +151,20 @@ const HostViewDonationDetail = (props) => {
                                     </div>
                                 </td>
                             </tr>) : null}
+                        {hostViewingCampaign && hostViewingCampaign.campaignStatus === 'close' && !hostViewingCampaign.success && donationStatus !== 'returned' && donationStatus !== 'reject'? (
+                            <tr>
+                                <td colSpan='2' style={{ textAlign: 'center' }}>
+                                    <Alert alert={alertResult} />
+                                    <div style={{ paddingTop: '10px' }} >
+                                        <button className='btn btn-warning' onClick={updateStatus}>Trả lại</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ) : (null)}
 
                     </tbody>
                 </table>
-        </div>
+            </div>
         </div >
     )
 }

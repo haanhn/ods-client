@@ -141,7 +141,8 @@ const getDonationsData = (donations) => {
                 ? 'badge-success'
                 : donations[i].donationStatus === 'pending'
                     ? 'badge-warning'
-                    : 'badge-danger')
+                    : donations[i].donationStatus === 'reject'
+                        ? 'badge-danger' : 'badge-secondary')
         }
         >
             {status}

@@ -14,6 +14,7 @@ const UserProfileState = props => {
     profileRatingStats: {},
     profileRatings: [],
     myProfileRating: {},
+    loadingProfile: false
   };
 
   const [state, dispatch] = useReducer(UserProfileReducer, initialState);
@@ -22,14 +23,17 @@ const UserProfileState = props => {
   const getUserProfile = async (userId) => {
     const api = odsAPIProfile.getUserProfile(userId);
     try {
+      setLoading(true);
       const res = await axios.get(`${odsBase}${api}`);
       const userProfile = res.data.user;
       dispatch({
         type: profileActionTypes.SET_USER_PROFILE,
         payload: userProfile
       });
+      setLoading(false);
       return true;
     } catch (error) {
+      setLoading(false);
       console.error(error.message);
       return false;
     }
@@ -161,6 +165,8 @@ const UserProfileState = props => {
     }
   };
 
+  const setLoading = (isLoading) => dispatch({ type: profileActionTypes.SET_LOADING_PROFILE, payload: isLoading });
+
   return (
     <UserProfileContext.Provider
       value={{
@@ -171,6 +177,7 @@ const UserProfileState = props => {
         profileRatingStats: state.profileRatingStats,
         profileRatings: state.profileRatings,
         myProfileRating: state.myProfileRating,
+        loadingProfile: state.loadingProfile,
         //Methods
         getUserProfile,
         getProfileStats,
