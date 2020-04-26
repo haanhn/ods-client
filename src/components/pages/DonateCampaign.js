@@ -56,10 +56,11 @@ const DonateCampaign = (props) => {
         }
     }
 
-    const donatePaypal = async (campaignId, money, fullname, anonymous, noti, message) => {
+    const donatePaypal = async (campaignId, money, fullname, email, anonymous, noti, message) => {
         try {
             const objectDonation = {
                 campaignId: campaignId,
+                email: email,
                 fullname: fullname,
                 amount: money,
                 anonymous: anonymous,

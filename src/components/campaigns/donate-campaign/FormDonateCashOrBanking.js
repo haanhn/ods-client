@@ -71,7 +71,7 @@ const FormDonateCashOrBanking = (props) => {
             if (method === 'paypal') {
                 console.log(method + ' ' + money)
                 setLoading(true);
-                await donatePaypal(campaignId, money, name, anonymous, noti, message);
+                await donatePaypal(campaignId, money, name, email, anonymous, noti, message);
                 setLoading(false);
             } else {
                 setLoading(true);
@@ -183,6 +183,8 @@ const validateData = (money, name, email, method) => {
     //Validate Name
     if (name.length === 0) {
         msg.name = 'Xin nhập tên';
+    } else if (name.length > 100) {
+        msg.name = 'Tên không quá 100 kí tự';
     }
     //Validate Email
     if (email.length === 0) {
@@ -196,15 +198,15 @@ const validateData = (money, name, email, method) => {
 }
 
 const validateMoney = (money, method) => {
-    const goal10M = 10000000000;
+    const goalMax = 3000000000;
     const min10K = 10000;
     const minPaypal = 20000;
     const minMoney = (method === 'paypal') ? minPaypal : min10K;
     const minMoneyFormat = (method === 'paypal') ? '20,000' : '10,000';
     let msgMoney = null;
     if (typeof money === 'number') {
-        if (money > goal10M) {
-            msgMoney = 'Hiện tại chúng tôi chỉ hỗ trợ quyên góp dưới 10 tỷ đồng';
+        if (money > goalMax) {
+            msgMoney = 'Hiện tại chúng tôi chỉ hỗ trợ quyên góp từ dưới 3 tỷ đồng';
         } else if (money < minMoney) {
             msgMoney = `Số tiền quyên góp tối thiểu là ${minMoneyFormat} vnđ`;
         }
@@ -213,8 +215,8 @@ const validateMoney = (money, method) => {
             msgMoney = 'Xin nhập số tiền quyên góp';
         } else {
             const moneyNumber = parseFloat(money);
-            if (moneyNumber > goal10M) {
-                msgMoney = 'Hiện tại chúng tôi chỉ hỗ trợ quyên góp dưới 10 tỷ đồng';
+            if (moneyNumber > goalMax) {
+                msgMoney = 'Hiện tại chúng tôi chỉ hỗ trợ quyên góp từ dưới 3 tỷ đồng';
             } else if (moneyNumber < minMoney) {
                 msgMoney = `Số tiền quyên góp tối thiểu là ${minMoneyFormat} vnđ`;
             }
