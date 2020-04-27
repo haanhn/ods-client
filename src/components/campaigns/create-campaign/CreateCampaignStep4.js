@@ -18,14 +18,23 @@ const CreateCampaignStep4 = (props) => {
         return '';
     }
 
+    const defaultPhone = () => {
+        if (user && user.phone) {
+            return user.phone;
+        }
+        return '';
+    }
+
     let inputAddress = React.createRef();
     let inputRegion = React.createRef();
+    let inputPhone = React.createRef();
     let inputAccountNumber = React.createRef();
     let inputBankName = React.createRef();
     let inputBankAgency = React.createRef();
 
     //State Alerts
     const [alertAddress, setAlertAddress] = useState(null);
+    const [alertPhone, setAlertPhone] = useState(null);
     const [alertAccountNumber, setAlertAccountNumber] = useState(null);
     const [alertBankName, setAlertBankName] = useState(null);
     const [alertResult, setAlertResult] = useState(null);
@@ -50,20 +59,25 @@ const CreateCampaignStep4 = (props) => {
     const createStep4 = async (event) => {
         event.preventDefault();
         const address = inputAddress.current.value;
+        const phone = inputPhone.current.value;
         let region = inputRegion.current.value;
         const accountNumber = inputAccountNumber.current.value;
         const bankName = inputBankName.current.value;
         const bankAgency = inputBankAgency.current.value;
 
         setAlertAddress(null);
+        setAlertPhone(null);
         setAlertAccountNumber(null);
         setAlertBankName(null);
         setAlertResult(null);
 
-        const messages = validateData(address, accountNumber, bankName);
+        const messages = validateData(address, phone, accountNumber, bankName);
         if (messages !== null) {
             if (messages.address) {
                 setAlertAddress({ type: 'danger', msg: messages.address });
+            }
+            if (messages.phone) {
+                setAlertPhone({ type: 'danger', msg: messages.phone });
             }
             if (messages.accountNumber) {
                 setAlertAccountNumber({ type: 'danger', msg: messages.accountNumber });
@@ -75,7 +89,7 @@ const CreateCampaignStep4 = (props) => {
             if (!region) {
                 region = regions[0].id;
             }
-            const result = await createCampaignStep4(address, region, accountNumber, bankName, bankAgency);
+            const result = await createCampaignStep4(address, region, phone, accountNumber, bankName, bankAgency);
             if (result === false) {
                 setAlertResult({ type: 'danger', msg: 'Lưu thất bại, xin hãy thử lại' });
             }
@@ -112,6 +126,17 @@ const CreateCampaignStep4 = (props) => {
                     </div>)
                     : null
                 }
+                <div className="row">
+                    <label className="col-sm-12 col-form-label">
+                        Số điện thoại
+                    </label>
+                    <div className="col-sm-12">
+                        <input type="text" className="form-control" placeholder="Số điện thoại"
+                            defaultValue={defaultPhone()} ref={inputPhone}
+                        />
+                        <Alert alert={alertPhone} />
+                    </div>
+                </div>
 
                 <div className="row">
                     <label className="col-sm-12 col-form-label">
@@ -188,13 +213,25 @@ const CreateCampaignStep4 = (props) => {
     );
 }
 
-const validateData = (address, accountNumber, bankName) => {
+const validateData = (address, phone, accountNumber, bankName) => {
     let msg = {};
     //Address
     if (address.length === 0) {
         msg.address = 'Xin nhập địa chỉ liên hệ của bạn';
     } else if (address.length > 200) {
         msg.address = 'Địa chỉ không quá 200 kí tự';
+    }
+    //Phone
+    if (phone.length === 0) {
+        msg.phone = 'Xin nhập số điện thoại của bạn';
+    } else if (phone.length > 15) {
+        msg.phone = 'Số điện thoại không quá 15 kí tự';
+    } else {
+        const regex = new RegExp('^[0-9]+$');
+        const valid = regex.test(phone);
+        if (!valid) {
+            msg.phone = 'Số điện thoại chỉ chứa các chữ số';
+        }
     }
     //Account number
     if (accountNumber.length === 0) {

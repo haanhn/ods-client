@@ -10,7 +10,7 @@ const RatingOfProfile = (props) => {
     return (
         <div className='campaign-comment campaign-rating'>
             <div className='grid-row'>
-                <img src={image} className='grid-col' />
+                <img src={image} className='grid-col' style={{width: '55px', height: '57px'}} />
                 <div className='grid-col'>
                     <h6> {reviewer && reviewer.fullname ? reviewer.fullname : 'Tên người đánh giá'} </h6>
                     <span style={{fontSize: '90%'}}>

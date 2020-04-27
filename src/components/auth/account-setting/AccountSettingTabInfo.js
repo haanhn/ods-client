@@ -14,23 +14,27 @@ const AccountSettingTabInfo = () => {
     const inputFullname = React.createRef();
     const inputAddress = React.createRef();
     const inputRegion = React.createRef();
+    const inputPhone = React.createRef();
 
     //State Alerts
     const [alertFullname, setAlertFullname] = useState(null);
     const [alertAddress, setAlertAddress] = useState(null);
+    const [alertPhone, setAlertPhone] = useState(null);
     const [alertResult, setAlertResult] = useState(null);
 
     const updateUserInfo = async (event) => {
         event.preventDefault();
         const fullname = inputFullname.current.value.trim();
         const address = inputAddress.current.value.trim();
+        const phone = inputPhone.current.value.trim();
         let region = inputRegion.current.value;
 
         setAlertFullname(null);
         setAlertAddress(null);
+        setAlertPhone(null);
         setAlertResult(null);
 
-        const messages = validateData(fullname, address);
+        const messages = validateData(fullname, address, phone);
         if (messages !== null) {
             if (messages.fullname) {
                 setAlertFullname({ type: 'danger', msg: messages.fullname });
@@ -38,11 +42,14 @@ const AccountSettingTabInfo = () => {
             if (messages.address) {
                 setAlertAddress({ type: 'danger', msg: messages.address });
             }
+            if (messages.phone) {
+                setAlertPhone({ type: 'danger', msg: messages.phone });
+            }
         } else {
             if (!region) {
                 region = regions[0].name;
             }
-            const res = await authContext.updateUser(fullname, address, region);
+            const res = await authContext.updateUser(fullname, address, region, phone);
             if (res === true) {
                 localStorage.setItem(localStoreKeys.fullname, fullname);
                 setAlertResult({ type: 'success', msg: 'Cập nhật thành công' });
@@ -106,6 +113,19 @@ const AccountSettingTabInfo = () => {
                 }
 
                 <div className="row">
+                    <label className="col-sm-12 col-form-label">
+                        Số điện thoại
+                    </label>
+                    <div className="col-sm-12">
+                        <input type="text" className="form-control" placeholder="Số điện thoại"
+                            defaultValue={user && user.phone ? user.phone : ''}
+                            ref={inputPhone}
+                        />
+                        <Alert alert={alertPhone} />
+                    </div>
+                </div>
+
+                <div className="row">
                     <div className='col-sm-12' style={{ textAlign: 'center', paddingTop: '12px' }}>
                         <Alert alert={alertResult} />
                         <button className="btn btn-primary"
@@ -118,7 +138,7 @@ const AccountSettingTabInfo = () => {
     );
 }
 
-const validateData = (fullname, address) => {
+const validateData = (fullname, address, phone) => {
     let msg = {};
     //Fullname
     if (fullname.length === 0) {
@@ -129,6 +149,18 @@ const validateData = (fullname, address) => {
     //Address
     if (address.length === 0) {
         msg.address = 'Xin nhập địa chỉ';
+    }
+    //Phone
+    if (phone.length === 0) {
+        msg.phone = 'Xin nhập số điện thoại của bạn';
+    } else if (phone.length > 15) {
+        msg.phone = 'Số điện thoại không quá 15 kí tự';
+    } else {
+        const regex = new RegExp('^[0-9]+$');
+        const valid = regex.test(phone);
+        if (!valid) {
+            msg.phone = 'Số điện thoại chỉ chứa các chữ số';
+        }
     }
     if (Object.keys(msg).length === 0) {
         msg = null;

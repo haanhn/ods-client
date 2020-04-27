@@ -295,13 +295,14 @@ const CreateCampaign = (props) => {
         }
     }
 
-    const createCampaignStep4 = async (address, region, accountNumber, bankName, bankAgency) => {
+    const createCampaignStep4 = async (address, region, phone, accountNumber, bankName, bankAgency) => {
         try {
             setLoading(true);
             const userRes = await axios.post(`${odsBase}${odsAPIAuthorizedUser.updateUserAddress}`, {
                 token: localStorage.getItem(localStoreKeys.token),
                 address: address,
-                region: region
+                region: region,
+                phone: phone
             });
             dispatch({
                 type: types.SET_AUTHORIZED_USER,

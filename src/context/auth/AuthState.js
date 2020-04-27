@@ -143,12 +143,12 @@ const AuthState = props => {
     }
   };
 
-  const updateUser = async (fullname, address, region) => {
+  const updateUser = async (fullname, address, region, phone) => {
     const token = localStorage.getItem(localStoreKeys.token);
     try {
       const res = await axios.post(`${odsBase}${odsAPIAuthorizedUser.updateUser}`, {
         token,
-        user: { fullname, address, region }
+        user: { fullname, address, region, phone }
       });
       dispatch({
         type: authActionTypes.SET_CURRENT_USER,
@@ -156,7 +156,7 @@ const AuthState = props => {
       });
       return true;
     } catch (error) {
-      console.error(`Update bank account error: ${error}`);
+      console.error(`Update user account error: ${error}`);
       return false;
     }
   }

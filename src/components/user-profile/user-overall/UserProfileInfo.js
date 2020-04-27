@@ -7,7 +7,7 @@ const UserProfileInfo = () => {
     const fullname = profile && profile.fullname ? profile.fullname : '';
     const avatar = profile && profile.avatar ? profile.avatar : '/images/default-data-images/default-user-avatar.png';
     const email = profile && profile.email ? profile.email : '';
-
+    const phone = profile && profile.phone ? profile.phone : '';
 
     return (
         <div className='profile-info'>
@@ -19,6 +19,7 @@ const UserProfileInfo = () => {
             }}></div>
             <h5> {fullname} </h5>
             <div className='other-info' >Email: {email}</div>
+            <div className='other-info' >ĐT: {phone}</div>
         </div>
     );
 }
