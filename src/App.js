@@ -23,6 +23,7 @@ import MyDonations from './components/donor-managements/MyDonations';
 import UserProfile from './components/pages/UserProfile';
 import AccountSetting from './components/pages/AccountSetting';
 import UserProfileState from './context/user-profile/UserProfileState';
+import About from './components/pages/About';
 const App = () => {
 
   return (
@@ -72,6 +73,9 @@ const App = () => {
                         path={routes.PAGE_REGISTER}
                         component={Register}
                       />
+
+                      {/* Route About */}
+                      <Route path={routes.ABOUT} component={About} />
                     </Switch>
                     <Footer />
                   </div>

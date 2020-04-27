@@ -84,6 +84,11 @@ export const routes = {
   PAGE_SIGN_IN: '/login',
   PAGE_REGISTER: '/register',
   // CAMPAIGN_DETAIL: '/campaigns/id' --> reload trang nay ko lay duoc file css
+
+  //--------------------------------------
+  //----- Routes: for About Platform -----
+  //--------------------------------------
+  ABOUT: '/about',
 };
 
 //ODS APIs

@@ -30,6 +30,7 @@ function Header(props) {
   };
 
   const routeCreateCampaign = routes.CAMPAIGNS_CREATE;
+  const routeAbout = routes.ABOUT;
   return (
     <Fragment>
       <div className='ods-header'>
@@ -43,6 +44,7 @@ function Header(props) {
               <Nav.Link ><Link to='/'>Home</Link></Nav.Link>
               <Nav.Link ><Link to='/campaigns'>Các chiến dịch</Link></Nav.Link>
               <Nav.Link ><Link to={routeCreateCampaign}>Tạo chiến dịch</Link></Nav.Link>
+              <Nav.Link ><Link to={routeAbout}>Về chúng tôi</Link></Nav.Link>
             </Nav>
             <Nav>
               {token ? (
@@ -67,9 +69,6 @@ function Header(props) {
               ) : (
                   <Nav.Link><Link to='/login'>Đăng nhập</Link></Nav.Link>
                 )}
-              {/* <Nav.Link href="#deets">More deets</Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">Dank memes</Nav.Link> */}
-
             </Nav>
           </Navbar.Collapse>
         </Navbar>

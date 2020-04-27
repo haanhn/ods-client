@@ -4,8 +4,8 @@
 }
 .ods-header {
     border-bottom: 3px #3cc88f solid;
-    /* border-bottom: 3px #252b2c solid; */
 }
-/* .ods-header .navbar {
-    background-color: #3cc88f;
-} */
+.ods-header-active {
+    text-decoration: underline;
+    font-weight: bold;
+}
