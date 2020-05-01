@@ -9,7 +9,7 @@ const MyCampaignCharts = () => {
         <Fragment>
             <div className='row clearfix my-pie-charts my-chart'>
                 <div className='col-6 my-chart-title'>
-                    <h4 style={{fontWeight: 'bold', color:'#6c757d', fontSize: '20px'}}>Quyên góp đến chiến dịch</h4>
+                    <h4>Quyên góp đến chiến dịch</h4>
                 </div>
                 <div className='col-6' >
                     <div className='my-pie-item'>

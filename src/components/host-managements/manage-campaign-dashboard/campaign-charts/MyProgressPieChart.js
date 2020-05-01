@@ -32,12 +32,6 @@ const MyProgressPieChart = (props) => {
                         borderWidth: 0
                     }]
                 }}
-                // options={{
-                //     title: {
-                //         display: true, fontSize: 20,
-                //         text: 'Quyên góp đến chiến dịch'
-                //     }
-                // }}
                 width={200} height={200}
             />
         </div>

@@ -47,3 +47,15 @@
     text-align: center;
     padding-top: 115px;
 }
+.my-chart-title h4 {
+    padding: 10px 0;
+    border-radius: 0 15px 0 15px;
+    border: 3px solid #b4e2f5;
+    /* border-bottom: 3px solid #b4e2f5; */
+    /* border-left: 3px solid #b4e2f5; */
+    font-weight: bold; 
+    color: #6c757d;
+    font-size: 20px;
+    max-width: 310px;
+    margin: 0 auto;
+}

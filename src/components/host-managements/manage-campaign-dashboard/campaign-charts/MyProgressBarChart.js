@@ -47,7 +47,7 @@ const MyProgressBarChart = () => {
                 options={{
                     title: {
                         display: true, fontSize: 20, position: 'bottom',
-                        text: 'Tiền quyên góp theo thời gian'
+                        text: 'Quyên góp theo ngày'
                     }
                 }}
                 data={dataDonations}
