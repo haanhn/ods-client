@@ -110,12 +110,21 @@ const getDataOfDonationLineChart = (startDateStr, donations, labels, datas) => {
     } while (iDate.getTime() <= today.getTime());
 
     console.log((mapData));
+    const dates = [];
     mapData.forEach((amount, date) => {
+        dates.push(date);
+    });
+    dates.sort((a, b) => {
+        return a.getTime() - b.getTime();
+    });
+    let j = 0;
+    for (j = 0; j < dates.length; j++) {
+        const date = dates[j];
         const dateLb = getDateFormatDD_MM(date);
+        const amount = mapData.get(date);
         labels.push(dateLb);
         datas.push(amount);
-    });
-    // }
+    }
 }
 
 const getDateInMap = (mapDate, dateToFind) => {
