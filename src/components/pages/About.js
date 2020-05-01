@@ -5,7 +5,7 @@ const About = () => {
     return (
         <div className='about-container'>
             <div className='about-content'>
-                <h3>Về chúng tôi</h3>
+                <h3>FAQs</h3>
                 <h5>1. ODS là gì?</h5>
                 <div>
                     ODS là 1 ứng dụng giúp người dùng tạo và quản lý hoạt động gây quỹ.

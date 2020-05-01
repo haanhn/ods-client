@@ -78,7 +78,7 @@ const Campaign = (props) => {
             // console.log(`get donations`);
             campaignsContext.getCampaignRatings(slug);
             campaignsContext.getCampaignExpenses(slug);
-            campaignsContext.getSuggestedCampaigns1(slug);
+            // campaignsContext.getSuggestedCampaigns1(slug);
             const userId = localStorage.getItem(localStoreKeys.userId);
             if (userId) {
                 campaignsContext.getSuggestedCampaigns2(userId, returnedCampaign.id);

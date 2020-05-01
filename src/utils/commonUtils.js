@@ -19,6 +19,40 @@ export const getDateFormatDD_MM_YYYY = (dateStr) => {
     }
 }
 
+export const getDateFormatDD_MM = (dateStr) => {
+    if (!dateStr) {
+        return '';
+    }
+    try {
+        const date = new Date(dateStr);
+        let d = date.getDate();
+        let m = date.getMonth() + 1;
+        if (d < 10) {
+            d = '0' + d;
+        }
+        if (m < 10) {
+            m = '0' + m;
+        }
+        return `${d}/${m}`;
+    } catch (error) {
+        return '';
+    }
+}
+
+export const checkDatesOnSameDay = (firstDate, secondDate) => {
+    try {
+        if (!firstDate || !secondDate) {
+            return false;
+        }
+        const check = firstDate.getFullYear() === secondDate.getFullYear() &&
+            firstDate.getMonth() === secondDate.getMonth() &&
+            firstDate.getDate() === secondDate.getDate();
+        return check;
+    } catch (error) {
+        return false;
+    }
+}
+
 export const getTimeFormatHH_MM_SS = (dateStr) => {
     if (!dateStr) {
         return null;

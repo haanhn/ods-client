@@ -63,11 +63,11 @@ const CampaignTabs = (props) => {
             <ul className="navbar-nav">
                 <li className={`nav-item  ${activeBasicInfo ? 'active' : null}`}>
                     <Link className='nav-link' onClick={setActive}
-                        to={routeCampaign} id='linkTabInfo'>Thông tin</Link>
+                        to={routeCampaign} id='linkTabInfo'>Chi tiết</Link>
                 </li>
                 <li className={`nav-item ${activePosts ? 'active' : null}`}>
                     <Link className='nav-link' onClick={setActive}
-                        to={routePosts} id='linkTabPosts'>Cập nhật</Link>
+                        to={routePosts} id='linkTabPosts'>Bài viết</Link>
                 </li>
                 <li className={`nav-item ${activeComments ? 'active' : null}`}>
                     <Link className='nav-link' onClick={setActive}

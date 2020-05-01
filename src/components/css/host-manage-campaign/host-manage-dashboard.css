@@ -31,27 +31,19 @@
 
 /****** my-pie-chars ******/
 .my-pie-item {
-    margin: 0 auto;
+    /* margin: 0 auto; */
     max-width: 300px;
 }
 .my-pie {
     margin-bottom: 15px;
 }
-.my-pie-item-explans {
-    max-width: 200px;
-    margin: 0 auto;
-}
 
-.pie-chart-item-explan {
-    font-size: 97%;
+/* my-chart */
+.my-chart {
+    border-top: 1px solid rgba(231,234,237,1);
+    padding: 30px 0;
 }
-.pie-chart-item-explan:not(:first-child) {
-    margin-top: -3px;
-}
-.pie-chart-item-explan .pie-color {
-    display: inline-block;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    margin-right: 7px;
+.my-chart-title {
+    text-align: center;
+    padding-top: 115px;
 }
