@@ -4,7 +4,7 @@ import CampaignsContext from '../../context/campaigns/campaignsContext';
 import '../css/donate-campaign.css';
 import FormChooseMethodDonation from '../campaigns/donate-campaign/FormChooseMethodDonation';
 import { Switch, Route } from 'react-router-dom';
-import { odsBase, odsAPIOpenRoutes, routes, localStoreKeys } from '../../odsApi';
+import { odsBase, odsAPIOpenRoutes, routes, localStoreKeys, odsAPIAuthorizedUser } from '../../odsApi';
 import FormDonateCashOrBanking from '../campaigns/donate-campaign/FormDonateCashOrBanking';
 import DonateComplete from '../campaigns/donate-campaign/DonateComplete';
 import DonatePaypalComplete from '../campaigns/donate-campaign/DonatePaypalComplete';
@@ -30,8 +30,10 @@ const DonateCampaign = (props) => {
         }
     }
 
-    const sendDonate = async (campaignId, method, money, name, email, anonymous, noti, message) => {
+    const sendDonate = async (campaignId, method, money, name, email, anonymous, noti, message, phone, address, regionId) => {
         try {
+            const token = localStorage.getItem(localStoreKeys.token);
+            const userId = localStorage.getItem(localStoreKeys.userId);
             const objectDonation = {
                 email: email,
                 fullname: name,
@@ -44,8 +46,24 @@ const DonateCampaign = (props) => {
                 noti: noti,
                 campaignId: campaignId
             };
-            if (localStorage.getItem(localStoreKeys.token) && localStorage.getItem(localStoreKeys.userId)) {
-                objectDonation.userId = localStorage.getItem(localStoreKeys.userId);
+            if (token && userId) {
+                // objectDonation.userId = localStorage.getItem(localStoreKeys.userId);
+                objectDonation.userId = userId;
+            }
+            //For cash
+            if (method === 'cash') {
+                objectDonation.phone = phone;
+                objectDonation.address = address;
+                objectDonation.region = regionId;
+                //If user logged in -> update address first
+                if (token) {
+                    await axios.post(`${odsBase}${odsAPIAuthorizedUser.updateUserAddress}`, {
+                        token: token,
+                        address: address, 
+                        region: regionId,
+                        phone: phone
+                    });
+                }
             }
             const res = await axios.post(`${odsBase}${odsAPIOpenRoutes.donateCampaignCashOrBanking}`,
                 objectDonation

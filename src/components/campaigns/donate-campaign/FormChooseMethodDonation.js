@@ -10,7 +10,7 @@ const FormChooseMethodDonation = (props) => {
     const methods = [
         { 
             key: 'cash',
-            value: 'Chuyển tiền mặt'    
+            value: 'Thu tiền tại nhà'    
         },
         { 
             key: 'banking',
