@@ -15,9 +15,7 @@ const CampaignTabMoreInfo = (props) => {
 
     return (
         <div className='campaign-tab-more-info'>
-            {/* <h3>Thông tin</h3> */}
-            <div id='campaignDetailDescription' >
-            </div>
+            <div id='campaignDetailDescription' ></div>
         </div>
     );
 }

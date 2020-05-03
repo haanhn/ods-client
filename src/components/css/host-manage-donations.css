@@ -15,12 +15,12 @@
 /* Host view donation detail */
 .host-donation-detail,
 .host-create-outside-donation {
-    padding: 30px 12px 20px;
+    padding: 45px 12px;
     background-color: rgba(231,234,237,0.5);
 }
 .host-donation-detail .host-donation-detail-content,
 .host-create-outside-donation .host-create-outside-donation-content {
-    max-width: 720px;
+    max-width: 750px;
     margin: 0 auto;
     background-color: #fff;
     border: 1px #dddddd solid;

@@ -313,7 +313,7 @@ const MycampaignsState = props => {
   }
 
   //Host Create Outside Donation
-  const createOutsideDonation = async (name, amount, anonymous) => {
+  const createOutsideDonation = async (name, amount, anonymous, description) => {
     const token = localStorage.getItem(localStoreKeys.token);
     const campaignId = state.hostViewingCampaign.id;
     const api = odsAPIHost.createOutsideDonation;
@@ -322,7 +322,7 @@ const MycampaignsState = props => {
       await axios.post(`${odsBase}${api}`, {
         token: token,
         campaignId: campaignId,
-        donation: { name, amount, anonymous }
+        donation: { name, amount, anonymous, description }
       });
       setUpdateDataLoading(false);
       return true;
@@ -335,7 +335,7 @@ const MycampaignsState = props => {
   }
 
   //Host Update Donation Status
-  const updateDonationStatus = async (donationId, action) => {
+  const updateDonationStatus = async (donationId, action, description) => {
     const token = localStorage.getItem(localStoreKeys.token);
     const userId = localStorage.getItem(localStoreKeys.userId);
     const api = odsAPIHost.updateCampaignDonationStatus(action);
@@ -344,7 +344,8 @@ const MycampaignsState = props => {
       const res = await axios.post(`${odsBase}${api}`, {
         token: token,
         donationId: donationId,
-        userId: userId
+        userId: userId,
+        description: description
       });
       setUpdateDataLoading(false);
       return res;

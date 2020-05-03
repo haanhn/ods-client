@@ -1,11 +1,13 @@
 import React, { useState, useContext, Fragment } from 'react';
 import CurrencyFormat from 'react-currency-format';
+import { Editor } from '@tinymce/tinymce-react';
 import NotFound from '../../pages/NotFound';
 import MyCampaignsContext from '../../../context/mycampaigns/mycampaignsContext';
 import { getDonationStatus, getMethod } from '../../../utils/donationUtils';
 import { getDateFormatDD_MM_YYYY } from '../../../utils/commonUtils';
 import '../../css/host-manage-donations.css';
 import Alert from '../../common/Alert';
+import { odsAPIOpenRoutes, odsBase } from '../../../odsApi';
 
 const HostViewDonationDetail = (props) => {
     const myCampaignsContext = useContext(MyCampaignsContext);
@@ -15,9 +17,11 @@ const HostViewDonationDetail = (props) => {
 
     let initStatus = getDonationStatus(donation.donationStatus);
     let initDonationStatus = donation.donationStatus;
+    let initDescription = donation.description ? donation.description : '';
 
     const [donationStatus, setDonationStatus] = useState(initDonationStatus);
     const [status, setStatus] = useState(initStatus);
+    const [description, setDescription] = useState(initDescription);
     const [alertResult, setAlertResult] = useState(null);
 
     const updateStatus = async (event) => {
@@ -31,12 +35,13 @@ const HostViewDonationDetail = (props) => {
             }
             setAlertResult(null);
 
-            const res = await myCampaignsContext.updateDonationStatus(donation.id, action);
+            const res = await myCampaignsContext.updateDonationStatus(donation.id, action, description);
             const returnStatus = res.data.result.donationStatus;
             if (returnStatus !== false) {
                 const textStatus = getDonationStatus(returnStatus);
                 setDonationStatus(res.data.result.donationStatus);
                 setStatus(textStatus);
+                setAlertResult({ type: 'success', msg: 'Cập nhật quyên góp thành công' });
             } else {
                 setAlertResult({ type: 'danger', msg: 'Cập nhật quyên góp thất bại, xin thử lại' });
             }
@@ -59,6 +64,66 @@ const HostViewDonationDetail = (props) => {
             donorName = donation.outsideDonor;
         }
     }
+
+    const handleEditorChange = (content, editor) => {
+        setDescription(editor.getContent());
+    }
+
+    const editor = <Editor
+        initialValue={initDescription}
+        init={{
+            height: 300,
+            menubar: false,
+            plugins: [
+                'advlist autolink lists link image media mediaembed',
+                'charmap print preview anchor help',
+                'searchreplace visualblocks code',
+                'insertdatetime media table paste wordcount'
+            ],
+            toolbar:
+                'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | image media',
+            mediaembed_max_width: 450,
+            file_picker_types: 'image',
+            images_upload_handler: async function (blobInfo, success, failure) {
+                console.log('blobInfo');
+                console.log(blobInfo.blob());
+                console.log(blobInfo.filename());
+                var xhr, formData;
+
+                xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', `${odsBase}${odsAPIOpenRoutes.uploadSingleImage}`);
+
+                xhr.onload = function () {
+                    var json;
+
+                    if (xhr.status != 200) {
+                        console.log(`xhr status ${xhr.status}`)
+                        failure('HTTP Error: ' + xhr.status);
+                        return;
+                    }
+
+                    json = JSON.parse(xhr.responseText);
+
+                    //   if (!json || typeof json.location != 'string') {
+                    if (!json || typeof json.data.url != 'string') {
+                        console.log('HTTP Error: ' + xhr.responseText);
+                        failure('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+
+                    console.log('json success: ' + json);
+                    success(json.data.url);
+                };
+
+                formData = new FormData();
+                // formData.append('image', blobInfo.blob(), blobInfo.filename());
+                formData.append('image', blobInfo.blob());
+                xhr.send(formData);
+            }
+        }}
+        onChange={handleEditorChange}
+    />;
 
     return (
         <div className='host-donation-detail' >
@@ -129,7 +194,15 @@ const HostViewDonationDetail = (props) => {
                             </tr>
                         ) : null}
 
-                        {donation.donationMethod !== 'paypal' && donationStatus !== 'done' && donationStatus !== 'returned' ? (
+                        {(donation && donationStatus === 'done' && (donation.donationMethod === 'outside' || donation.donationMethod === 'banking')) ? 
+                        (
+                            <tr>
+                                <td colSpan='2'>{editor}</td>
+                            </tr>
+                        ) : null}
+
+                        {donation.donationMethod !== 'paypal' && donation.donationMethod !== 'cash'
+                        && donationStatus !== 'done' && donationStatus !== 'returned' ? (
                             <tr>
                                 <td colSpan='2' style={{ textAlign: 'center' }}>
                                     <Alert alert={alertResult} />
@@ -151,7 +224,8 @@ const HostViewDonationDetail = (props) => {
                                     </div>
                                 </td>
                             </tr>) : null}
-                        {hostViewingCampaign && hostViewingCampaign.campaignStatus === 'close' && !hostViewingCampaign.success && donationStatus !== 'returned' && donationStatus !== 'reject'? (
+                        {hostViewingCampaign && hostViewingCampaign.campaignStatus === 'close' 
+                        && !hostViewingCampaign.success && donationStatus !== 'returned' && donationStatus !== 'reject'? (
                             <tr>
                                 <td colSpan='2' style={{ textAlign: 'center' }}>
                                     <Alert alert={alertResult} />
@@ -161,7 +235,23 @@ const HostViewDonationDetail = (props) => {
                                 </td>
                             </tr>
                         ) : (null)}
-
+                        {(donation && donationStatus === 'done' && (donation.donationMethod === 'outside' || donation.donationMethod === 'banking')) ? 
+                        (
+                            <tr>
+                                <td colSpan='2' style={{ textAlign: 'center' }}>
+                                    <Alert alert={alertResult} />
+                                    <div style={{ paddingTop: '10px' }} >
+                                        {updateDataLoading ? (
+                                            <button className='btn btn-success' disabled >Xác nhận</button>
+                                        ) : (
+                                            <button className='btn btn-success' onClick={updateStatus} >
+                                                Xác nhận
+                                            </button>
+                                        )}
+                                    </div>
+                                </td>
+                            </tr>
+                        ) : null}
                     </tbody>
                 </table>
             </div>

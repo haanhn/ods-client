@@ -11,7 +11,7 @@ export const getDonationStatus = (status) => {
 }
 
 export const getMethod = (method) => {
-    let type = 'Tiền mặt';
+    let type = 'Thu tại nhà';
     if (method === 'outside') {
         type = 'Nhận bên ngoài';
     } else if (method === 'banking') {
